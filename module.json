@@ -1,0 +1,34 @@
+{
+	"name": "npcgen",
+	"title": "NPC Generator",
+	"description": "Allows you to generate basic npc characters in foundry.",
+	"version": "0.0.1",
+	"author": "ardittristan#0001",
+	"scripts": [ 
+		"lib/ace/ace.js",
+		"lib/ace/ext-error_marker.js",
+		"lib/ace/ext-language_tools.js",
+		"lib/ace/mode-json.js",
+		"lib/ace/theme-twilight.js",
+		"lib/ace/workder-json.js"
+	],
+	"esmodules": [ "npc-gen.js" ],
+	 "socket": true,
+    "url": "https://github.com/ardittristan/VTTNPCGen",
+    "manifest": "https://raw.githubusercontent.com/ardittristan/VTTNPCGen/master/module.json",
+    "download": "https://github.com/ardittristan/VTTNPCGen/archive/master.zip",
+	"minimumCoreVersion": "0.5.5",
+	"compatibleCoreVersion": "0.6.5",
+	"system": "dnd5e",
+	"styles": [
+		"style/npcgen.css",
+		"style/jsoneditor.css"
+	],
+	"languages": [
+		{
+			"lang": "en",
+			"name": "English",
+			"path": "lang/en.json"
+		}
+	]
+}

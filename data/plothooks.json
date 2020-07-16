@@ -1,0 +1,26 @@
+{
+    "All": [
+        "plot hook 1"
+    ],
+    "Learned": [
+        "learned hook 1"
+    ],
+    "Lesser Nobility": [
+        "lesser nobility hook 1"
+    ],
+    "Professional": [
+        "professional hook 1"
+    ],
+    "Working Class": [
+        "working hook 1"
+    ],
+    "Martial": [
+        "martial hook 1"
+    ],
+    "Underclass": [
+        "underclass hook 1"
+    ],
+    "Entertainer": [
+        "entertainer hook 1"
+    ]
+}

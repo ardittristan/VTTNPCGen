@@ -1,0 +1,23 @@
+.json-code-editor .editor {
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.json-code-editor-border {
+    clear: both;
+    width: 100%;
+    height: calc(100% - 32px - 32px);
+}
+
+.json-code-editor .buttonDiv {
+    width: 100%;
+}
+
+.json-code-editor .buttonDiv .buttonSeperator {
+    display: inline-block;
+}
+
+#json-editor-menu.app.window-app.sheet {
+    min-width: 602px;
+}

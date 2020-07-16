@@ -1,0 +1,208 @@
+{
+    "Dragonborn": {
+        "source": "PHB",
+        "age": 80,
+        "abilityBonus": {
+            "Str": 2,
+            "Cha": 1
+        },
+        "languages": [
+            "Common",
+            "Draconic"
+        ],
+        "height": {
+            "size": "Medium",
+            "base": 66,
+            "mod": "2d8"
+        },
+        "weight": {
+            "base": 175,
+            "mod": "2d6"
+        },
+        "speed": 30
+    },
+    "Dwarf": {
+        "source": "PHB",
+        "age": 350,
+        "abilityBonus": {
+            "Con": 2
+        },
+        "languages": [
+            "Common",
+            "Dwarvish"
+        ],
+        "height": {
+            "size": "Medium",
+            "base": 48,
+            "mod": "2d4"
+        },
+        "weight": {
+            "base": 130,
+            "mod": "2d6"
+        },
+        "speed": 25
+    },
+    "Elf": {
+        "source": "PHB",
+        "age": 750,
+        "abilityBonus": {
+            "Dex": 2
+        },
+        "languages": [
+            "Common",
+            "Elvish"
+        ],
+        "height": {
+            "size": "Medium",
+            "base": 54,
+            "mod": "2d10"
+        },
+        "weight": {
+            "base": 90,
+            "mod": "1d4"
+        },
+        "speed": 30
+    },
+    "Gnome": {
+        "source": "PHB",
+        "age": 500,
+        "abilityBonus": {
+            "Int": 2
+        },
+        "languages": [
+            "Common",
+            "Gnomish"
+        ],
+        "height": {
+            "size": "Small",
+            "base": 35,
+            "mod": "2d4"
+        },
+        "weight": {
+            "base": 35,
+            "mod": "1d1"
+        },
+        "speed": 25
+    },
+    "Halfling": {
+        "source": "PHB",
+        "age": 150,
+        "abilityBonus": {
+            "Dex": 2
+        },
+        "languages": [
+            "Common",
+            "Halfling"
+        ],
+        "height": {
+            "size": "Small",
+            "base": 31,
+            "mod": "2d4"
+        },
+        "weight": {
+            "base": 35,
+            "mod": "1d1"
+        },
+        "speed": 25
+    },
+    "Half-Elf": {
+        "source": "PHB",
+        "age": 180,
+        "abilityBonus": {
+            "Cha": 2,
+            "Choice": [
+                {
+                    "Any": 1
+                },
+                {
+                    "Any": 1
+                }
+            ]
+        },
+        "languages": [
+            "Common",
+            "Elvish",
+            "Any"
+        ],
+        "height": {
+            "size": "Medium",
+            "base": 57,
+            "mod": "2d8"
+        },
+        "weight": {
+            "base": 110,
+            "mod": "2d4"
+        },
+        "speed": 30
+    },
+    "Half-Orc": {
+        "source": "PHB",
+        "age": 75,
+        "abilityBonus": {
+            "Str": 2,
+            "Con": 1
+        },
+        "languages": [
+            "Common",
+            "Orc"
+        ],
+        "height": {
+            "size": "Medium",
+            "base": 58,
+            "mod": "2d10"
+        },
+        "weight": {
+            "base": 140,
+            "mod": "2d6"
+        },
+        "speed": 30
+    },
+    "Human": {
+        "source": "PHB",
+        "age": 90,
+        "abilityBonus": {
+            "Str": 1,
+            "Dex": 1,
+            "Con": 1,
+            "Int": 1,
+            "Wis": 1,
+            "Cha": 1
+        },
+        "languages": [
+            "Common",
+            "Any"
+        ],
+        "height": {
+            "size": "Medium",
+            "base": 56,
+            "mod": "2d10"
+        },
+        "weight": {
+            "base": 110,
+            "mod": "2d4"
+        },
+        "speed": 30
+    },
+    "Tiefling": {
+        "source": "PHB",
+        "age": 100,
+        "abilityBonus": {
+            "Cha": 2,
+            "Int": 1
+        },
+        "languages": [
+            "Common",
+            "Infernal"
+        ],
+        "height": {
+            "size": "Medium",
+            "base": 57,
+            "mod": "2d8"
+        },
+        "weight": {
+            "base": 110,
+            "mod": "2d4"
+        },
+        "speed": 30
+    }
+}

@@ -1,0 +1,38 @@
+{
+    "Skills": {
+        "Acrobatics": "acr",
+        "Animal Handling": "ani",
+        "Arcana": "arc",
+        "Athletics": "ath",
+        "Deception": "dec",
+        "History": "his",
+        "Insight": "ins",
+        "Intimidation": "itm",
+        "Investigation": "inv",
+        "Medicine": "med",
+        "Nature": "nat",
+        "Perception": "prc",
+        "Performance": "prf",
+        "Persuasion": "per",
+        "Religion": "rel",
+        "Sleight of Hand": "slt",
+        "Stealth": "ste",
+        "Survival": "sur"
+    },
+    "Abilities": [
+        "Str",
+        "Dex",
+        "Con",
+        "Int",
+        "Wis",
+        "Cha"
+    ],
+    "Sizes": {
+        "Tiny": "tiny",
+        "Small": "sm",
+        "Medium": "med",
+        "Large": "lg",
+        "Huge": "huge",
+        "Gargantuan": "grg"
+    }
+}

@@ -1,0 +1,1076 @@
+import { pick, sample, has } from './lib/underscore.min.js';
+import merge from './lib/lodash-merge.min.js';
+
+
+let classesJSON = {};
+let personalityTraitsJSON = {};
+let plotHooksJSON = {};
+let professionsJSON = {};
+let racesJSON = {};
+let sexJSON = {};
+let listJSON = {};
+let languagesJSON = [];
+let namesJSON = {};
+initJSON();
+
+
+
+class NPCGenerator extends FormApplication {
+
+    constructor(object = {}, options = {}) {
+        super(object, options);
+
+        this.done = false;
+
+
+        /* -------------< Combine with user JSON >--------------- */
+
+        this.classesJSON = merge(classesJSON, JSON.parse(game.settings.get("npcgen", "classesJSON")));
+
+        this.languagesJSON = merge(languagesJSON, JSON.parse(game.settings.get("npcgen", "languagesJSON")));
+
+        this.namesJSON = merge(namesJSON, JSON.parse(game.settings.get("npcgen", "namesJSON")));
+
+        this.personalityTraitsJSON = merge(personalityTraitsJSON, JSON.parse(game.settings.get("npcgen", "traitsJSON")));
+
+        this.plotHooksJSON = merge(plotHooksJSON, JSON.parse(game.settings.get("npcgen", "plothooksJSON")));
+
+        this.professionsJSON = merge(professionsJSON, JSON.parse(game.settings.get("npcgen", "professionJSON")));
+
+        this.racesJSON = merge(racesJSON, JSON.parse(game.settings.get("npcgen", "racesJSON")));
+
+        this.sexJSON = merge(sexJSON, JSON.parse(game.settings.get("npcgen", "sexJSON")));
+
+        this.listJSON = listJSON;
+
+
+        /* -------------< Input Data >--------------- */
+
+        this.classes = Object.keys(this.classesJSON);
+
+        this.personalityTraits = Object.keys(this.personalityTraitsJSON);
+
+        this.plotHooks = Object.keys(this.plotHooksJSON);
+
+        this.professions = Object.keys(this.professionsJSON);
+
+        this.races = Object.keys(this.racesJSON);
+
+        this.orientation = this.sexJSON["Orientation"];
+
+        this.gender = this.sexJSON["Gender"];
+
+        this.relationshipStatus = this.sexJSON["Relationship Status"];
+
+        this.skillList = Object.keys(this.listJSON.Skills);
+
+        this.abilityList = this.listJSON.Abilities;
+        this.languages = this.languagesJSON;
+
+        this.useSubclass = false;
+
+        this.disabledBoxes = game.settings.get("npcgen", "disabledBoxes")[0];
+
+
+        /* -------------< Generator Data >--------------- */
+
+        // ability score
+        this.genStr = "";
+        this.genDex = "";
+        this.genCon = "";
+        this.genInt = "";
+        this.genWis = "";
+        this.genCha = "";
+
+        this.genStrMod = "";
+        this.genDexMod = "";
+        this.genConMod = "";
+        this.genIntMod = "";
+        this.genWisMod = "";
+        this.genChaMod = "";
+
+        // relationship
+        this.genGender = "";
+        this.genRelationship = "";
+        this.genOrientation = "";
+
+        // race
+        this.genRace = "";
+        this.genAge = "";
+        this.genLanguages = [];
+        this.genHeight = "";
+        this.genWeight = "";
+        this.genSpeed = "";
+
+        // profession
+        this.genProfession = "";
+
+        // plothook
+        this.genPlotHook = "";
+
+        // traits
+        this.genTraits = [];
+
+        // class
+        this.genClass = "";
+        this.genHp = "";
+        this.genProficiencies = [];
+        this.genSaveThrows = [];
+        this.genSkills = [];
+        this.genSubclass = "None";
+
+        // level
+        this.level = "1";
+
+        // name
+        this.genFirstName = "NPC";
+        this.genLastName = "Generator";
+
+    }
+
+    static get defaultOptions() {
+        return mergeObject(super.defaultOptions, {
+            id: "npcgenerator-menu",
+            title: "NPC Generator",
+            template: "modules/npcgen/templates/generator.html",
+            classes: ["sheet"],
+            closeOnSubmit: false,
+            resizable: true,
+            width: 1045
+        });
+    }
+
+    /**
+    * Default Options for this FormApplication
+    */
+    getData(options) {
+        const data = super.getData(options);
+
+        // I hate this, but it works
+
+        /* -------------< Input Data >--------------- */
+
+        data.classes = this.classes;
+        data.personalityTraits = this.personalityTraits;
+        data.plotHooks = this.plotHooks;
+        data.professions = this.professions;
+        data.races = this.races;
+        data.orientation = this.orientation;
+        data.gender = this.gender;
+        data.relationshipStatus = this.relationshipStatus;
+        data.useSubclass = this.useSubclass;
+
+        /* -------------< Generator Data >--------------- */
+
+        // ability score
+        data.genStr = this.genStr;
+        data.genDex = this.genDex;
+        data.genCon = this.genCon;
+        data.genInt = this.genInt;
+        data.genWis = this.genWis;
+        data.genCha = this.genCha;
+
+        data.genStrMod = this.genStrMod;
+        data.genDexMod = this.genDexMod;
+        data.genConMod = this.genConMod;
+        data.genIntMod = this.genIntMod;
+        data.genWisMod = this.genWisMod;
+        data.genChaMod = this.genChaMod;
+
+        // relationship
+        data.genGender = this.genGender;
+        data.genRelationship = this.genRelationship;
+        data.genOrientation = this.genOrientation;
+
+        // race
+        data.genRace = this.genRace;
+        data.genAge = this.genAge;
+        data.genLanguages = this.genLanguages;
+        data.genHeight = this.genHeight;
+        data.genWeight = this.genWeight;
+        data.genSpeed = this.genSpeed;
+
+        // profession
+        data.genProfession = this.genProfession;
+
+        // plothook
+        data.genPlotHook = this.genPlotHook;
+
+        // traits
+        data.genTraits = this.genTraits;
+
+        // class
+        data.genClass = this.genClass;
+        data.genHp = this.genHp;
+        data.genProficiencies = this.genProficiencies;
+        data.genSaveThrows = this.genSaveThrows;
+        data.genSkills = this.genSkills;
+        data.genSubclass = this.genSubclass;
+
+        // level
+        data.level = this.level;
+
+        // name
+        data.genFirstName = this.genFirstName;
+        data.genLastName = this.genLastName;
+
+        /* -------------< disabled boxes >--------------- */
+
+        data.disabledBoxes = this.disabledBoxes;
+
+        return data;
+    }
+
+    /** 
+     * Executes on form submission.
+     * @param {Event} _e - the form submission event
+     * @param {Object} d - the form data
+     *
+     *  'name': entry.metadata.label+' ['+entry.metadata.package+']',
+     *  'type':'pack',
+     *  'submenu':submenu.toLowerCase(),
+     *  'key':entry.metadata.package+'.'+entry.metadata.name
+     */
+    async _updateObject(_e, d) {
+
+        if (!this.done) {
+            this.updateFormValues(d);
+            this.generateNPC(d);
+        } else {
+            this.saveNPC(d);
+        }
+    }
+
+    activateListeners(html) {
+        super.activateListeners(html);
+
+        html.find(".npc-generator-bottom-button[name='cancel']").on('click', (e) => {
+            e.preventDefault();
+            this.close();
+        });
+
+        html.find(".npc-generator-bottom-button[name='generate']").on('click', (e) => {
+            e.preventDefault();
+            jQuery(e.target.form).trigger('submit');
+        });
+
+        html.find(".npc-generator-bottom-button[name='accept']").on('click', (e) => {
+            e.preventDefault();
+            this.done = true;
+            jQuery(e.target.form).trigger('submit');
+            this.close();
+        });
+
+        html.find('.npc-generator-big-box').find('input').each((_, e) => {
+            jQuery(e).on('input', (e) => {
+                e.originalEvent.target.size = e.originalEvent.target.value.length + 1;
+            });
+            e.size = e.value.length + 1;
+        });
+
+        html.find('.npc-generator-box.header input[type="text"]').each((_, e) => {
+            jQuery(e).on('input', (e) => {
+                e.originalEvent.target.size = e.originalEvent.target.value.length * 1.1 + 1;
+            });
+            e.size = e.value.length + 1;
+        });
+
+        html.find('.npc-generator-top').find('input[type="number"]').each((_, e) => {
+            jQuery(e).on('input', (e) => {
+                e.originalEvent.target.style.width = (e.originalEvent.target.value.length + 1) + 'em';
+            });
+            e.style.width = (e.value.length + 1) + 'em';
+        });
+
+        html.find('.npc-generator-big-box').find('textarea').each(function () {
+            setTimeout(() => {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight - 18) + 'px';
+            }, 50);
+        }).on('input', function () {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight - 18) + 'px';
+        });
+
+    }
+
+
+    /**
+     * generates info on npc
+     * @param  {Object} d
+     */
+    generateNPC(d) {
+
+        this.resetValues();
+
+        /** @type {String[]} */
+        const genders = this.getEnabledValues(d, "Gender");
+        /** @type {String[]} */
+        const traits = this.getEnabledValues(d, "Trait");
+        /** @type {String[]} */
+        const professions = this.getEnabledValues(d, "Profession");
+        /** @type {String[]} */
+        const relationshipStatus = this.getEnabledValues(d, "RelationshipStatus");
+        /** @type {String[]} */
+        const orientations = this.getEnabledValues(d, "Orientation");
+        /** @type {String[]} */
+        const races = this.getEnabledValues(d, "Race");
+        /** @type {String[]} */
+        const classes = this.getEnabledValues(d, "Class");
+
+
+        // Gender
+        if (genders.length != 0) {
+            this.genGender = sample(genders);
+        }
+
+        // Traits
+        if (traits.length != 0) {
+            let traitList = [];
+            traits.forEach((type) => {
+                traitList = traitList.concat(sample(this.personalityTraitsJSON[type], 3));
+            });
+            this.genTraits = traitList;
+        }
+
+        // Profession
+        let professionArea = "";
+        if (professions.length != 0) {
+            professionArea = sample(professions);
+            this.genProfession = sample(this.professionsJSON[professionArea]);
+        }
+
+        // Relationship Status
+        if (relationshipStatus.length != 0) {
+            this.genRelationship = sample(relationshipStatus);
+        }
+
+        // Sexual Orientation
+        if (orientations.length != 0) {
+            this.genOrientation = sample(orientations);
+        }
+
+        // Main Race
+        if (races.length != 0) {
+            this.genRace = sample(races);
+        } else {
+            this.genRace = sample(this.races);
+        }
+
+        // Main Class
+        if (classes.length != 0) {
+            this.genClass = sample(classes);
+        } else {
+            this.genClass = sample(this.classes);
+        }
+
+        // Plothook
+        this.genPlotHook = sample(this.plotHooksJSON.All.concat(this.plotHooksJSON[professionArea]));
+
+
+        // Level
+
+        this.level = Number(d.level);
+
+        // Class info
+        // hp
+        let hp = Number(this.classesJSON[this.genClass].hp.split("d")[1]);
+        for (let i = 0; i < this.level - 1; i++) {
+            hp += rollDiceString(this.classesJSON[this.genClass].hp);
+        }
+        this.genHp = String(hp);
+
+        // proficiencies
+        let proficiencies = [];
+        if (has(this.classesJSON[this.genClass].proficiencies, "Armor")) {
+            this.classesJSON[this.genClass].proficiencies.Armor.forEach((value) => {
+                proficiencies.push(value);
+            });
+        }
+        if (has(this.classesJSON[this.genClass].proficiencies, "Weapons")) {
+            this.classesJSON[this.genClass].proficiencies.Weapons.forEach((value) => {
+                proficiencies.push(value);
+            });
+        }
+        if (has(this.classesJSON[this.genClass].proficiencies, "Tools")) {
+            this.classesJSON[this.genClass].proficiencies.Tools.forEach((value) => {
+                proficiencies.push(value);
+            });
+        }
+        this.genProficiencies = proficiencies;
+
+        // saving throws
+        this.genSaveThrows = this.classesJSON[this.genClass].proficiencies["Saving Throws"];
+
+        // skills
+        let skills = [];
+        this.classesJSON[this.genClass].proficiencies.Skills.forEach((array) => {
+            let working = true;
+            let samp = "";
+            while (working) {
+                if (array[0] === "Any") {
+                    samp = sample(this.skillList);
+                    if (!skills.includes(samp)) { working = false; }
+                } else {
+                    samp = sample(array);
+                    if (!skills.includes(samp)) { working = false; }
+                }
+            }
+            skills.push(samp);
+        });
+        this.genSkills = skills;
+
+
+        // Race info
+        // age
+        this.genAge = Math.floor(weightedRandom(this.racesJSON[this.genRace].age, 3));
+
+        // languages
+        let languages = [];
+        this.racesJSON[this.genRace].languages.forEach((value) => {
+            if (value === "Any") {
+                let working = true;
+                let samp = "";
+                while (working) {
+                    samp = sample(this.languages);
+                    if (!languages.includes(samp)) { working = false; }
+                }
+                languages.push(samp);
+            } else {
+                languages.push(value);
+            }
+        });
+        this.genLanguages = languages;
+
+        // height
+        const baseHeight = Number(this.racesJSON[this.genRace].height.base);
+        const heightMod = rollDiceString(this.racesJSON[this.genRace].height.mod);
+        this.genHeight = inchesToFeet(baseHeight + heightMod);
+
+        // weight
+        const baseWeight = Number(this.racesJSON[this.genRace].weight.base);
+        const weightMod = rollDiceString(this.racesJSON[this.genRace].weight.mod);
+        this.genWeight = (baseWeight + (baseHeight + heightMod) * weightMod);
+
+        // speed
+        this.genSpeed = this.racesJSON[this.genRace].speed;
+
+
+        // Ability Scores
+        // modifiers
+        if (this.racesJSON[this.genRace].abilityBonus) {
+            this.genStrMod = this.racesJSON[this.genRace].abilityBonus.Con || 0;
+            this.genDexMod = this.racesJSON[this.genRace].abilityBonus.Dex || 0;
+            this.genConMod = this.racesJSON[this.genRace].abilityBonus.Con || 0;
+            this.genIntMod = this.racesJSON[this.genRace].abilityBonus.Int || 0;
+            this.genWisMod = this.racesJSON[this.genRace].abilityBonus.Wis || 0;
+            this.genChaMod = this.racesJSON[this.genRace].abilityBonus.Cha || 0;
+            if (this.racesJSON[this.genRace].abilityBonus.Any) {
+                const amount = this.racesJSON[this.genRace].abilityBonus.Any;
+                let working = true;
+                let mod = "";
+                while (working) {
+                    mod = sample(this.abilityList);
+                    if (this[`gen${mod}Mod`] === 0) { working = false; }
+                }
+                this[`gen${mod}Mod`] += amount;
+            }
+            if (this.racesJSON[this.genRace].abilityBonus.Choice) {
+                this.racesJSON[this.genRace].abilityBonus.Choice.forEach((object) => {
+                    if (!object.Any) {
+                        const mod = sample(Object.keys(object));
+                        const amount = object[mod];
+                        this[`gen${mod}Mod`] += amount;
+
+                    }
+                    if (object.Any) {
+                        const amount = object.Any;
+                        let working = true;
+                        let mod = "";
+                        while (working) {
+                            mod = sample(this.abilityList);
+                            if (this[`gen${mod}Mod`] === 0) { working = false; }
+                        }
+                        this[`gen${mod}Mod`] += amount;
+                    }
+                });
+            }
+        }
+
+        // total
+        this.genStr = String(rollDiceString("3d6") + this.genStrMod);
+        this.genDex = String(rollDiceString("3d6") + this.genDexMod);
+        this.genCon = String(rollDiceString("3d6") + this.genConMod);
+        this.genInt = String(rollDiceString("3d6") + this.genIntMod);
+        this.genWis = String(rollDiceString("3d6") + this.genWisMod);
+        this.genCha = String(rollDiceString("3d6") + this.genChaMod);
+
+
+
+        // Sub Class
+        if (d.useSubclass) {
+            if (has(this.classesJSON[this.genClass], "subclasses")) {
+                this.genSubclass = sample(Object.keys(this.classesJSON[this.genClass].subclasses));
+                const subclassJSON = this.classesJSON[this.genClass].subclasses[this.genSubclass];
+
+                // hp
+                if (has(subclassJSON, "hp")) {
+                    this.genHp = String(rollDiceString(subclassJSON.hp));
+                }
+
+                if (has(subclassJSON, "proficiencies")) {
+                    // proficiencies
+                    if (has(subclassJSON.proficiencies, "Armor")) {
+                        subclassJSON.proficiencies.Armor.forEach((value) => {
+                            proficiencies.push(value);
+                        });
+                    }
+                    if (has(subclassJSON.proficiencies, "Weapons")) {
+                        subclassJSON.proficiencies.Weapons.forEach((value) => {
+                            proficiencies.push(value);
+                        });
+                    }
+                    if (has(subclassJSON.proficiencies, "Tools")) {
+                        subclassJSON.proficiencies.Tools.forEach((value) => {
+                            proficiencies.push(value);
+                        });
+                    }
+                    this.genProficiencies = proficiencies;
+
+                    // saving throws
+                    if (has(subclassJSON.proficiencies, "Saving Throws")) {
+                        this.genSaveThrows = this.genSaveThrows.concat(subclassJSON.proficiencies["Saving Throws"]);
+                    }
+
+                    // skills
+                    if (has(subclassJSON.proficiencies, "Skills")) {
+                        subclassJSON.proficiencies.Skills.forEach((array) => {
+                            if (array[0] === "Any") {
+                                skills.push(sample(this.skillList));
+                            } else {
+                                skills.push(sample(array));
+                            }
+                        });
+                        this.genSkills = skills;
+                    }
+                }
+            }
+        }
+
+
+        // First Name
+        let firstNames = [];
+        if (this.namesJSON.First.All) {
+            firstNames = firstNames.concat(this.namesJSON.First.All);
+        }
+        if (this.namesJSON.First[this.genRace]) {
+            firstNames = firstNames.concat(this.namesJSON.First[this.genRace]);
+        }
+        if (this.namesJSON.First[this.genRace.mainRace]) {
+            firstNames = firstNames.concat(this.namesJSON.First[this.genRace.mainRace]);
+        }
+        this.genFirstName = sample(firstNames);
+
+        // Last Name
+        let lastNames = [];
+        if (this.namesJSON.Last.All) {
+            lastNames = lastNames.concat(this.namesJSON.Last.All);
+        }
+        if (this.namesJSON.Last[this.genRace]) {
+            lastNames = lastNames.concat(this.namesJSON.Last[this.genRace]);
+        }
+        if (this.namesJSON.Last[this.genRace.mainRace]) {
+            lastNames = lastNames.concat(this.namesJSON.Last[this.genRace.mainRace]);
+        }
+        this.genLastName = sample(lastNames);
+
+
+
+        this.render();
+    }
+
+    /**
+     * saves npc to actor
+     * @param {Object} d
+     */
+    async saveNPC(d) {
+        // set abilities
+        let abilities = {};
+        this.listJSON.Abilities.forEach((/** @type {String} */ability) => {
+            abilities[ability.toLowerCase()] = { value: Number(d[`gen${ability}`]) };
+        });
+
+        // set biography
+        let biography = "";
+        {
+            // gender
+            biography = biography.concat(`<p>${game.i18n.localize('npcGen.gender')}: ${d.genGender}</p>\n`);
+            // relationship
+            biography = biography.concat(`<p>${game.i18n.localize('npcGen.relationship')}: ${d.genRelationship}</p>\n`);
+            // orientation
+            biography = biography.concat(`<p>${game.i18n.localize('npcGen.orientation')}: ${d.genOrientation}</p>\n`);
+            // age
+            biography = biography.concat(`<p>${game.i18n.localize('npcGen.age')}: ${d.genAge}</p>\n`);
+            // height
+            biography = biography.concat(`<p>${game.i18n.localize('npcGen.height')}: ${d.genHeight}</p>\n`);
+            // weight
+            biography = biography.concat(`<p>${game.i18n.localize('npcGen.weight')}: ${d.genWeight}</p>\n`);
+            // saving throws
+            biography = biography.concat(`<p>${game.i18n.localize('npcGen.savingThrow')}: ${d.genSaveThrows.slice(0, -2)}</p>\n`);
+            // static line
+            biography = biography.concat(`<p>&nbsp;</p>\n<p><strong>${game.i18n.localize('npcGen.traits')}:</strong></p>\n`);
+            // traits
+            d.genTraits.split(/\r?\n/).forEach((trait) => { biography = biography.concat(`<p>${trait}</p>\n`); });
+            // static line
+            biography = biography.concat("<p>&nbsp;</p>");
+            // plot hook
+            biography = biography.concat(`<p><strong>${game.i18n.localize('npcGen.plotHook')}:</strong> ${d.genPlotHook}</p>`);
+        }
+
+        // set skills
+        let skills = {};
+        let classSkills = [];
+        d.genSkills.slice(0, -2).split(", ").forEach((/** @type {String} */skill) => {
+            classSkills.push(this.listJSON.Skills[skill]);
+            skills[this.listJSON.Skills[skill]] = { value: 1 };
+        });
+
+        // set class
+        let classItem = await CONFIG.Item.entityClass.create({
+            name: d.genClass,
+            type: "class",
+            data: {
+                source: this.classesJSON[d.genClass].source,
+                levels: d.level,
+                subclass: d.genSubclass,
+                skills: {
+                    number: classSkills.length,
+                    value: classSkills
+                }
+            }
+        });
+
+
+        let actor = await CONFIG.Actor.entityClass.create({
+            name: `${d.genFirstName} ${d.genLastName}`,
+            type: "character",
+            permission: {
+                default: 0
+            },
+            data: {
+                abilities: abilities,
+                attributes: {
+                    ac: {
+                        value: 10 + calculateAbilityMod(Number(d.genDex))
+                    },
+                    hp: {
+                        value: Number(d.genHp),
+                        max: Number(d.genHp)
+                    },
+                    speed: {
+                        value: Number(d.genSpeed)
+                    }
+                },
+                details: {
+                    biography: {
+                        value: biography
+                    },
+                    race: d.genRace,
+                    background: d.genProfession,
+                    level: Number(d.level)
+                },
+                skills: skills,
+                traits: {
+                    size: this.listJSON.Sizes[this.racesJSON[d.genRace].height.size],
+                    languages: {
+                        custom: d.genLanguages.slice(0, -2).replace(",", ";")
+                    },
+                    weaponProf: {
+                        custom: d.genProficiencies.slice(0, -1).replace(/\r?\n/g, ";")
+                    }
+                }
+            },
+            items: [
+                classItem
+            ]
+        });
+
+        actor.sheet.render(true);
+    }
+
+    updateFormValues(d) {
+        if (d.useSubclass) { this.useSubclass = true; }
+        if (d.level) { this.level = d.level; }
+
+        this.disabledBoxes = [];
+        for (let property in d) {
+            if (d[property] === false && !property.startsWith("gen")) {
+                this.disabledBoxes.push(property);
+            }
+        }
+        game.settings.set("npcgen", "disabledBoxes", this.disabledBoxes);
+    }
+
+    getEnabledValues(d, name) {
+        const filteredObject =
+            pick(d, function (value, key) {
+                if (value && key.startsWith(name)) {
+                    return true;
+                }
+                return false;
+            });
+
+        let renamedArray = [];
+
+        Object.keys(filteredObject).forEach((key) => {
+            renamedArray.push(key.replace(name, ""));
+        });
+
+        return renamedArray;
+    }
+
+    resetValues() {
+        this.genStr = "";
+        this.genDex = "";
+        this.genCon = "";
+        this.genInt = "";
+        this.genWis = "";
+        this.genCha = "";
+        this.genStrMod = "";
+        this.genDexMod = "";
+        this.genConMod = "";
+        this.genIntMod = "";
+        this.genWisMod = "";
+        this.genChaMod = "";
+        this.genGender = "";
+        this.genRelationship = "";
+        this.genOrientation = "";
+        this.genRace = "";
+        this.genAge = "";
+        this.genLanguages = [];
+        this.genHeight = "";
+        this.genWeight = "";
+        this.genSpeed = "";
+        this.genProfession = "";
+        this.genPlotHook = "";
+        this.genTraits = [];
+        this.genClass = "";
+        this.genHp = "";
+        this.genProficiencies = [];
+        this.genSaveThrows = [];
+        this.genSkills = [];
+        this.genSubclass = "None";
+        this.level = "1";
+        this.genFirstName = "NPC";
+        this.genLastName = "Generator";
+    }
+
+}
+
+
+
+
+class GeneratorWindow extends FormApplication {
+    constructor(object = {}, options = {}) {
+        super(object, options);
+
+    }
+
+    static get defaultOptions() {
+        return mergeObject(super.defaultOptions, {
+            id: "json-editor-menu",
+            title: "JSON Editor",
+            template: "modules/npcgen/templates/jsonEditor.html",
+            classes: ["sheet"],
+            closeOnSubmit: true,
+            resizable: true,
+            width: 602,
+            height: 600
+        });
+    }
+
+    /**
+     * @param  {JQuery} html
+     */
+    activateListeners(html) {
+        super.activateListeners(html);
+
+        html.find('.editor[id="classesJSON"]').css("display", "block");
+        this.setTitle(game.i18n.localize("npcGen.classes"));
+
+        html.find('.header-button[name="classesJSON"]').on('click', (e) => {
+            e.preventDefault();
+            console.log(html.find('.editor[id="classesJSON"]').css("display"))
+            this.resetHidden(html, "classesJSON");
+            this.setTitle(game.i18n.localize("npcGen.classes"));
+        });
+        html.find('.header-button[name="languagesJSON"]').on('click', (e) => {
+            e.preventDefault();
+            this.resetHidden(html, "languagesJSON");
+            this.setTitle(game.i18n.localize("npcGen.language"));
+        });
+        html.find('.header-button[name="namesJSON"]').on('click', (e) => {
+            e.preventDefault();
+            this.resetHidden(html, "namesJSON");
+            this.setTitle(game.i18n.localize("npcGen.names"));
+        });
+        html.find('.header-button[name="traitsJSON"]').on('click', (e) => {
+            e.preventDefault();
+            this.resetHidden(html, "traitsJSON");
+            this.setTitle(game.i18n.localize("npcGen.traits"));
+        });
+        html.find('.header-button[name="plothooksJSON"]').on('click', (e) => {
+            e.preventDefault();
+            this.resetHidden(html, "plothooksJSON");
+            this.setTitle(game.i18n.localize("npcGen.plotHook"));
+        });
+        html.find('.header-button[name="professionJSON"]').on('click', (e) => {
+            e.preventDefault();
+            this.resetHidden(html, "professionJSON");
+            this.setTitle(game.i18n.localize("npcGen.professions"));
+        });
+        html.find('.header-button[name="racesJSON"]').on('click', (e) => {
+            e.preventDefault();
+            this.resetHidden(html, "racesJSON");
+            this.setTitle(game.i18n.localize("npcGen.races"));
+        });
+        html.find('.header-button[name="sexJSON"]').on('click', (e) => {
+            e.preventDefault();
+            this.resetHidden(html, "sexJSON");
+            this.setTitle(game.i18n.localize("npcGen.relationship"));
+        });
+    }
+
+    /**
+     * @param  {JQuery} html
+     * @param  {String} visibleEditor
+     */
+    resetHidden(html, visibleEditor) {
+        html.find('.editor[id="classesJSON"]').css("display", "none");
+        html.find('.editor[id="languagesJSON"]').css("display", "none");
+        html.find('.editor[id="namesJSON"]').css("display", "none");
+        html.find('.editor[id="traitsJSON"]').css("display", "none");
+        html.find('.editor[id="plothooksJSON"]').css("display", "none");
+        html.find('.editor[id="professionJSON"]').css("display", "none");
+        html.find('.editor[id="racesJSON"]').css("display", "none");
+        html.find('.editor[id="sexJSON"]').css("display", "none");
+
+        html.find(`.editor[id="${visibleEditor}"]`).css("display", "block");
+    }
+
+    /**
+     * @param  {String} title
+     */
+    setTitle(title) {
+        jQuery('#json-editor-menu header.window-header.flexrow.draggable.resizable h4.window-title')[0].textContent = title;
+    }
+
+    /**
+     * @override
+     * @private
+     */
+    _getHeaderButtons() {
+        return [
+            {
+                label: "Close",
+                class: "close",
+                icon: "fas fa-times",
+                onclick: ev => {
+                    if (window.npcGen.jsonEditor.unsaved) {
+                        Dialog.confirm({
+                            title: game.i18n.localize("npcGen.confirmCloseTitle"),
+                            content: `<p>${game.i18n.localize("npcGen.confirmCloseDesc")}</p>`,
+                            yes: () => {
+                                jQuery('#json-editor.json-code-editor button.save-json-button').trigger('click');
+                                setTimeout(() => {
+                                    this.close();
+                                }, 50);
+                            },
+                            no: () => this.close(),
+                            defaultYes: false
+                        });
+                    } else {
+                        this.close();
+                    }
+                }
+            }
+        ];
+    }
+
+
+}
+
+
+
+
+async function initJSON() {
+    jQuery.getJSON('modules/npcgen/data/classes.json', (json) => classesJSON = json);
+    jQuery.getJSON('modules/npcgen/data/personalitytraits.json', (json) => personalityTraitsJSON = json);
+    jQuery.getJSON('modules/npcgen/data/plothooks.json', (json) => plotHooksJSON = json);
+    jQuery.getJSON('modules/npcgen/data/professions.json', (json) => professionsJSON = json);
+    jQuery.getJSON('modules/npcgen/data/races.json', (json) => racesJSON = json);
+    jQuery.getJSON('modules/npcgen/data/sex.json', (json) => sexJSON = json);
+    jQuery.getJSON('modules/npcgen/data/lists.json', (json) => listJSON = json);
+    jQuery.getJSON('modules/npcgen/data/languages.json', (json) => languagesJSON = json);
+    jQuery.getJSON('modules/npcgen/data/names.json', (json) => namesJSON = json);
+}
+
+/**
+ * @param  {String} diceString
+ */
+function rollDiceString(diceString) {
+    let [count, dice] = diceString.split("d");
+    let total = 0;
+    for (let i = 0; i < count; i++) {
+        total += Math.ceil(Math.random() * dice);
+    }
+    return total;
+}
+
+/**
+ * @param  {Number} max - max number
+ * @param  {Number} numDice - number of rolls
+ */
+function weightedRandom(max, numDice) {
+    let num = 0;
+    for (let i = 0; i < numDice; i++) {
+        num += Math.random() * (max / numDice);
+    }
+    return num;
+}
+
+/**
+ * @param  {Number} inches
+ * @returns feet string
+ */
+function inchesToFeet(inches) {
+    return `${Math.floor(inches / 12)}'${inches % 12}"`;
+}
+
+/**
+ * 
+ * @param {Number} raw 
+ */
+function calculateAbilityMod(raw) {
+    return Math.ceil(raw / 2) - 5;
+}
+
+/**
+ *  registers settings for json editor
+ */
+function registerJSONEditorSettings() {
+    game.settings.register("npcgen", "classesJSON", {
+        scope: "world",
+        config: false,
+        type: String,
+        default: '{\n    \n}'
+    });
+
+    game.settings.register("npcgen", "languagesJSON", {
+        scope: "world",
+        config: false,
+        type: String,
+        default: '[\n    \n]'
+    });
+
+    game.settings.register("npcgen", "namesJSON", {
+        scope: "world",
+        config: false,
+        type: String,
+        default: '{\n    "First": {\n        \n    },\n    "Last": {\n        \n    }\n}'
+    });
+
+    game.settings.register("npcgen", "traitsJSON", {
+        scope: "world",
+        config: false,
+        type: String,
+        default: '{\n    "Good Traits": [\n        \n    ],\n    "Bad Traits": [\n        \n    ]\n}'
+    });
+
+    game.settings.register("npcgen", "plothooksJSON", {
+        scope: "world",
+        config: false,
+        type: String,
+        default: '{\n    \n}'
+    });
+
+    game.settings.register("npcgen", "professionJSON", {
+        scope: "world",
+        config: false,
+        type: String,
+        default: '{\n    "Learned": [\n        \n    ],\n    "Lesser Nobility": [\n        \n    ],\n    "Professional": [\n        \n    ],\n    "Working Class": [\n        \n    ],\n    "Martial": [\n        \n    ],\n    "Underclass": [\n        \n    ],\n    "Entertainer": [\n        \n    ]\n}'
+    });
+
+    game.settings.register("npcgen", "racesJSON", {
+        scope: "world",
+        config: false,
+        type: String,
+        default: '{\n    \n}'
+    });
+
+    game.settings.register("npcgen", "sexJSON", {
+        scope: "world",
+        config: false,
+        type: String,
+        default: '{\n    "Orientation": [\n        \n    ],\n    "Gender": [\n        \n    ],\n    "Relationship Status": [\n        \n    ]\n}'
+    });
+}
+
+
+// add button to side menu
+Hooks.on('renderActorDirectory', (_app, html) => {
+    if (game.user.isGM) {
+        const generateButton = jQuery(`<button class="npc-generator-btn"><i class="fas fa-fire"></i> Generate NPC</button>`);
+        html.find('.npc-generator-btn').remove();
+
+        html.find('.directory-footer').append(generateButton);
+
+        generateButton.on('click', (ev) => {
+            ev.preventDefault();
+            let generator = new NPCGenerator();
+            generator.render(true);
+        });
+    }
+});
+
+
+Hooks.once('init', () => {
+    console.log("NPC Generator | initializing");
+
+    // handlebars helper that keeps disabled checkboxes off
+    Handlebars.registerHelper('ischeckboxon', function (name, data) {
+        const prefixes = ["Gender", "Trait", "Profession", "RelationshipStatus", "Orientation", "Race", "Class"];
+
+        for (let prefix of prefixes) {
+            if (data.data.root.disabledBoxes.includes(prefix + name)) {
+                return false;
+            }
+        }
+
+        return true;
+    });
+
+    // init variable for unsaved watcher
+    window.npcGen = window.npcGen || {};
+
+    // settings for saving unchecked boxes
+    game.settings.register("npcgen", "disabledBoxes", {
+        scope: "client",
+        config: false,
+        type: Array,
+        default: []
+    });
+
+    // register settings for json editor
+    registerJSONEditorSettings();
+
+    // register json editor
+    game.settings.registerMenu("npcgen", "jsonEditor", {
+        name: game.i18n.localize("npcGen.settingsTitle"),
+        label: game.i18n.localize("npcGen.settingsLabel"),
+        hint: game.i18n.localize("npcGen.settingsHint"),
+        icon: "far fa-file-code",
+        type: GeneratorWindow,
+        restricted: true
+    });
+});

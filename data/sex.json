@@ -1,0 +1,25 @@
+{
+    "Orientation": [
+        "Heterosexual",
+        "Bisexual",
+        "Homosexual",
+        "Asexual"
+    ],
+    "Gender": [
+        "Male",
+        "Female",
+        "Non-Binary"
+    ],
+    "Relationship Status": [
+        "Single",
+        "In a relationship",
+        "Married",
+        "Divorced",
+        "Widowed",
+        "Recently broken up",
+        "Recently divorced",
+        "Recently widowed",
+        "Seeing someone who is married",
+        "Married and having an affair"
+    ]
+}
