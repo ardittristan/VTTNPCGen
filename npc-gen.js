@@ -600,6 +600,13 @@ class NPCGenerator extends FormApplication {
             abilities[ability.toLowerCase()] = { value: Number(d[`gen${ability}`]) };
         });
 
+        console.log(d.genSaveThrows)
+        // saving throws
+        d.genSaveThrows.slice(0, -2).split(", ").forEach((/** @type {String} */ability) => {
+            abilities[ability.toLowerCase()].proficient = 1
+        })
+        console.log(abilities)
+
         // set biography
         let biography = "";
         {
@@ -615,8 +622,6 @@ class NPCGenerator extends FormApplication {
             biography = biography.concat(`<p>${game.i18n.localize('npcGen.height')}: ${d.genHeight}</p>\n`);
             // weight
             biography = biography.concat(`<p>${game.i18n.localize('npcGen.weight')}: ${d.genWeight}</p>\n`);
-            // saving throws
-            biography = biography.concat(`<p>${game.i18n.localize('npcGen.savingThrow')}: ${d.genSaveThrows.slice(0, -2)}</p>\n`);
             // static line
             biography = biography.concat(`<p>&nbsp;</p>\n<p><strong>${game.i18n.localize('npcGen.traits')}:</strong></p>\n`);
             // traits
