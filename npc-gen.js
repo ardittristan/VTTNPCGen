@@ -800,42 +800,49 @@ class GeneratorWindow extends FormApplication {
 
         html.find('.header-button[name="classesJSON"]').on('click', (e) => {
             e.preventDefault();
-            console.log(html.find('.editor[id="classesJSON"]').css("display"))
+            this.checkPopup(html, "classesJSON", "https://github.com/ardittristan/VTTNPCGen/blob/master/data/classes.json")
             this.resetHidden(html, "classesJSON");
             this.setTitle(game.i18n.localize("npcGen.classes"));
         });
         html.find('.header-button[name="languagesJSON"]').on('click', (e) => {
             e.preventDefault();
+            this.checkPopup(html, "languagesJSON", "https://github.com/ardittristan/VTTNPCGen/blob/master/data/languages.json")
             this.resetHidden(html, "languagesJSON");
             this.setTitle(game.i18n.localize("npcGen.language"));
         });
         html.find('.header-button[name="namesJSON"]').on('click', (e) => {
             e.preventDefault();
+            this.checkPopup(html, "namesJSON", "https://github.com/ardittristan/VTTNPCGen/blob/master/data/names.json")
             this.resetHidden(html, "namesJSON");
             this.setTitle(game.i18n.localize("npcGen.names"));
         });
         html.find('.header-button[name="traitsJSON"]').on('click', (e) => {
             e.preventDefault();
+            this.checkPopup(html, "traitsJSON", "https://github.com/ardittristan/VTTNPCGen/blob/master/data/personalitytraits.json")
             this.resetHidden(html, "traitsJSON");
             this.setTitle(game.i18n.localize("npcGen.traits"));
         });
         html.find('.header-button[name="plothooksJSON"]').on('click', (e) => {
             e.preventDefault();
+            this.checkPopup(html, "plothooksJSON", "https://github.com/ardittristan/VTTNPCGen/blob/master/data/plothooks.json")
             this.resetHidden(html, "plothooksJSON");
             this.setTitle(game.i18n.localize("npcGen.plotHook"));
         });
         html.find('.header-button[name="professionJSON"]').on('click', (e) => {
             e.preventDefault();
+            this.checkPopup(html, "professionJSON", "https://github.com/ardittristan/VTTNPCGen/blob/master/data/professions.json")
             this.resetHidden(html, "professionJSON");
             this.setTitle(game.i18n.localize("npcGen.professions"));
         });
         html.find('.header-button[name="racesJSON"]').on('click', (e) => {
             e.preventDefault();
+            this.checkPopup(html, "racesJSON", "https://github.com/ardittristan/VTTNPCGen/blob/master/data/races.json")
             this.resetHidden(html, "racesJSON");
             this.setTitle(game.i18n.localize("npcGen.races"));
         });
         html.find('.header-button[name="sexJSON"]').on('click', (e) => {
             e.preventDefault();
+            this.checkPopup(html, "sexJSON", "https://github.com/ardittristan/VTTNPCGen/blob/master/data/sex.json")
             this.resetHidden(html, "sexJSON");
             this.setTitle(game.i18n.localize("npcGen.relationship"));
         });
@@ -856,6 +863,13 @@ class GeneratorWindow extends FormApplication {
         html.find('.editor[id="sexJSON"]').css("display", "none");
 
         html.find(`.editor[id="${visibleEditor}"]`).css("display", "block");
+    }
+
+    checkPopup(html, name, url) {
+        if (html.find(`.editor[id="${name}"]`).css("display") === "block") {
+            let newwindow = window.open(url, "Example", "menubar=no,status=no,height=600,width=500")
+            if (window.focus) {newwindow.focus()}
+        }
     }
 
     /**
