@@ -450,7 +450,7 @@ class NPCGenerator extends FormApplication {
         // weight
         const baseWeight = Number(this.racesJSON[this.genRace].weight.base);
         const weightMod = rollDiceString(this.racesJSON[this.genRace].weight.mod);
-        this.genWeight = (baseWeight + (baseHeight + heightMod) * weightMod);
+        this.genWeight = (baseWeight + heightMod * weightMod);
 
         // speed
         this.genSpeed = this.racesJSON[this.genRace].speed;
