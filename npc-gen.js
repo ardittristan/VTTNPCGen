@@ -1,5 +1,41 @@
 import { pick, sample, has } from './lib/underscore.min.js';
 import merge from './lib/lodash-merge.min.js';
+import * as acemodule from "./lib/ace/ace.js";
+
+/* -------------< Ace multi module compat >------------ */
+
+/** @type {String} */
+const scriptLocation = getRunningScript()().replace("npc-gen.js", "");
+
+
+setAceModules([
+    ["ace/mode/json", "lib/ace/mode-json.js"],
+    ["ace/ext/language_tools", "lib/ace/ext-language_tools.js"],
+    ["ace/mode/json_worker", "lib/ace/worker-json.js"],
+    ["ace/ext/error_marker", "lib/ace/ext-error_marker.js"],
+    ["ace/theme/twilight", "lib/ace/theme-twilight.js"],
+    ["ace/snippets/json", "lib/ace/snippets/json.js"]
+]);
+
+/**
+ * @returns {String} script location
+ */
+function getRunningScript() {
+    return () => {
+        return new Error().stack.match(/([^ \n])*([a-z]*:\/\/\/?)*?[a-z0-9\/\\]*\.js/ig)[0];
+    };
+}
+/**
+ * @param  {String[]} stringArray
+ */
+function setAceModules(stringArray) {
+    stringArray.forEach((data) => {
+        ace.config.setModuleUrl(data[0], scriptLocation.concat(data[1]));
+        ace.config.loadModule(data[0]);
+    });
+}
+
+/* -------------< End Ace multi module compat >------------ */
 
 
 let classesJSON = {};
@@ -123,8 +159,8 @@ class NPCGenerator extends FormApplication {
         this.level = "1";
 
         // name
-        this.genFirstName = "NPC";
-        this.genLastName = "Generator";
+        this.genFirstName = "First Name";
+        this.genLastName = "Last Name";
 
     }
 
@@ -600,12 +636,10 @@ class NPCGenerator extends FormApplication {
             abilities[ability.toLowerCase()] = { value: Number(d[`gen${ability}`]) };
         });
 
-        console.log(d.genSaveThrows)
         // saving throws
         d.genSaveThrows.slice(0, -2).split(", ").forEach((/** @type {String} */ability) => {
-            abilities[ability.toLowerCase()].proficient = 1
-        })
-        console.log(abilities)
+            abilities[ability.toLowerCase()].proficient = 1;
+        });
 
         // set biography
         let biography = "";
@@ -779,6 +813,10 @@ class GeneratorWindow extends FormApplication {
     constructor(object = {}, options = {}) {
         super(object, options);
 
+        this.editorArray = {};
+        this.unsaved = false;
+
+        this.sendToSettings = this.sendToSettings.bind(this)
     }
 
     static get defaultOptions() {
@@ -800,57 +838,60 @@ class GeneratorWindow extends FormApplication {
     activateListeners(html) {
         super.activateListeners(html);
 
+        this.initEditorHtml()
+
         html.find('.editor[id="classesJSON"]').css("display", "block");
         this.setTitle(game.i18n.localize("npcGen.classes"));
 
         html.find('.header-button[name="classesJSON"]').on('click', (e) => {
             e.preventDefault();
-            this.checkPopup(html, "classesJSON", "https://github.com/ardittristan/VTTNPCGen/blob/master/data/classes.json")
+            this.checkPopup(html, "classesJSON", "https://github.com/ardittristan/VTTNPCGen/blob/master/data/classes.json");
             this.resetHidden(html, "classesJSON");
             this.setTitle(game.i18n.localize("npcGen.classes"));
         });
         html.find('.header-button[name="languagesJSON"]').on('click', (e) => {
             e.preventDefault();
-            this.checkPopup(html, "languagesJSON", "https://github.com/ardittristan/VTTNPCGen/blob/master/data/languages.json")
+            this.checkPopup(html, "languagesJSON", "https://github.com/ardittristan/VTTNPCGen/blob/master/data/languages.json");
             this.resetHidden(html, "languagesJSON");
             this.setTitle(game.i18n.localize("npcGen.language"));
         });
         html.find('.header-button[name="namesJSON"]').on('click', (e) => {
             e.preventDefault();
-            this.checkPopup(html, "namesJSON", "https://github.com/ardittristan/VTTNPCGen/blob/master/data/names.json")
+            this.checkPopup(html, "namesJSON", "https://github.com/ardittristan/VTTNPCGen/blob/master/data/names.json");
             this.resetHidden(html, "namesJSON");
             this.setTitle(game.i18n.localize("npcGen.names"));
         });
         html.find('.header-button[name="traitsJSON"]').on('click', (e) => {
             e.preventDefault();
-            this.checkPopup(html, "traitsJSON", "https://github.com/ardittristan/VTTNPCGen/blob/master/data/personalitytraits.json")
+            this.checkPopup(html, "traitsJSON", "https://github.com/ardittristan/VTTNPCGen/blob/master/data/personalitytraits.json");
             this.resetHidden(html, "traitsJSON");
             this.setTitle(game.i18n.localize("npcGen.traits"));
         });
         html.find('.header-button[name="plothooksJSON"]').on('click', (e) => {
             e.preventDefault();
-            this.checkPopup(html, "plothooksJSON", "https://github.com/ardittristan/VTTNPCGen/blob/master/data/plothooks.json")
+            this.checkPopup(html, "plothooksJSON", "https://github.com/ardittristan/VTTNPCGen/blob/master/data/plothooks.json");
             this.resetHidden(html, "plothooksJSON");
             this.setTitle(game.i18n.localize("npcGen.plotHook"));
         });
         html.find('.header-button[name="professionJSON"]').on('click', (e) => {
             e.preventDefault();
-            this.checkPopup(html, "professionJSON", "https://github.com/ardittristan/VTTNPCGen/blob/master/data/professions.json")
+            this.checkPopup(html, "professionJSON", "https://github.com/ardittristan/VTTNPCGen/blob/master/data/professions.json");
             this.resetHidden(html, "professionJSON");
             this.setTitle(game.i18n.localize("npcGen.professions"));
         });
         html.find('.header-button[name="racesJSON"]').on('click', (e) => {
             e.preventDefault();
-            this.checkPopup(html, "racesJSON", "https://github.com/ardittristan/VTTNPCGen/blob/master/data/races.json")
+            this.checkPopup(html, "racesJSON", "https://github.com/ardittristan/VTTNPCGen/blob/master/data/races.json");
             this.resetHidden(html, "racesJSON");
             this.setTitle(game.i18n.localize("npcGen.races"));
         });
         html.find('.header-button[name="sexJSON"]').on('click', (e) => {
             e.preventDefault();
-            this.checkPopup(html, "sexJSON", "https://github.com/ardittristan/VTTNPCGen/blob/master/data/sex.json")
+            this.checkPopup(html, "sexJSON", "https://github.com/ardittristan/VTTNPCGen/blob/master/data/sex.json");
             this.resetHidden(html, "sexJSON");
             this.setTitle(game.i18n.localize("npcGen.relationship"));
         });
+        html.find('button.save-json-button').on('click', () => {this.sendToSettings()})
     }
 
     /**
@@ -872,8 +913,7 @@ class GeneratorWindow extends FormApplication {
 
     checkPopup(html, name, url) {
         if (html.find(`.editor[id="${name}"]`).css("display") === "block") {
-            let newwindow = window.open(url, "Example", "menubar=no,status=no,height=600,width=500")
-            if (window.focus) {newwindow.focus()}
+            window.open(url, "Example", "menubar=no,status=no,height=600,width=500");
         }
     }
 
@@ -895,7 +935,7 @@ class GeneratorWindow extends FormApplication {
                 class: "close",
                 icon: "fas fa-times",
                 onclick: ev => {
-                    if (window.npcGen.jsonEditor.unsaved) {
+                    if (this.unsaved) {
                         Dialog.confirm({
                             title: game.i18n.localize("npcGen.confirmCloseTitle"),
                             content: `<p>${game.i18n.localize("npcGen.confirmCloseDesc")}</p>`,
@@ -916,7 +956,47 @@ class GeneratorWindow extends FormApplication {
         ];
     }
 
+    initEditorHtml() {
+        this.createEditor("classesJSON");
+        this.createEditor("languagesJSON");
+        this.createEditor("namesJSON");
+        this.createEditor("traitsJSON");
+        this.createEditor("plothooksJSON");
+        this.createEditor("professionJSON");
+        this.createEditor("racesJSON");
+        this.createEditor("sexJSON");
+    }
 
+    sendToSettings() {
+        game.settings.set("npcgen", "classesJSON", this.editorArray["classesJSON"].getValue());
+        game.settings.set("npcgen", "languagesJSON", this.editorArray["languagesJSON"].getValue());
+        game.settings.set("npcgen", "namesJSON", this.editorArray["namesJSON"].getValue());
+        game.settings.set("npcgen", "traitsJSON", this.editorArray["traitsJSON"].getValue());
+        game.settings.set("npcgen", "plothooksJSON", this.editorArray["plothooksJSON"].getValue());
+        game.settings.set("npcgen", "professionJSON", this.editorArray["professionJSON"].getValue());
+        game.settings.set("npcgen", "racesJSON", this.editorArray["racesJSON"].getValue());
+        game.settings.set("npcgen", "sexJSON", this.editorArray["sexJSON"].getValue());
+        ui.notifications.notify('Saved!');
+        this.unsaved = false;
+    }
+
+    createEditor(name) {
+        this.editorArray[name] = ace.edit(name);
+        this.editorArray[name].setOptions({
+            mode: "ace/mode/json",
+            theme: "ace/theme/twilight",
+            showPrintMargin: false,
+            enableLiveAutocompletion: true
+        });
+        this.editorArray[name].setValue(game.settings.get("npcgen", name), -1)
+        this.editorArray[name].commands.addCommand({
+            name: "Save",
+            bindKey: { win: "Ctrl-S", mac: "Command-S" },
+            exec: this.sendToSettings
+        });
+        this.editorArray[name].getSession().on('change', () => { if (this.unsaved === false) { this.unsaved = true } });
+        
+    }
 }
 
 

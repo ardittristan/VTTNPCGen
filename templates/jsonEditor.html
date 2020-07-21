@@ -1,42 +1,5 @@
 <form class="json-code-editor" id="json-editor" autocomplete="off" onsubmit="event.preventDefault()">
 
-    <script>
-        var editorArray = {}
-        window.npcGen.jsonEditor = {};
-        window.npcGen.jsonEditor.unsaved = false
-
-        function sendToSettings() {
-            game.settings.set("npcgen", "classesJSON", editorArray["classesJSON"].getValue());
-            game.settings.set("npcgen", "languagesJSON", editorArray["languagesJSON"].getValue());
-            game.settings.set("npcgen", "namesJSON", editorArray["namesJSON"].getValue());
-            game.settings.set("npcgen", "traitsJSON", editorArray["traitsJSON"].getValue());
-            game.settings.set("npcgen", "plothooksJSON", editorArray["plothooksJSON"].getValue());
-            game.settings.set("npcgen", "professionJSON", editorArray["professionJSON"].getValue());
-            game.settings.set("npcgen", "racesJSON", editorArray["racesJSON"].getValue());
-            game.settings.set("npcgen", "sexJSON", editorArray["sexJSON"].getValue());
-            ui.notifications.notify('Saved!');
-            window.npcGen.jsonEditor.unsaved = false;
-        }
-
-        function createEditor(name) {
-            editorArray[name] = ace.edit(name);
-            editorArray[name].setOptions({
-                mode: "ace/mode/json",
-                theme: "ace/theme/twilight",
-                showPrintMargin: false,
-                enableLiveAutocompletion: true
-            });
-            editorArray[name].setValue(game.settings.get("npcgen", name), -1)
-            editorArray[name].commands.addCommand({
-                name: "Save",
-                bindKey: { win: "Ctrl-S", mac: "Command-S" },
-                exec: sendToSettings
-            });
-            editorArray[name].getSession().on('change', () => { if (window.npcGen.jsonEditor.unsaved === false) { window.npcGen.jsonEditor.unsaved = true } });
-            
-        }
-    </script>
-
     <!-- tab buttons -->
     <div class="buttonDiv">
         <div class="buttonSeperator">
@@ -78,20 +41,8 @@
         <div class="editor" id="racesJSON"></div>
         <div class="editor" id="sexJSON"></div>
 
-
-        <script>
-            createEditor("classesJSON");
-            createEditor("languagesJSON");
-            createEditor("namesJSON");
-            createEditor("traitsJSON");
-            createEditor("plothooksJSON");
-            createEditor("professionJSON");
-            createEditor("racesJSON");
-            createEditor("sexJSON");
-        </script>
-
     </div>
 
-    <button type="button" class="save-json-button" onclick="sendToSettings()">Save</button>
+    <button type="button" class="save-json-button">Save</button>
 
 </form>
