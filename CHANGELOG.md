@@ -1,5 +1,10 @@
 # Patch Notes
 
+## Version 0.0.5
+
+* Add reset button.
+* Make more clear which tab is focused in json editor.
+
 ## Version 0.0.4
 
 * Run ace in compatibility mode.

@@ -816,7 +816,8 @@ class GeneratorWindow extends FormApplication {
         this.editorArray = {};
         this.unsaved = false;
 
-        this.sendToSettings = this.sendToSettings.bind(this)
+        this.sendToSettings = this.sendToSettings.bind(this);
+        this.resetSettings = this.resetSettings.bind(this);
     }
 
     static get defaultOptions() {
@@ -838,9 +839,9 @@ class GeneratorWindow extends FormApplication {
     activateListeners(html) {
         super.activateListeners(html);
 
-        this.initEditorHtml()
+        this.initEditorHtml();
 
-        html.find('.editor[id="classesJSON"]').css("display", "block");
+        this.resetHidden(html, "classesJSON");
         this.setTitle(game.i18n.localize("npcGen.classes"));
 
         html.find('.header-button[name="classesJSON"]').on('click', (e) => {
@@ -891,7 +892,8 @@ class GeneratorWindow extends FormApplication {
             this.resetHidden(html, "sexJSON");
             this.setTitle(game.i18n.localize("npcGen.relationship"));
         });
-        html.find('button.save-json-button').on('click', () => {this.sendToSettings()})
+        html.find('button.save-json-button').on('click', () => { this.sendToSettings(); });
+        html.find('button.reset-current-json').on('click', () => { this.resetSettings(html); });
     }
 
     /**
@@ -900,15 +902,34 @@ class GeneratorWindow extends FormApplication {
      */
     resetHidden(html, visibleEditor) {
         html.find('.editor[id="classesJSON"]').css("display", "none");
+        html.find('.header-button[name="classesJSON"]').css({ "outline": "unset", "box-shadow": "unset" });
+
         html.find('.editor[id="languagesJSON"]').css("display", "none");
+        html.find('.header-button[name="languagesJSON"]').css({ "outline": "unset", "box-shadow": "unset" });
+
         html.find('.editor[id="namesJSON"]').css("display", "none");
+        html.find('.header-button[name="namesJSON"]').css({ "outline": "unset", "box-shadow": "unset" });
+
         html.find('.editor[id="traitsJSON"]').css("display", "none");
+        html.find('.header-button[name="traitsJSON"]').css({ "outline": "unset", "box-shadow": "unset" });
+
         html.find('.editor[id="plothooksJSON"]').css("display", "none");
+        html.find('.header-button[name="plothooksJSON"]').css({ "outline": "unset", "box-shadow": "unset" });
+
         html.find('.editor[id="professionJSON"]').css("display", "none");
+        html.find('.header-button[name="professionJSON"]').css({ "outline": "unset", "box-shadow": "unset" });
+
         html.find('.editor[id="racesJSON"]').css("display", "none");
+        html.find('.header-button[name="racesJSON"]').css({ "outline": "unset", "box-shadow": "unset" });
+
         html.find('.editor[id="sexJSON"]').css("display", "none");
+        html.find('.header-button[name="sexJSON"]').css({ "outline": "unset", "box-shadow": "unset" });
+
+
+
 
         html.find(`.editor[id="${visibleEditor}"]`).css("display", "block");
+        html.find(`.header-button[name="${visibleEditor}"]`).css({ "outline": "none", "box-shadow": "0 0 5px red" });
     }
 
     checkPopup(html, name, url) {
@@ -988,14 +1009,26 @@ class GeneratorWindow extends FormApplication {
             showPrintMargin: false,
             enableLiveAutocompletion: true
         });
-        this.editorArray[name].setValue(game.settings.get("npcgen", name), -1)
+        this.editorArray[name].setValue(game.settings.get("npcgen", name), -1);
         this.editorArray[name].commands.addCommand({
             name: "Save",
             bindKey: { win: "Ctrl-S", mac: "Command-S" },
             exec: this.sendToSettings
         });
-        this.editorArray[name].getSession().on('change', () => { if (this.unsaved === false) { this.unsaved = true } });
-        
+        this.editorArray[name].getSession().on('change', () => { if (this.unsaved === false) { this.unsaved = true; } });
+
+    }
+    /**
+     * @param  {JQuery} html
+     */
+    resetSettings(html) {
+        let _this = this;
+        html.find('.editor').each(function (_index, element) {
+            if (element.style.display === "block") {
+                let defaultVal = game.settings.settings.get(`npcgen.${element.id}`).default;
+                _this.editorArray[element.id].setValue(defaultVal, -1);
+            }
+        });
     }
 }
 

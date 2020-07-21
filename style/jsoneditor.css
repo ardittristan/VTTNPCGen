@@ -21,3 +21,17 @@
 #json-editor-menu.app.window-app.sheet {
     min-width: 602px;
 }
+
+.json-code-editor .bottomButtonDiv {
+    width: 100%;
+    display: inline-flex;
+}
+
+.json-code-editor button.reset-current-json {
+    max-width: 4rem;
+    margin-right: unset;
+}
+
+.json-code-editor button.save-json-button {
+    margin-left: unset;
+}
