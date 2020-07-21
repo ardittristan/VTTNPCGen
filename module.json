@@ -18,7 +18,7 @@
     "manifest": "https://raw.githubusercontent.com/ardittristan/VTTNPCGen/master/module.json",
     "download": "https://github.com/ardittristan/VTTNPCGen/archive/master.zip",
 	"minimumCoreVersion": "0.5.5",
-	"compatibleCoreVersion": "0.6.5",
+	"compatibleCoreVersion": "0.7.0",
 	"system": "dnd5e",
 	"styles": [
 		"style/npcgen.css",
