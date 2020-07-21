@@ -4,7 +4,6 @@
 
 * Run ace in compatibility mode.
 * Default title to name.
-* Add saving throws
 
 ## Version 0.0.3
 
