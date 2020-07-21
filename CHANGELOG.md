@@ -1,5 +1,10 @@
 # Patch Notes
 
+## Version 0.0.6
+
+* Update translations.
+* Add hint to reset button.
+
 ## Version 0.0.5
 
 * Add reset button.

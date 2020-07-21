@@ -40,5 +40,8 @@
     "npcGen.confirmCloseDesc": "Do you want to save before closing?",
     "npcGen.settingsTitle": "Custom Generator Entries",
     "npcGen.settingsLabel": "Open Editor",
-    "npcGen.settingsHint": "Opens a json editor that allows you to add your own entries to the generator. Double click on a tab for an example. Or see examples.md on the github for more info."
+    "npcGen.settingsHint": "Opens a json editor that allows you to add your own entries to the generator. Double click on a tab for an example. Or see examples.md on the github for more info.",
+    "npcGen.save": "Save",
+    "npcGen.reset": "Reset",
+    "npcGen.resetHint": "Resets current view to it's default value."
 }
