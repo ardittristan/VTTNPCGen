@@ -299,16 +299,16 @@ class NPCGenerator extends FormApplication {
 
         html.find('.npc-generator-big-box').find('input').each((_, e) => {
             jQuery(e).on('input', (e) => {
-                e.originalEvent.target.size = e.originalEvent.target.value.length + 1;
+                e.originalEvent.target.size = e.originalEvent.target.value.length * 1.05 + 1;
             });
-            e.size = e.value.length + 1;
+            e.size = e.value.length * 1.05 + 1;
         });
 
         html.find('.npc-generator-box.header input[type="text"]').each((_, e) => {
             jQuery(e).on('input', (e) => {
                 e.originalEvent.target.size = e.originalEvent.target.value.length * 1.1 + 1;
             });
-            e.size = e.value.length + 1;
+            e.size = e.value.length * 1.1 + 1;
         });
 
         html.find('.npc-generator-top').find('input[type="number"]').each((_, e) => {
@@ -366,6 +366,10 @@ class NPCGenerator extends FormApplication {
             traits.forEach((type) => {
                 traitList = traitList.concat(sample(this.personalityTraitsJSON[type], 3));
             });
+            traitList.forEach((trait, index) => {
+                traitList[index] = "•" + trait
+            })
+            console.log(traitList)
             this.genTraits = traitList;
         }
 
@@ -596,14 +600,28 @@ class NPCGenerator extends FormApplication {
 
         // First Name
         let firstNames = [];
-        if (this.namesJSON.First.All) {
-            firstNames = firstNames.concat(this.namesJSON.First.All);
-        }
-        if (this.namesJSON.First[this.genRace]) {
-            firstNames = firstNames.concat(this.namesJSON.First[this.genRace]);
-        }
-        if (this.namesJSON.First[this.genRace.mainRace]) {
-            firstNames = firstNames.concat(this.namesJSON.First[this.genRace.mainRace]);
+        if (Object.keys(this.namesJSON.First).includes(this.genGender)) {
+            if (this.namesJSON.First[this.genGender].All) {
+                firstNames = firstNames.concat(this.namesJSON.First[this.genGender].all);
+            }
+            if (this.namesJSON.First[this.genGender][this.genRace]) {
+                firstNames = firstNames.concat(this.namesJSON.First[this.genGender][this.genRace]);
+            }
+            if (this.namesJSON.First[this.genGender][this.racesJSON[this.genRace].mainRace]) {
+                firstNames = firstNames.concat(this.namesJSON.First[this.genGender][this.racesJSON[this.genRace].mainRace]);
+            }
+        } else {
+            Object.keys(this.namesJSON.First).forEach(gender => {
+                if (this.namesJSON.First[gender].All) {
+                    firstNames = firstNames.concat(this.namesJSON.First[gender].All);
+                }
+                if (this.namesJSON.First[gender][this.genRace]) {
+                    firstNames = firstNames.concat(this.namesJSON.First[gender][this.genRace]);
+                }
+                if (this.namesJSON.First[gender][this.racesJSON[this.genRace].mainRace]) {
+                    firstNames = firstNames.concat(this.namesJSON.First[gender][this.racesJSON[this.genRace].mainRace]);
+                }
+            });
         }
         this.genFirstName = sample(firstNames);
 
@@ -615,8 +633,8 @@ class NPCGenerator extends FormApplication {
         if (this.namesJSON.Last[this.genRace]) {
             lastNames = lastNames.concat(this.namesJSON.Last[this.genRace]);
         }
-        if (this.namesJSON.Last[this.genRace.mainRace]) {
-            lastNames = lastNames.concat(this.namesJSON.Last[this.genRace.mainRace]);
+        if (this.namesJSON.Last[this.racesJSON[this.genRace].mainRace]) {
+            lastNames = lastNames.concat(this.namesJSON.Last[this.racesJSON[this.genRace].mainRace]);
         }
         this.genLastName = sample(lastNames);
 
@@ -1109,7 +1127,7 @@ function registerJSONEditorSettings() {
         scope: "world",
         config: false,
         type: String,
-        default: '{\n    "First": {\n        \n    },\n    "Last": {\n        \n    }\n}'
+        default: '{\n    "First": {\n        "Male": {\n            \n        },\n        "Female": {\n            \n        }\n    },\n    "Last": {\n    \n    }\n}'
     });
 
     game.settings.register("npcgen", "traitsJSON", {

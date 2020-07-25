@@ -1,26 +1,120 @@
 {
     "All": [
-        "plot hook 1"
+        "has recently obtained a map to a great treasure.",
+        "has recently obtained a map to an old and forgotten civilization.",
+        "their house was recently burned down by a mysterious fire.",
+        "their house was recently destroyed by a mysterious earthquake.",
+        "their house was recently destroyed by a mysterious tornado.",
+        "is looking for a relationship.",
+        "is looking for friendship.",
+        "needs help finding a precious item.",
+        "needs help fighting a rebellious organization who wants to take control of the governement.",
+        "needs help fighting a rebellious organization who wants to take control of the clergy.",
+        "is part of a secret rebellious organization who wants to take control of the government.",
+        "is part of a secret rebellious organization who wants to take control of the clergy.",
+        "is obsessed with a nearby cavern with amazing waterfalls.",
+        "is obsessed with a nearby cliff with an eerily beautiful view.",
+        "is obsessed with a nearby grove with extraordinary flowers.",
+        "is obsessed with a nearby valley with luxurious vegetation.",
+        "is obsessed with a nearby tavern with absolutely incredible ale.",
+        "has recently woken up with a magical rune on their chest.",
+        "is being haunted by a ghost.",
+        "was tricked into wearing a cursed hat.",
+        "is possessed by an evil spirit who makes them do horrible things at night, without remembering them.",
+        "is possessed by an evil spirit during the day and can only control themself at night.",
+        "is the host of a terrible and deadly sickness.",
+        "their blood is the cure to a terrible and deadly sickness.",
+        "needs help exorcising a ghost.",
+        "has angered the gods and needs help avoiding the consequences.",
+        "is secretly a vampire.",
+        "is looking for a lost friend, who never actually existed.",
+        "has recently obtained a fake map to a great treasure.",
+        "needs the party to deliver a tamed monster to a local wizard.",
+        "is followed day and night by an animated couch.",
+        "has been cursed into speaking only gibberish.",
+        "is willingly wearing a cursed bracelet.",
+        "has been hexed into constantly hallucinating.",
+        "has been hexed and is now constantly hungry.",
+        "lives with an incubus.",
+        "lives with a succubus.",
+        "lives with an incubus. They are trying to fit in with society.",
+        "lives with a succubus. They are trying to fit in with society.",
+        "their furniture has suddenly become animated.",
+        "their home has been infested by zombies. Upon further inquiry, the zombies used to live there, and are claiming the house as belonging to them.",
+        "is a serial killer at night.",
+        "is a cannibal.",
+        "is a secret vigilante, and considers the PCs a threat to society.",
+        "is a secret vigilante.",
+        "is addicted to monster blood.",
+        "wants the PCs to help tame a monster",
+        "is being stalked by a gibbering mouth at night.",
+        "has fallen in love with a dryad from a local forest.",
+        "is obsessively in love with a dryad. and keeps her locked up in their basement.",
+        "has been enslaved by a demon.",
+        "is slowly becoming a plant.",
+        "is followed by multiple animals at all time.",
+        "talks very fast and incomprehensibly to the NPCs before turning to stone.",
+        "talks very fast and incomprehensibly to the NPCs before turning to dust.",
+        "is possessed by an evil spirit. They argue constantly."
     ],
     "Learned": [
-        "learned hook 1"
+        "needs the party to deliver an item for them.",
+        "is the head of a local drug dealing circle.",
+        "is being chased by a band of bandits attempting to rob them and asks the PCs for protection.",
+        "is a fountain of wild magic and cannot control it."
     ],
     "Lesser Nobility": [
-        "lesser nobility hook 1"
+        "needs the party to deliver an item for them.",
+        "needs help gathering information on an organization",
+        "has a duel to the death on the morrow but is afraid to lose it.",
+        "challenges a PC to a duel to the death.",
+        "has discovered a secret passage under their castle leading to a mysterious cave.",
+        "is the head of an international drug dealing circle.",
+        "needs help organising a contest.",
+        "their house has been eaten by a purple worm. Further inspection of the tunnel reveals a complex cave system.",
+        "has a doppleganger.",
+        "is actually a doppleganger who killed the original and is living their life."
     ],
     "Professional": [
-        "professional hook 1"
+        "needs the party to deliver an item to the local lord.",
+        "is currently chasing a bandit and asks the PCs for help.",
+        "wants the PCs to help killing a monster.",
+        "needs help sabotaging a competitor."
     ],
     "Working Class": [
-        "working hook 1"
+        "is being blackmailed into challenging a PC to a duel to the death.",
+        "has discovered a secret passage under their house leading to a mysterious cave.",
+        "has been pressured by local drug dealers into selling drugs.",
+        "is being chased by a band of bandits attempting to rob them and asks the PCs for protection.",
+        "has recently come into possession of an unreasonable amount of fish, and it's not clear why."
     ],
     "Martial": [
-        "martial hook 1"
+        "has a duel to the death on the morrow but is afraid to lose it.",
+        "challenges a PC to a duel to the death.",
+        "is currently chasing a band of bandits and asks the PCs for help."
     ],
     "Underclass": [
-        "underclass hook 1"
+        "is spying the players on behalf of the local lord.",
+        "is being blackmailed into challenging a PC to a duel to the death.",
+        "has recently come into possession of a powerful magical item, and nobody knows how.",
+        "has discovered a secret passage under their house leading to a mysterious cave.",
+        "has been pressured by local drug dealers into selling drugs.",
+        "is part of a local drug dealing circle.",
+        "is currently being chased by law enforcement and asks the PCs for protection.",
+        "has been hired to steal from the PCs.",
+        "gives the PCs a magical item. Turns out they had stolen it from a wizard who is hellbent on recovering it.",
+        "is currently being chased by a band of bandits they just stole from and asks the PCs for protection.",
+        "is a doppleganger posing as one of the PCs."
     ],
     "Entertainer": [
-        "entertainer hook 1"
+        "is spying the players on behalf of the local lord.",
+        "has discovered a secret passage under a tree leading to a hidden temple.",
+        "has discovered a secret passage behind a rock leading to a secret organisation.",
+        "is currently being chased by law enforcement and asks the PCs for protection.",
+        "has been hired to steal items from the PCs.",
+        "their camp has been eaten by a purple worm. Further inspection of the tunnel reveals an ancient catacomb.",
+        "carries around a large egg of unknown origin.",
+        "approaches the PC by falling from the sky. Has 50% chance of surviving the landing.",
+        "has started using snakes as currency, and it's starting to catch on."
     ]
 }

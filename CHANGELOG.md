@@ -1,5 +1,9 @@
 # Patch Notes
 
+## Version 0.0.7
+
+* finished generation data + fixes.
+
 ## Version 0.0.6
 
 * Update translations.

@@ -176,7 +176,7 @@
     flex-wrap: wrap;
 }
 
-.npc-generator-big-box-inside input {
+.npc-generator-big-box-inside input[type="text"] {
     border-top-style: hidden;
     border-right-style: hidden;
     border-left-style: hidden;
@@ -184,6 +184,12 @@
     background-color: inherit;
     font-family: 'Roboto Mono', Roboto, monospace;
     margin-right: -16px;
+}
+
+.npc-generator-big-box-inside input[type="text"]:hover,
+.npc-generator-big-box-inside input[type="text"]:focus {
+    border: hidden;
+    box-shadow: none;
 }
 
 .npc-generator-big-box-inside textarea {
@@ -195,6 +201,11 @@
     font-family: 'Roboto Mono', Roboto, monospace;
     overflow-y: hidden;
     resize: none;
+}
+
+.npc-generator-big-box-inside textarea:focus {
+    outline: none;
+    box-shadow: none;
 }
 
 .npc-generator-big-box-inside>div.npc-generator-box {
@@ -240,6 +251,22 @@
 }
 
 .npc-generator-box input[type="number"]::-webkit-inner-spin-button,
-.np-generator-box input[type="number"]::-webkit-outer-spin-button {
+.npc-generator-box input[type="number"]::-webkit-outer-spin-button {
     opacity: 1;
+}
+
+.npc-generator-box.plothook {
+    overflow-x: auto;
+}
+
+.npc-generator-box.plothook table {
+    width: calc(100% - 1px);
+}
+
+.plothookTable {
+    width: 100%;
+}
+
+.npc-generator-box.plothook input {
+    width: fit-content;
 }
