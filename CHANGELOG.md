@@ -1,5 +1,9 @@
 # Patch Notes
 
+## Version 0.0.10
+
+* Made language more clear.
+
 ## Version 0.0.9
 
 * Add button that disables default data.

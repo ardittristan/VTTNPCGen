@@ -44,7 +44,7 @@
     "npcGen.save": "Save",
     "npcGen.reset": "Reset",
     "npcGen.resetHint": "Resets current view to it's default value.",
-    "npcGen.defaultOn": "Default on",
-    "npcGen.defaultOff": "Default off",
+    "npcGen.defaultOn": "Using default",
+    "npcGen.defaultOff": "Not using default",
     "npcGen.defaultHint": "Toggles between using default data on top of custom data or custom data only."
 }
