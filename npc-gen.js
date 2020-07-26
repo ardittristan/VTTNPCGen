@@ -710,7 +710,6 @@ class NPCGenerator extends FormApplication {
 
         let actor = await CONFIG.Actor.entityClass.create({
             name: `${d.genFirstName} ${d.genLastName}`,
-            type: "character",
             permission: {
                 default: 0
             },
@@ -747,6 +746,7 @@ class NPCGenerator extends FormApplication {
                     }
                 }
             },
+            type: "npc",
             items: [
                 classItem
             ]

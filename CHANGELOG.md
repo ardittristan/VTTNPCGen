@@ -1,5 +1,9 @@
 # Patch Notes
 
+## Version 0.0.8
+
+* Change actor type to npc.
+
 ## Version 0.0.7
 
 * finished generation data + fixes.
