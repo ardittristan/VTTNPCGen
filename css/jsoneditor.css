@@ -28,8 +28,13 @@
 }
 
 .json-code-editor button.reset-current-json {
-    max-width: 4rem;
+    max-width: min-content;
     margin-right: unset;
+}
+
+.json-code-editor button.toggle-button {
+    max-width: min-content;
+    white-space: nowrap;
 }
 
 .json-code-editor button.save-json-button {

@@ -1,5 +1,9 @@
 # Patch Notes
 
+## Version 0.0.9
+
+* Add button that disables default data.
+
 ## Version 0.0.8
 
 * Change actor type to npc.

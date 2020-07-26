@@ -45,6 +45,16 @@
 
     <div class="bottomButtonDiv">
         <button type="button" class="save-json-button">{{localize "npcGen.save"}}</button>
+
+        <button type="button" class="toggle-button" id="classesJSON" title="{{localize "npcGen.defaultHint"}}">{{#if onlyClassesJSON}}{{localize "npcGen.defaultOff"}}{{else}}{{localize "npcGen.defaultOn"}}{{/if}}</button>
+        <button type="button" class="toggle-button" id="languagesJSON" title="{{localize "npcGen.defaultHint"}}">{{#if onlyLanguagesJSON}}{{localize "npcGen.defaultOff"}}{{else}}{{localize "npcGen.defaultOn"}}{{/if}}</button>
+        <button type="button" class="toggle-button" id="namesJSON" title="{{localize "npcGen.defaultHint"}}">{{#if onlyNamesJSON}}{{localize "npcGen.defaultOff"}}{{else}}{{localize "npcGen.defaultOn"}}{{/if}}</button>
+        <button type="button" class="toggle-button" id="traitsJSON" title="{{localize "npcGen.defaultHint"}}">{{#if onlyTraitsJSON}}{{localize "npcGen.defaultOff"}}{{else}}{{localize "npcGen.defaultOn"}}{{/if}}</button>
+        <button type="button" class="toggle-button" id="plothooksJSON" title="{{localize "npcGen.defaultHint"}}">{{#if onlyPlothooksJSON}}{{localize "npcGen.defaultOff"}}{{else}}{{localize "npcGen.defaultOn"}}{{/if}}</button>
+        <button type="button" class="toggle-button" id="professionJSON" title="{{localize "npcGen.defaultHint"}}">{{#if onlyProfessionJSON}}{{localize "npcGen.defaultOff"}}{{else}}{{localize "npcGen.defaultOn"}}{{/if}}</button>
+        <button type="button" class="toggle-button" id="racesJSON" title="{{localize "npcGen.defaultHint"}}">{{#if onlyRacesJSON}}{{localize "npcGen.defaultOff"}}{{else}}{{localize "npcGen.defaultOn"}}{{/if}}</button>
+        <button type="button" class="toggle-button" id="sexJSON" title="{{localize "npcGen.defaultHint"}}">{{#if onlySexJSON}}{{localize "npcGen.defaultOff"}}{{else}}{{localize "npcGen.defaultOn"}}{{/if}}</button>
+
         <button type="button" class="reset-current-json" title="{{localize "npcGen.resetHint"}}">{{localize "npcGen.reset"}}</button>
     </div>
 

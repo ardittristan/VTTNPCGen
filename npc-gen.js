@@ -59,23 +59,55 @@ class NPCGenerator extends FormApplication {
         this.done = false;
 
 
-        /* -------------< Combine with user JSON >--------------- */
+        /* -------------< Combine with user JSON if enabled >--------------- */
 
-        this.classesJSON = merge(classesJSON, JSON.parse(game.settings.get("npcgen", "classesJSON")));
+        if (game.settings.get("npcgen", "onlyClassesJSON")) {
+            this.classesJSON = JSON.parse(game.settings.get("npcgen", "classesJSON"));
+        } else {
+            this.classesJSON = merge(classesJSON, JSON.parse(game.settings.get("npcgen", "classesJSON")));
+        }
 
-        this.languagesJSON = merge(languagesJSON, JSON.parse(game.settings.get("npcgen", "languagesJSON")));
+        if (game.settings.get("npcgen", "onlyLanguagesJSON")) {
+            this.languagesJSON = JSON.parse(game.settings.get("npcgen", "languagesJSON"));
+        } else {
+            this.languagesJSON = merge(languagesJSON, JSON.parse(game.settings.get("npcgen", "languagesJSON")));
+        }
 
-        this.namesJSON = merge(namesJSON, JSON.parse(game.settings.get("npcgen", "namesJSON")));
+        if (game.settings.get("npcgen", "onlyNamesJSON")) {
+            this.namesJSON = JSON.parse(game.settings.get("npcgen", "namesJSON"));
+        } else {
+            this.namesJSON = merge(namesJSON, JSON.parse(game.settings.get("npcgen", "namesJSON")));
+        }
 
-        this.personalityTraitsJSON = merge(personalityTraitsJSON, JSON.parse(game.settings.get("npcgen", "traitsJSON")));
+        if (game.settings.get("npcgen", "onlyTraitsJSON")) {
+            this.personalityTraits = JSON.parse(game.settings.get("npcgen", "traitsJSON"));
+        } else {
+            this.personalityTraitsJSON = merge(personalityTraitsJSON, JSON.parse(game.settings.get("npcgen", "traitsJSON")));
+        }
 
-        this.plotHooksJSON = merge(plotHooksJSON, JSON.parse(game.settings.get("npcgen", "plothooksJSON")));
+        if (game.settings.get("npcgen", "onlyPlothooksJSON")) {
+            this.plotHooksJSON = JSON.parse(game.settings.get("npcgen", "plothooksJSON"));
+        } else {
+            this.plotHooksJSON = merge(plotHooksJSON, JSON.parse(game.settings.get("npcgen", "plothooksJSON")));
+        }
 
-        this.professionsJSON = merge(professionsJSON, JSON.parse(game.settings.get("npcgen", "professionJSON")));
+        if (game.settings.get("npcgen", "onlyProfessionJSON")) {
+            this.professionsJSON = JSON.parse(game.settings.get("npcgen", "professionsJSON"));
+        } else {
+            this.professionsJSON = merge(professionsJSON, JSON.parse(game.settings.get("npcgen", "professionJSON")));
+        }
 
-        this.racesJSON = merge(racesJSON, JSON.parse(game.settings.get("npcgen", "racesJSON")));
+        if (game.settings.get("npcgen", "onlyRacesJSON")) {
+            this.racesJSON = JSON.parse(game.settings.get("npcgen", "racesJSON"));
+        } else {
+            this.racesJSON = merge(racesJSON, JSON.parse(game.settings.get("npcgen", "racesJSON")));
+        }
 
-        this.sexJSON = merge(sexJSON, JSON.parse(game.settings.get("npcgen", "sexJSON")));
+        if (game.settings.get("npcgen", "onlySexJSON")) {
+            this.sexJSON = JSON.parse(game.settings.get("npcgen", "sexJSON"));
+        } else {
+            this.sexJSON = merge(sexJSON, JSON.parse(game.settings.get("npcgen", "sexJSON")));
+        }
 
         this.listJSON = listJSON;
 
@@ -367,9 +399,9 @@ class NPCGenerator extends FormApplication {
                 traitList = traitList.concat(sample(this.personalityTraitsJSON[type], 3));
             });
             traitList.forEach((trait, index) => {
-                traitList[index] = "•" + trait
-            })
-            console.log(traitList)
+                traitList[index] = "•" + trait;
+            });
+            console.log(traitList);
             this.genTraits = traitList;
         }
 
@@ -862,6 +894,7 @@ class GeneratorWindow extends FormApplication {
         this.resetHidden(html, "classesJSON");
         this.setTitle(game.i18n.localize("npcGen.classes"));
 
+        // top button row
         html.find('.header-button[name="classesJSON"]').on('click', (e) => {
             e.preventDefault();
             this.checkPopup(html, "classesJSON", "https://github.com/ardittristan/VTTNPCGen/blob/master/data/classes.json");
@@ -910,8 +943,40 @@ class GeneratorWindow extends FormApplication {
             this.resetHidden(html, "sexJSON");
             this.setTitle(game.i18n.localize("npcGen.relationship"));
         });
+
+        // bottom button row
+        html.find('button.toggle-button').on('click', (event) => {
+            let buttonId = event.target.id;
+            let currentSetting = game.settings.get("npcgen", `only${capitalizeFirstLetter(buttonId)}`);
+            if (currentSetting) {
+                event.target.textContent = game.i18n.localize("npcGen.defaultOn");
+                game.settings.set("npcgen", `only${capitalizeFirstLetter(buttonId)}`, false);
+            } else {
+                event.target.textContent = game.i18n.localize("npcGen.defaultOff");
+                game.settings.set("npcgen", `only${capitalizeFirstLetter(buttonId)}`, true);
+            }
+        });
+
         html.find('button.save-json-button').on('click', () => { this.sendToSettings(); });
         html.find('button.reset-current-json').on('click', () => { this.resetSettings(html); });
+    }
+
+    /**
+    * Default Options for this FormApplication
+    */
+    getData(options) {
+        const data = super.getData(options);
+
+        data.onlyClassesJSON = game.settings.get("npcgen", "onlyClassesJSON");
+        data.onlyLanguagesJSON = game.settings.get("npcgen", "onlyLanguagesJSON");
+        data.onlyNamesJSON = game.settings.get("npcgen", "onlyNamesJSON");
+        data.onlyTraitsJSON = game.settings.get("npcgen", "onlyTraitsJSON");
+        data.onlyPlothooksJSON = game.settings.get("npcgen", "onlyPlothooksJSON");
+        data.onlyProfessionJSON = game.settings.get("npcgen", "onlyProfessionJSON");
+        data.onlyRacesJSON = game.settings.get("npcgen", "onlyRacesJSON");
+        data.onlySexJSON = game.settings.get("npcgen", "onlySexJSON");
+
+        return data;
     }
 
     /**
@@ -921,33 +986,42 @@ class GeneratorWindow extends FormApplication {
     resetHidden(html, visibleEditor) {
         html.find('.editor[id="classesJSON"]').css("display", "none");
         html.find('.header-button[name="classesJSON"]').css({ "outline": "unset", "box-shadow": "unset" });
+        html.find('.toggle-button[id="classesJSON"]').css("display", "none");
 
         html.find('.editor[id="languagesJSON"]').css("display", "none");
         html.find('.header-button[name="languagesJSON"]').css({ "outline": "unset", "box-shadow": "unset" });
+        html.find('.toggle-button[id="languagesJSON"]').css("display", "none");
 
         html.find('.editor[id="namesJSON"]').css("display", "none");
         html.find('.header-button[name="namesJSON"]').css({ "outline": "unset", "box-shadow": "unset" });
+        html.find('.toggle-button[id="namesJSON"]').css("display", "none");
 
         html.find('.editor[id="traitsJSON"]').css("display", "none");
         html.find('.header-button[name="traitsJSON"]').css({ "outline": "unset", "box-shadow": "unset" });
+        html.find('.toggle-button[id="traitsJSON"]').css("display", "none");
 
         html.find('.editor[id="plothooksJSON"]').css("display", "none");
         html.find('.header-button[name="plothooksJSON"]').css({ "outline": "unset", "box-shadow": "unset" });
+        html.find('.toggle-button[id="plothooksJSON"]').css("display", "none");
 
         html.find('.editor[id="professionJSON"]').css("display", "none");
         html.find('.header-button[name="professionJSON"]').css({ "outline": "unset", "box-shadow": "unset" });
+        html.find('.toggle-button[id="professionJSON"]').css("display", "none");
 
         html.find('.editor[id="racesJSON"]').css("display", "none");
         html.find('.header-button[name="racesJSON"]').css({ "outline": "unset", "box-shadow": "unset" });
+        html.find('.toggle-button[id="racesJSON"]').css("display", "none");
 
         html.find('.editor[id="sexJSON"]').css("display", "none");
         html.find('.header-button[name="sexJSON"]').css({ "outline": "unset", "box-shadow": "unset" });
+        html.find('.toggle-button[id="sexJSON"]').css("display", "none");
 
 
 
 
         html.find(`.editor[id="${visibleEditor}"]`).css("display", "block");
         html.find(`.header-button[name="${visibleEditor}"]`).css({ "outline": "none", "box-shadow": "0 0 5px red" });
+        html.find(`.toggle-button[id="${visibleEditor}"]`).css("display", "");
     }
 
     checkPopup(html, name, url) {
@@ -1064,6 +1138,12 @@ async function initJSON() {
     jQuery.getJSON('modules/npcgen/data/languages.json', (json) => languagesJSON = json);
     jQuery.getJSON('modules/npcgen/data/names.json', (json) => namesJSON = json);
 }
+/**
+ * @param  {String} string
+ */
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 /**
  * @param  {String} diceString
@@ -1109,6 +1189,8 @@ function calculateAbilityMod(raw) {
  *  registers settings for json editor
  */
 function registerJSONEditorSettings() {
+    // editor content settings
+
     game.settings.register("npcgen", "classesJSON", {
         scope: "world",
         config: false,
@@ -1163,6 +1245,65 @@ function registerJSONEditorSettings() {
         config: false,
         type: String,
         default: '{\n    "Orientation": [\n        \n    ],\n    "Gender": [\n        \n    ],\n    "Relationship Status": [\n        \n    ]\n}'
+    });
+
+
+    // only custom settings
+
+    game.settings.register("npcgen", "onlyClassesJSON", {
+        scope: "world",
+        config: false,
+        type: Boolean,
+        default: false
+    });
+
+    game.settings.register("npcgen", "onlyLanguagesJSON", {
+        scope: "world",
+        config: false,
+        type: Boolean,
+        default: false
+    });
+
+    game.settings.register("npcgen", "onlyNamesJSON", {
+        scope: "world",
+        config: false,
+        type: Boolean,
+        default: false
+    });
+
+    game.settings.register("npcgen", "onlyTraitsJSON", {
+        scope: "world",
+        config: false,
+        type: Boolean,
+        default: false
+    });
+
+    game.settings.register("npcgen", "onlyPlothooksJSON", {
+        scope: "world",
+        config: false,
+        type: Boolean,
+        default: false
+    });
+
+    game.settings.register("npcgen", "onlyProfessionJSON", {
+        scope: "world",
+        config: false,
+        type: Boolean,
+        default: false
+    });
+
+    game.settings.register("npcgen", "onlyRacesJSON", {
+        scope: "world",
+        config: false,
+        type: Boolean,
+        default: false
+    });
+
+    game.settings.register("npcgen", "onlySexJSON", {
+        scope: "world",
+        config: false,
+        type: Boolean,
+        default: false
     });
 }
 

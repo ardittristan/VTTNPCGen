@@ -43,5 +43,8 @@
     "npcGen.settingsHint": "Opens a json editor that allows you to add your own entries to the generator. Double click on a tab for an example. Or see examples.md on the github for more info.",
     "npcGen.save": "Save",
     "npcGen.reset": "Reset",
-    "npcGen.resetHint": "Resets current view to it's default value."
+    "npcGen.resetHint": "Resets current view to it's default value.",
+    "npcGen.defaultOn": "Default on",
+    "npcGen.defaultOff": "Default off",
+    "npcGen.defaultHint": "Toggles between using default data on top of custom data or custom data only."
 }
