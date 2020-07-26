@@ -1,6 +1,6 @@
 {
 	"name": "npcgen",
-	"title": "NPC Generator",
+	"title": "Not Enough NPCs: A 5e NPC Generator",
 	"description": "Allows you to generate basic npc characters in foundry.",
 	"version": "0.0.10",
 	"author": "ardittristan#0001",
@@ -11,7 +11,7 @@
     "download": "https://github.com/ardittristan/VTTNPCGen/archive/master.zip",
 	"minimumCoreVersion": "0.5.5",
 	"compatibleCoreVersion": "0.7.0",
-	"system": "dnd5e",
+	"systems": ["dnd5e"],
 	"styles": [
 		"css/npcgen.css",
 		"css/jsoneditor.css"
