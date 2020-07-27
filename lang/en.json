@@ -46,5 +46,7 @@
     "npcGen.resetHint": "Resets current view to it's default value.",
     "npcGen.defaultOn": "Using default",
     "npcGen.defaultOff": "Not using default",
-    "npcGen.defaultHint": "Toggles between using default data on top of custom data or custom data only."
+    "npcGen.defaultHint": "Toggles between using default data on top of custom data or custom data only.",
+    "npcGen.saveCharacter": "Save NPCs as character.",
+    "npcGen.saveCharacterHint": "Makes the generator save NPCs as a PC instead of NPC. Might improve compatibility."
 }

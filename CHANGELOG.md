@@ -1,5 +1,9 @@
 # Patch Notes
 
+## Version 0.0.11
+
+* Add setting to save as character instead of npc as workaround for MonsterBlocks incompatibility.
+
 ## Version 0.0.10
 
 * Made language more clear.

@@ -401,7 +401,6 @@ class NPCGenerator extends FormApplication {
             traitList.forEach((trait, index) => {
                 traitList[index] = "•" + trait;
             });
-            console.log(traitList);
             this.genTraits = traitList;
         }
 
@@ -739,8 +738,7 @@ class NPCGenerator extends FormApplication {
             }
         });
 
-
-        let actor = await CONFIG.Actor.entityClass.create({
+        let actorOptions = {
             name: `${d.genFirstName} ${d.genLastName}`,
             permission: {
                 default: 0
@@ -778,11 +776,19 @@ class NPCGenerator extends FormApplication {
                     }
                 }
             },
-            type: "npc",
             items: [
                 classItem
             ]
-        });
+        };
+
+        if (game.settings.get("npcgen", "compatMode")) {
+            actorOptions.type = "character"
+        } else {
+            actorOptions.type = "npc"
+        }
+
+
+        let actor = await CONFIG.Actor.entityClass.create(actorOptions);
 
         actor.sheet.render(true);
     }
@@ -1304,6 +1310,16 @@ function registerJSONEditorSettings() {
         config: false,
         type: Boolean,
         default: false
+    });
+
+    game.settings.register("npcgen", "compatMode", {
+        scope: "world",
+        config: true,
+        type: Boolean,
+        default: false,
+        name: game.i18n.localize("npcGen.saveCharacter"),
+        hint: game.i18n.localize("npcGen.saveCharacterHint"),
+        restricted: true
     });
 }
 
