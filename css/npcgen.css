@@ -243,16 +243,24 @@
 
 
 .npc-generator-box input[type="number"] {
+    position: relative;
     border-top-style: hidden;
     border-right-style: hidden;
     border-left-style: hidden;
     border-bottom-style: hidden;
     background-color: inherit;
+    vertical-align: middle;
+    padding-left: 1.5em;
 }
 
 .npc-generator-box input[type="number"]::-webkit-inner-spin-button,
 .npc-generator-box input[type="number"]::-webkit-outer-spin-button {
     opacity: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 1em;
 }
 
 .npc-generator-box.plothook {

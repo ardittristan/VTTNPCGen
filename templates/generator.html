@@ -24,7 +24,7 @@
 
                     <div class="npc-generator-box top" style=" overflow-x: hidden;">
                         <label for="level" style="margin-top: 5px; margin-left: 5px; vertical-align: middle;">{{localize "npcGen.level"}}</label>
-                        <input name="level" type="number" min="1" style="vertical-align: middle;" value="{{level}}">
+                        <input name="level" type="number" min="1" value="{{level}}">
                         <i style="vertical-align: middle;">({{localize "npcGen.levelDesc"}})</i>
                     </div>
 
@@ -43,6 +43,7 @@
                             {{#each gender}}
 
                             <div>
+                                <input name="ProbGender{{this}}" id="Prob{{this}}" title="{{localize "npcGen.probability"}}" type="number" min="1" value="{{npcGenProbWeight this "Gender"}}">
                                 <input name="Gender{{this}}" id="{{this}}" type="checkbox" {{#if (ischeckboxon this)}}checked{{/if}}>
                                 <label for="{{this}}">{{this}}</label>
                             </div>
@@ -69,6 +70,7 @@
                             {{#each personalityTraits}}
 
                             <div>
+                                <input name="ProbTrait{{this}}" id="Prob{{this}}" title="{{localize "npcGen.probability"}}" type="number" min="1" value="{{npcGenProbWeight this "Trait"}}">
                                 <input name="Trait{{this}}" id="{{this}}" type="checkbox" {{#if (ischeckboxon this)}}checked{{/if}}>
                                 <label for="{{this}}">{{this}}</label>
                             </div>
@@ -95,6 +97,7 @@
                             {{#each professions}}
 
                             <div>
+                                <input name="ProbProfession{{this}}" id="Prob{{this}}" title="{{localize "npcGen.probability"}}" type="number" min="1" value="{{npcGenProbWeight this "Profession"}}">
                                 <input name="Profession{{this}}" id="{{this}}" type="checkbox" {{#if (ischeckboxon this)}}checked{{/if}}>
                                 <label for="{{this}}">{{this}}</label>
                             </div>
@@ -121,6 +124,7 @@
                             {{#each relationshipStatus}}
 
                             <div>
+                                <input name="ProbRelationshipStatus{{this}}" id="Prob{{this}}" title="{{localize "npcGen.probability"}}" type="number" min="1" value="{{npcGenProbWeight this "RelationshipStatus"}}">
                                 <input name="RelationshipStatus{{this}}" id="{{this}}" type="checkbox" {{#if (ischeckboxon this)}}checked{{/if}}>
                                 <label for="{{this}}">{{this}}</label>
                             </div>
@@ -147,6 +151,7 @@
                             {{#each orientation}}
 
                             <div>
+                                <input name="ProbOrientation{{this}}" id="Prob{{this}}" title="{{localize "npcGen.probability"}}" type="number" min="1" value="{{npcGenProbWeight this "Orientation"}}">
                                 <input name="Orientation{{this}}" id="{{this}}" type="checkbox" {{#if (ischeckboxon this)}}checked{{/if}}>
                                 <label for="{{this}}">{{this}}</label>
                             </div>
@@ -180,6 +185,7 @@
                             {{#each races}}
 
                             <div>
+                                <input name="ProbRace{{this}}" id="Prob{{this}}" title="{{localize "npcGen.probability"}}" type="number" min="1" value="{{npcGenProbWeight this "Race"}}">
                                 <input name="Race{{this}}" id="{{this}}" type="checkbox" {{#if (ischeckboxon this)}}checked{{/if}}>
                                 <label for="{{this}}">{{this}}</label>
                             </div>
@@ -202,6 +208,7 @@
                             {{#each classes}}
 
                             <div>
+                                <input name="ProbClass{{this}}" id="Prob{{this}}" title="{{localize "npcGen.probability"}}" type="number" min="1" value="{{npcGenProbWeight this "Class"}}">
                                 <input name="Class{{this}}" id="{{this}}" type="checkbox" {{#if (ischeckboxon this)}}checked{{/if}}>
                                 <label for="{{this}}">{{this}}</label>
                             </div>

@@ -139,6 +139,8 @@ class NPCGenerator extends FormApplication {
 
         this.disabledBoxes = game.settings.get("npcgen", "disabledBoxes")[0];
 
+        this.weights = game.settings.get("npcgen", "weights");
+
 
         /* -------------< Generator Data >--------------- */
 
@@ -204,7 +206,7 @@ class NPCGenerator extends FormApplication {
             classes: ["sheet"],
             closeOnSubmit: false,
             resizable: true,
-            width: 1045
+            width: 1180
         });
     }
 
@@ -286,6 +288,10 @@ class NPCGenerator extends FormApplication {
 
         data.disabledBoxes = this.disabledBoxes;
 
+        /* -------------< weights >--------------- */
+
+        data.weights = this.weights;
+
         return data;
     }
 
@@ -338,12 +344,12 @@ class NPCGenerator extends FormApplication {
 
         html.find('.npc-generator-box.header input[type="text"]').each((_, e) => {
             jQuery(e).on('input', (e) => {
-                e.originalEvent.target.size = e.originalEvent.target.value.length * 1.1 + 1;
+                e.originalEvent.target.size = e.originalEvent.target.value.length * 1.15 + 1.5;
             });
-            e.size = e.value.length * 1.1 + 1;
+            e.size = e.value.length * 1.15 + 1.5;
         });
 
-        html.find('.npc-generator-top').find('input[type="number"]').each((_, e) => {
+        html.find('input[type="number"]').each((_, e) => {
             jQuery(e).on('input', (e) => {
                 e.originalEvent.target.style.width = (e.originalEvent.target.value.length + 1) + 'em';
             });
@@ -362,6 +368,85 @@ class NPCGenerator extends FormApplication {
 
     }
 
+    setupInput(d) {
+        const genders = this.getEnabledValues(d, "Gender");
+        /** @type {String[]} */
+        let gendersOut = [];
+        genders.forEach((gender) => {
+            for (let i = 0; i < this.getProbValue(d, "Gender", gender); i++) {
+                gendersOut.push(gender);
+            }
+        });
+
+        const traits = this.getEnabledValues(d, "Trait");
+        /** @type {String[]} */
+        let traitsOut = [];
+        traits.forEach((trait) => {
+            for (let i = 0; i < this.getProbValue(d, "Trait", trait); i++) {
+                traitsOut.push(trait);
+            }
+        });
+
+        const professions = this.getEnabledValues(d, "Profession");
+        /** @type {String[]} */
+        let professionsOut = [];
+        professions.forEach((profession) => {
+            for (let i = 0; i < this.getProbValue(d, "Profession", profession); i++) {
+                professionsOut.push(profession);
+            }
+        });
+
+        const relationshipStatus = this.getEnabledValues(d, "RelationshipStatus");
+        /** @type {String[]} */
+        let relationshipStatusOut = [];
+        relationshipStatus.forEach((relationshipStatus) => {
+            for (let i = 0; i < this.getProbValue(d, "RelationshipStatus", relationshipStatus); i++) {
+                relationshipStatusOut.push(relationshipStatus);
+            }
+        });
+
+        const orientations = this.getEnabledValues(d, "Orientation");
+        /** @type {String[]} */
+        let orientationsOut = [];
+        orientations.forEach((orientation) => {
+            for (let i = 0; i < this.getProbValue(d, "Orientation", orientation); i++) {
+                orientationsOut.push(orientation);
+            }
+        });
+
+        const races = this.getEnabledValues(d, "Race");
+        /** @type {String[]} */
+        let racesOut = [];
+        races.forEach((race) => {
+            for (let i = 0; i < this.getProbValue(d, "Race", race); i++) {
+                racesOut.push(race);
+            }
+        });
+
+        const classes = this.getEnabledValues(d, "Class");
+        /** @type {String[]} */
+        let classesOut = [];
+        classes.forEach((klass) => {
+            for (let i = 0; i < this.getProbValue(d, "Class", klass); i++) {
+                classesOut.push(klass);
+            }
+        });
+
+        const returnvalue = [
+            gendersOut,
+            traitsOut,
+            professionsOut,
+            relationshipStatusOut,
+            orientationsOut,
+            racesOut,
+            classesOut
+        ];
+
+        console.log(returnvalue);
+
+        return returnvalue;
+    }
+
 
     /**
      * generates info on npc
@@ -371,20 +456,15 @@ class NPCGenerator extends FormApplication {
 
         this.resetValues();
 
-        /** @type {String[]} */
-        const genders = this.getEnabledValues(d, "Gender");
-        /** @type {String[]} */
-        const traits = this.getEnabledValues(d, "Trait");
-        /** @type {String[]} */
-        const professions = this.getEnabledValues(d, "Profession");
-        /** @type {String[]} */
-        const relationshipStatus = this.getEnabledValues(d, "RelationshipStatus");
-        /** @type {String[]} */
-        const orientations = this.getEnabledValues(d, "Orientation");
-        /** @type {String[]} */
-        const races = this.getEnabledValues(d, "Race");
-        /** @type {String[]} */
-        const classes = this.getEnabledValues(d, "Class");
+        const [
+            genders,
+            traits,
+            professions,
+            relationshipStatus,
+            orientations,
+            races,
+            classes
+        ] = this.setupInput(d);
 
 
         // Gender
@@ -782,9 +862,9 @@ class NPCGenerator extends FormApplication {
         };
 
         if (game.settings.get("npcgen", "compatMode")) {
-            actorOptions.type = "character"
+            actorOptions.type = "character";
         } else {
-            actorOptions.type = "npc"
+            actorOptions.type = "npc";
         }
 
 
@@ -798,12 +878,17 @@ class NPCGenerator extends FormApplication {
         if (d.level) { this.level = d.level; }
 
         this.disabledBoxes = [];
+        this.weights = {};
         for (let property in d) {
-            if (d[property] === false && !property.startsWith("gen")) {
+            if (d[property] === false && !property.startsWith("gen") && !property.startsWith("Prob")) {
                 this.disabledBoxes.push(property);
+            }
+            if (d[property] !== "1" && property.startsWith("Prob")) {
+                this.weights[property] = d[property];
             }
         }
         game.settings.set("npcgen", "disabledBoxes", this.disabledBoxes);
+        game.settings.set("npcgen", "weights", this.weights);
     }
 
     getEnabledValues(d, name) {
@@ -815,6 +900,7 @@ class NPCGenerator extends FormApplication {
                 return false;
             });
 
+        /** @type {String[]} */
         let renamedArray = [];
 
         Object.keys(filteredObject).forEach((key) => {
@@ -822,6 +908,18 @@ class NPCGenerator extends FormApplication {
         });
 
         return renamedArray;
+    }
+    /**
+     * @param  {Object} d
+     * @param  {String} prefix
+     * @param  {String} suffix
+     */
+    getProbValue(d, prefix, suffix) {
+        for (const key in d) {
+            if (key === "Prob" + prefix + suffix) {
+                return d[key];
+            }
+        }
     }
 
     resetValues() {
@@ -1144,6 +1242,7 @@ async function initJSON() {
     jQuery.getJSON('modules/npcgen/data/languages.json', (json) => languagesJSON = json);
     jQuery.getJSON('modules/npcgen/data/names.json', (json) => namesJSON = json);
 }
+
 /**
  * @param  {String} string
  */
@@ -1357,6 +1456,15 @@ Hooks.once('init', () => {
         return true;
     });
 
+    // handlebars helper for getting probability weight
+    Handlebars.registerHelper('npcGenProbWeight', function (name, type, data) {
+        if (Object.keys(data.data.root.weights).includes("Prob" + type + name)) {
+            return data.data.root.weights["Prob" + type + name];
+        } else {
+            return 1;
+        }
+    });
+
     // init variable for unsaved watcher
     window.npcGen = window.npcGen || {};
 
@@ -1367,6 +1475,16 @@ Hooks.once('init', () => {
         type: Array,
         default: []
     });
+
+    // setting for saving weights
+    game.settings.register("npcgen", "weights", {
+        scope: "client",
+        config: false,
+        type: Object,
+        default: {}
+    });
+
+
 
     // register settings for json editor
     registerJSONEditorSettings();

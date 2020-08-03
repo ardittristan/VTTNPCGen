@@ -1,5 +1,9 @@
 # Patch Notes
 
+## Version 0.0.12
+
+* Add probability to checkboxes.
+
 ## Version 0.0.11
 
 * Add setting to save as character instead of npc as workaround for MonsterBlocks incompatibility.
