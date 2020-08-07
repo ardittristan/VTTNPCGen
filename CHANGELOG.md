@@ -1,5 +1,10 @@
 # Patch Notes
 
+## Version 0.0.13
+
+* Fix some things not showing up when saved as npc by moving them to bio.
+* Set default saving method to character instead of npc because of above issue.
+
 ## Version 0.0.12
 
 * Add probability to checkboxes.

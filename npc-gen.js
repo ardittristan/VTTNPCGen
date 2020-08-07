@@ -865,6 +865,11 @@ class NPCGenerator extends FormApplication {
             actorOptions.type = "character";
         } else {
             actorOptions.type = "npc";
+            actorOptions.data.details.type = d.genRace
+            actorOptions.data.details.biography = 
+            d.genProficiencies.slice(0, -1).replace(/\r?\n/g, ", ") + "\n\n" +
+            `<p>${game.i18n.localize('npcGen.profession')}: ${d.genProfession}</p>\n` +
+            biography
         }
 
 
@@ -1415,7 +1420,7 @@ function registerJSONEditorSettings() {
         scope: "world",
         config: true,
         type: Boolean,
-        default: false,
+        default: true,
         name: game.i18n.localize("npcGen.saveCharacter"),
         hint: game.i18n.localize("npcGen.saveCharacterHint"),
         restricted: true
