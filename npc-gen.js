@@ -866,8 +866,10 @@ class NPCGenerator extends FormApplication {
         } else {
             actorOptions.type = "npc";
             actorOptions.data.details.type = d.genRace
-            actorOptions.data.details.biography = 
-            d.genProficiencies.slice(0, -1).replace(/\r?\n/g, ", ") + "\n\n" +
+            actorOptions.data.details.biography.value = 
+            `<p>${game.i18n.localize('npcGen.proficiencies')}: ` +
+            d.genProficiencies.slice(0, -1).replace(/\r?\n/g, ", ") + "\n</p>" +
+            "<p>&nbsp;\n</p>" +
             `<p>${game.i18n.localize('npcGen.profession')}: ${d.genProfession}</p>\n` +
             biography
         }
