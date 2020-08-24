@@ -1,4 +1,4 @@
-import { pick, sample, has } from './lib/underscore.min.js';
+import { pick, sample, has, difference, filter } from './lib/underscore.min.js';
 import merge from './lib/lodash-merge.min.js';
 import * as acemodule from "./lib/ace/ace.js";
 
@@ -49,6 +49,8 @@ let languagesJSON = [];
 let namesJSON = {};
 initJSON();
 
+let globalRacesList = [];
+
 
 
 class NPCGenerator extends FormApplication {
@@ -92,7 +94,7 @@ class NPCGenerator extends FormApplication {
         }
 
         if (game.settings.get("npcgen", "onlyProfessionJSON")) {
-            this.professionsJSON = JSON.parse(game.settings.get("npcgen", "professionsJSON"));
+            this.professionsJSON = JSON.parse(game.settings.get("npcgen", "professionJSON"));
         } else {
             this.professionsJSON = merge(professionsJSON, JSON.parse(game.settings.get("npcgen", "professionJSON")));
         }
@@ -140,6 +142,11 @@ class NPCGenerator extends FormApplication {
         this.disabledBoxes = game.settings.get("npcgen", "disabledBoxes")[0];
 
         this.weights = game.settings.get("npcgen", "weights");
+
+
+        /* -------------< New Races? >--------------- */
+
+        globalRacesList = this.races;
 
 
         /* -------------< Generator Data >--------------- */
@@ -206,7 +213,7 @@ class NPCGenerator extends FormApplication {
             classes: ["sheet"],
             closeOnSubmit: false,
             resizable: true,
-            width: 1180
+            width: 1181
         });
     }
 
@@ -382,9 +389,7 @@ class NPCGenerator extends FormApplication {
         /** @type {String[]} */
         let traitsOut = [];
         traits.forEach((trait) => {
-            for (let i = 0; i < this.getProbValue(d, "Trait", trait); i++) {
-                traitsOut.push(trait);
-            }
+            traitsOut.push(trait);
         });
 
         const professions = this.getEnabledValues(d, "Profession");
@@ -476,7 +481,7 @@ class NPCGenerator extends FormApplication {
         if (traits.length != 0) {
             let traitList = [];
             traits.forEach((type) => {
-                traitList = traitList.concat(sample(this.personalityTraitsJSON[type], 3));
+                traitList = traitList.concat(sample(this.personalityTraitsJSON[type], this.getProbValue(d, "Trait", type)));
             });
             traitList.forEach((trait, index) => {
                 traitList[index] = "•" + trait;
@@ -708,29 +713,54 @@ class NPCGenerator extends FormApplication {
             }
         }
 
+        console.log(this);
 
         // First Name
         let firstNames = [];
         if (Object.keys(this.namesJSON.First).includes(this.genGender)) {
-            if (this.namesJSON.First[this.genGender].All) {
-                firstNames = firstNames.concat(this.namesJSON.First[this.genGender].all);
-            }
-            if (this.namesJSON.First[this.genGender][this.genRace]) {
-                firstNames = firstNames.concat(this.namesJSON.First[this.genGender][this.genRace]);
-            }
-            if (this.namesJSON.First[this.genGender][this.racesJSON[this.genRace].mainRace]) {
-                firstNames = firstNames.concat(this.namesJSON.First[this.genGender][this.racesJSON[this.genRace].mainRace]);
+            /** @type {String[]} */
+            let nameForced =
+                difference(
+                    game.settings.get("npcgen", "registeredRaces")[0].map(string => `Race${string}FirstNameForced`),
+                    filter(this.disabledBoxes, string => { return string.includes("FirstNameForced"); })
+                );
+            if (nameForced.length !== 0) {
+                nameForced.forEach(raceDirty => {
+                    firstNames = firstNames.concat(this.namesJSON.First[this.genGender][raceDirty.replace("Race", "").replace("FirstNameForced", "")]);
+                });
+            } else {
+                if (this.namesJSON.First[this.genGender].All) {
+                    firstNames = firstNames.concat(this.namesJSON.First[this.genGender].all);
+                }
+                if (this.namesJSON.First[this.genGender][this.genRace]) {
+                    firstNames = firstNames.concat(this.namesJSON.First[this.genGender][this.genRace]);
+                }
+                if (this.namesJSON.First[this.genGender][this.racesJSON[this.genRace].mainRace]) {
+                    firstNames = firstNames.concat(this.namesJSON.First[this.genGender][this.racesJSON[this.genRace].mainRace]);
+                }
             }
         } else {
             Object.keys(this.namesJSON.First).forEach(gender => {
-                if (this.namesJSON.First[gender].All) {
-                    firstNames = firstNames.concat(this.namesJSON.First[gender].All);
-                }
-                if (this.namesJSON.First[gender][this.genRace]) {
-                    firstNames = firstNames.concat(this.namesJSON.First[gender][this.genRace]);
-                }
-                if (this.namesJSON.First[gender][this.racesJSON[this.genRace].mainRace]) {
-                    firstNames = firstNames.concat(this.namesJSON.First[gender][this.racesJSON[this.genRace].mainRace]);
+                /** @type {String[]} */
+                let nameForced =
+                    difference(
+                        game.settings.get("npcgen", "registeredRaces")[0].map(string => `Race${string}FirstNameForced`),
+                        filter(this.disabledBoxes, string => { return string.includes("FirstNameForced"); })
+                    );
+                if (nameForced.length !== 0) {
+                    nameForced.forEach(raceDirty => {
+                        firstNames = firstNames.concat(this.namesJSON.First[gender][raceDirty.replace("Race", "").replace("FirstNameForced", "")]);
+                    });
+                } else {
+                    if (this.namesJSON.First[gender].All) {
+                        firstNames = firstNames.concat(this.namesJSON.First[gender].All);
+                    }
+                    if (this.namesJSON.First[gender][this.genRace]) {
+                        firstNames = firstNames.concat(this.namesJSON.First[gender][this.genRace]);
+                    }
+                    if (this.namesJSON.First[gender][this.racesJSON[this.genRace].mainRace]) {
+                        firstNames = firstNames.concat(this.namesJSON.First[gender][this.racesJSON[this.genRace].mainRace]);
+                    }
                 }
             });
         }
@@ -738,14 +768,26 @@ class NPCGenerator extends FormApplication {
 
         // Last Name
         let lastNames = [];
-        if (this.namesJSON.Last.All) {
-            lastNames = lastNames.concat(this.namesJSON.Last.All);
-        }
-        if (this.namesJSON.Last[this.genRace]) {
-            lastNames = lastNames.concat(this.namesJSON.Last[this.genRace]);
-        }
-        if (this.namesJSON.Last[this.racesJSON[this.genRace].mainRace]) {
-            lastNames = lastNames.concat(this.namesJSON.Last[this.racesJSON[this.genRace].mainRace]);
+        /** @type {String[]} */
+        let nameForced =
+            difference(
+                game.settings.get("npcgen", "registeredRaces")[0].map(string => `Race${string}LastNameForced`),
+                filter(this.disabledBoxes, string => { return string.includes("LastNameForced"); })
+            );
+        if (nameForced.length !== 0) {
+            nameForced.forEach(raceDirty => {
+                lastNames = lastNames.concat(this.namesJSON.Last[raceDirty.replace("Race", "").replace("LastNameForced", "")]);
+            });
+        } else {
+            if (this.namesJSON.Last.All) {
+                lastNames = lastNames.concat(this.namesJSON.Last.All);
+            }
+            if (this.namesJSON.Last[this.genRace]) {
+                lastNames = lastNames.concat(this.namesJSON.Last[this.genRace]);
+            }
+            if (this.namesJSON.Last[this.racesJSON[this.genRace].mainRace]) {
+                lastNames = lastNames.concat(this.namesJSON.Last[this.racesJSON[this.genRace].mainRace]);
+            }
         }
         this.genLastName = sample(lastNames);
 
@@ -865,13 +907,13 @@ class NPCGenerator extends FormApplication {
             actorOptions.type = "character";
         } else {
             actorOptions.type = "npc";
-            actorOptions.data.details.type = d.genRace
-            actorOptions.data.details.biography.value = 
-            `<p>${game.i18n.localize('npcGen.proficiencies')}: ` +
-            d.genProficiencies.slice(0, -1).replace(/\r?\n/g, ", ") + "\n</p>" +
-            "<p>&nbsp;\n</p>" +
-            `<p>${game.i18n.localize('npcGen.profession')}: ${d.genProfession}</p>\n` +
-            biography
+            actorOptions.data.details.type = d.genRace;
+            actorOptions.data.details.biography.value =
+                `<p>${game.i18n.localize('npcGen.proficiencies')}: ` +
+                d.genProficiencies.slice(0, -1).replace(/\r?\n/g, ", ") + "\n</p>" +
+                "<p>&nbsp;\n</p>" +
+                `<p>${game.i18n.localize('npcGen.profession')}: ${d.genProfession}</p>\n` +
+                biography;
         }
 
 
@@ -1463,10 +1505,30 @@ Hooks.once('init', () => {
         return true;
     });
 
+    // handlebars helper that keeps disabled checkboxes off
+    Handlebars.registerHelper('ischeckboxonextended', function (name, data) {
+        const prefixes = ["Gender", "Trait", "Profession", "RelationshipStatus", "Orientation", "Race", "Class"];
+
+        for (let prefix of prefixes) {
+            if (data.data.root.disabledBoxes.includes(prefix + name)) {
+                return false;
+            }
+        }
+
+        if (difference(game.settings.get("npcgen", "registeredRaces")[0], globalRacesList).length !== 0) {
+            setTimeout(() => game.settings.set("npcgen", "registeredRaces", globalRacesList), 1000);
+            return false;
+        }
+
+        return true;
+    });
+
     // handlebars helper for getting probability weight
     Handlebars.registerHelper('npcGenProbWeight', function (name, type, data) {
         if (Object.keys(data.data.root.weights).includes("Prob" + type + name)) {
             return data.data.root.weights["Prob" + type + name];
+        } else if (type === "Trait") {
+            return 3;
         } else {
             return 1;
         }
@@ -1474,6 +1536,14 @@ Hooks.once('init', () => {
 
     // init variable for unsaved watcher
     window.npcGen = window.npcGen || {};
+
+    // helper for checking for new races
+    game.settings.register("npcgen", "registeredRaces", {
+        scope: "client",
+        config: false,
+        type: Array,
+        default: []
+    });
 
     // settings for saving unchecked boxes
     game.settings.register("npcgen", "disabledBoxes", {

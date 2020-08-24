@@ -1,5 +1,15 @@
 # Patch Notes
 
+## Version 0.1.0
+
+* Changed traits number from weight to amount since weight wasn't doing anything with traits.
+* Added extra checkboxes for forcing first or last name from certain race.
+* Clarify settings in editor.
+
+&nbsp;
+
+* Fix typing mistake in custom-only settings.
+
 ## Version 0.0.14
 
 * Fix breaking change

@@ -55,8 +55,6 @@
 
                 </div>
 
-                <!-- <div class="npc-generator-box top right spacer"></div> -->
-
                 <!-- traits -->
                 <div class="npc-generator-box top">
 
@@ -70,7 +68,7 @@
                             {{#each personalityTraits}}
 
                             <div>
-                                <input name="ProbTrait{{this}}" id="Prob{{this}}" title="{{localize "npcGen.probability"}}" type="number" min="1" value="{{npcGenProbWeight this "Trait"}}">
+                                <input name="ProbTrait{{this}}" id="Prob{{this}}" title="{{localize "npcGen.amount"}}" type="number" min="1" value="{{npcGenProbWeight this "Trait"}}">
                                 <input name="Trait{{this}}" id="{{this}}" type="checkbox" {{#if (ischeckboxon this)}}checked{{/if}}>
                                 <label for="{{this}}">{{this}}</label>
                             </div>
@@ -81,8 +79,6 @@
                     </div>
 
                 </div>
-
-                <!-- <div class="npc-generator-box top right spacer"></div> -->
 
                 <!-- profession -->
                 <div class="npc-generator-box top">
@@ -109,8 +105,6 @@
 
                 </div>
 
-                <!-- <div class="npc-generator-box top right spacer"></div> -->
-
                 <!-- relationship -->
                 <div class="npc-generator-box top">
 
@@ -136,10 +130,8 @@
 
                 </div>
 
-                <!-- <div class="npc-generator-box top right spacer"></div> -->
-
                 <!-- orientation -->
-                <div class="npc-generator-box top">
+                <div class="npc-generator-box top right">
 
                     <div class="npc-generator-box-header-rotated">
                         <h3 style="margin-top: 5px; margin-bottom: 5px;">{{localize "npcGen.orientation"}}</h3>
@@ -163,8 +155,6 @@
 
                 </div>
 
-                <!-- <div class="npc-generator-box top right spacer"></div> -->
-
             </div>
 
             <div style="overflow-x: hidden;">
@@ -184,10 +174,15 @@
 
                             {{#each races}}
 
-                            <div>
+                            <div style="display: flex;">
                                 <input name="ProbRace{{this}}" id="Prob{{this}}" title="{{localize "npcGen.probability"}}" type="number" min="1" value="{{npcGenProbWeight this "Race"}}">
                                 <input name="Race{{this}}" id="{{this}}" type="checkbox" {{#if (ischeckboxon this)}}checked{{/if}}>
-                                <label for="{{this}}">{{this}}</label>
+                                <label style="align-self: center;" for="{{this}}">{{this}}</label>
+                                <div class="nameForcedDiv">
+                                    &nbsp;
+                                    <input name="Race{{this}}FirstNameForced" class="nameForced" title="{{localize "npcGen.forceFirstName"}}" id="{{this}}FirstNameForced" type="checkbox" {{#if (ischeckboxonextended (concat this "FirstNameForced"))}}checked{{/if}}>
+                                    <input name="Race{{this}}LastNameForced" class="nameForced" title="{{localize "npcGen.forceLastName"}}" id="{{this}}LastNameForced" type="checkbox" {{#if (ischeckboxonextended (concat this "LastNameForced"))}}checked{{/if}}>
+                                </div>
                             </div>
 
                             {{/each}}

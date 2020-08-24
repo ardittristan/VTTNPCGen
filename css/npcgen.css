@@ -133,6 +133,14 @@
     flex-direction: column;
 }
 
+.npc-generator-list .nameForced {
+    margin: 0;
+}
+
+.npc-generator-list .nameForcedDiv {
+    margin-left: auto;
+}
+
 .npc-generator-list input[type="checkbox"] {
     vertical-align: middle;
 }
@@ -261,6 +269,11 @@
     left: 0;
     bottom: 0;
     width: 1em;
+}
+
+.npc-generator-box input[type="number"] {
+    height: 75%;
+    align-self: center;
 }
 
 .npc-generator-box.plothook {
