@@ -269,6 +269,7 @@
     left: 0;
     bottom: 0;
     width: 1em;
+    -webkit-appearance: inner-spin-button;
 }
 
 .npc-generator-box input[type="number"] {

@@ -1,5 +1,10 @@
 # Patch Notes
 
+## Version 0.1.1
+
+* Add check to skills in generator.
+* Fix css
+
 ## Version 0.1.0
 
 * Changed traits number from weight to amount since weight wasn't doing anything with traits.

@@ -1,4 +1,5 @@
 ![GitHub All Releases](https://img.shields.io/github/downloads/ardittristan/VTTNPCGen/total)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-Green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TF3LJHWV9U7HN)
 
 # Not Enough NPCs
 
@@ -23,3 +24,7 @@ If you don't want to use the default data but only your custom data. You can tog
 ## Changelog
 
 Check the [Changelog](https://github.com/ardittristan/VTTNPCGen/blob/master/CHANGELOG.md)
+
+## Credits
+
+A lot of the generator data comes from [Cellule/dndGenerator](https://github.com/Cellule/dndGenerator)

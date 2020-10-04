@@ -213,7 +213,7 @@ class NPCGenerator extends FormApplication {
             classes: ["sheet"],
             closeOnSubmit: false,
             resizable: true,
-            width: 1181
+            width: 1205
         });
     }
 
@@ -302,7 +302,7 @@ class NPCGenerator extends FormApplication {
         return data;
     }
 
-    /** 
+    /**
      * Executes on form submission.
      * @param {Event} _e - the form submission event
      * @param {Object} d - the form data
@@ -358,9 +358,9 @@ class NPCGenerator extends FormApplication {
 
         html.find('input[type="number"]').each((_, e) => {
             jQuery(e).on('input', (e) => {
-                e.originalEvent.target.style.width = (e.originalEvent.target.value.length + 1) + 'em';
+                e.originalEvent.target.style.width = (e.originalEvent.target.value.length + 1.2) + 'em';
             });
-            e.style.width = (e.value.length + 1) + 'em';
+            e.style.width = (e.value.length + 1.2) + 'em';
         });
 
         html.find('.npc-generator-big-box').find('textarea').each(function () {
@@ -808,8 +808,10 @@ class NPCGenerator extends FormApplication {
         });
 
         // saving throws
-        d.genSaveThrows.slice(0, -2).split(", ").forEach((/** @type {String} */ability) => {
-            abilities[ability.toLowerCase()].proficient = 1;
+        d.genSaveThrows.trim().slice(0, -1).split(", ").forEach((/** @type {String} */ability) => {
+            if (abilities[ability.toLowerCase()] !== undefined) {
+                abilities[ability.toLowerCase()].proficient = 1;
+            }
         });
 
         // set biography
@@ -840,9 +842,11 @@ class NPCGenerator extends FormApplication {
         // set skills
         let skills = {};
         let classSkills = [];
-        d.genSkills.slice(0, -2).split(", ").forEach((/** @type {String} */skill) => {
-            classSkills.push(this.listJSON.Skills[skill]);
-            skills[this.listJSON.Skills[skill]] = { value: 1 };
+        d.genSkills.trim().slice(0, -1).split(", ").forEach((/** @type {String} */skill) => {
+            if (this.listJSON.Skills[skill]) {
+                classSkills.push(this.listJSON.Skills[skill]);
+                skills[this.listJSON.Skills[skill]] = { value: 1 };
+            }
         });
 
         // set class
@@ -1332,8 +1336,8 @@ function inchesToFeet(inches) {
 }
 
 /**
- * 
- * @param {Number} raw 
+ *
+ * @param {Number} raw
  */
 function calculateAbilityMod(raw) {
     return Math.ceil(raw / 2) - 5;
