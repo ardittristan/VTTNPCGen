@@ -1265,7 +1265,10 @@ class GeneratorWindow extends FormApplication {
             exec: this.sendToSettings
         });
         this.editorArray[name].getSession().on('change', () => { if (this.unsaved === false) { this.unsaved = true; } });
-
+        new ResizeObserver(() => {
+            this.editorArray[name].resize();
+            this.editorArray[name].renderer.updateFull();
+        }).observe(this.editorArray[name].container);
     }
     /**
      * @param  {JQuery} html

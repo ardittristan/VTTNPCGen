@@ -1,5 +1,9 @@
 # Patch Notes
 
+## Version 0.1.2
+
+* Fix json editor not resizing.
+
 ## Version 0.1.1
 
 * Add check to skills in generator.
