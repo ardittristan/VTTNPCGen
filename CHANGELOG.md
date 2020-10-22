@@ -1,5 +1,9 @@
 # Patch Notes
 
+## Version 0.1.3
+
+* Push compatible core version.
+
 ## Version 0.1.2
 
 * Fix json editor not resizing.
