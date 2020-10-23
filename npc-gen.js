@@ -895,10 +895,10 @@ class NPCGenerator extends FormApplication {
                 traits: {
                     size: this.listJSON.Sizes[this.racesJSON[d.genRace].height.size],
                     languages: {
-                        custom: d.genLanguages.slice(0, -2).replace(",", ";")
+                        custom: d.genLanguages.trim().slice(0, -1).replace(",", ";")
                     },
                     weaponProf: {
-                        custom: d.genProficiencies.slice(0, -1).replace(/\r?\n/g, ";")
+                        custom: d.genProficiencies.trim().slice(0, -1).replace(/\r?\n/g, ";")
                     }
                 }
             },
@@ -914,7 +914,7 @@ class NPCGenerator extends FormApplication {
             actorOptions.data.details.type = d.genRace;
             actorOptions.data.details.biography.value =
                 `<p>${game.i18n.localize('npcGen.proficiencies')}: ` +
-                d.genProficiencies.slice(0, -1).replace(/\r?\n/g, ", ") + "\n</p>" +
+                d.genProficiencies.trim().slice(0, -1).replace(/\r?\n/g, ", ") + "\n</p>" +
                 "<p>&nbsp;\n</p>" +
                 `<p>${game.i18n.localize('npcGen.profession')}: ${d.genProfession}</p>\n` +
                 biography;

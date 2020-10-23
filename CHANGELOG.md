@@ -1,5 +1,9 @@
 # Patch Notes
 
+## Version 0.1.4
+
+* Fix languages being cut too much sometimes.
+
 ## Version 0.1.3
 
 * Push compatible core version.
