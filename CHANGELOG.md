@@ -1,5 +1,9 @@
 # Patch Notes
 
+## Version 0.1.5
+
+* Fix ace for firefox.
+
 ## Version 0.1.4
 
 * Fix languages being cut too much sometimes.
