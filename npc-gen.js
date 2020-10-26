@@ -25,13 +25,22 @@ function getRunningScript() {
         return new Error().stack.match(/([^ \n])*([a-z]*:\/\/\/?)*?[a-z0-9\/\\]*\.js/ig)[0];
     };
 }
+
+function loadScript(path) {
+    const s = document.createElement("script");
+    s.src = path;
+    $(document.head).append(s);
+}
+
 /**
  * @param  {String[]} stringArray
  */
 function setAceModules(stringArray) {
     stringArray.forEach((data) => {
         ace.config.setModuleUrl(data[0], scriptLocation.concat(data[1]));
-        ace.config.loadModule(data[0]);
+        // ace.config.loadModule(data[0])
+        // firefox workaround
+        loadScript(ace.config.moduleUrl(data[0]).replace("getRunningScript/<@", ""));
     });
 }
 
