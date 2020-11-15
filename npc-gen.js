@@ -1524,6 +1524,10 @@ Hooks.once("init", () => {
       return false;
     }
 
+    if (data.data.root.disabledBoxes.includes(name)) {
+      return false;
+    }
+
     return true;
   });
 

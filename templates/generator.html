@@ -18,7 +18,7 @@
                     </div>
 
                     <div class="npc-generator-box top" >
-                        <input name="useSubclass" type="checkbox" style="vertical-align: middle;">
+                        <input name="useSubclass" id="useSubclass" type="checkbox" style="vertical-align: middle;" {{#if (ischeckboxonextended "useSubclass")}}checked{{/if}}>
                         <label for="useSubclass">{{localize "npcGen.useSubclass"}}</label>
                     </div>
 
