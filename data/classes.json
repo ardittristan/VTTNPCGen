@@ -1,571 +1,222 @@
 {
-    "Barbarian": {
-        "source": "PHB",
-        "hp": "1d12",
-        "proficiencies": {
-            "Armor": [
-                "Light Armor",
-                "Medium Armor",
-                "Shields"
-            ],
-            "Weapons": [
-                "Simple Weapons",
-                "Martial Weapons"
-            ],
-            "Saving Throws": [
-                "Str",
-                "Con"
-            ],
-            "Skills": [
-                [
-                    "Animal Handling",
-                    "Athletics",
-                    "Intimidation",
-                    "Nature",
-                    "Perception",
-                    "Survival"
-                ],
-                [
-                    "Animal Handling",
-                    "Athletics",
-                    "Intimidation",
-                    "Nature",
-                    "Perception",
-                    "Survival"
-                ]
-            ]
-        },
-        "subclasses": {
-            "Beserker": {
-                "source": "PHB"
-            }
-        }
+  "Barbarian": {
+    "source": "PHB",
+    "hp": "1d12",
+    "proficiencies": {
+      "Armor": ["Light Armor", "Medium Armor", "Shields"],
+      "Weapons": ["Simple Weapons", "Martial Weapons"],
+      "Saving Throws": ["Str", "Con"],
+      "Skills": [
+        ["Animal Handling", "Athletics", "Intimidation", "Nature", "Perception", "Survival"],
+        ["Animal Handling", "Athletics", "Intimidation", "Nature", "Perception", "Survival"]
+      ]
     },
-    "Bard": {
-        "source": "PHB",
-        "hp": "1d8",
-        "proficiencies": {
-            "Armor": [
-                "Light Armor"
-            ],
-            "Weapons": [
-                "Simple Weapons",
-                "Hand Crossbows",
-                "Longswords",
-                "Rapiers",
-                "Shortswords"
-            ],
-            "Tools": [
-                "Musical Instrument",
-                "Musical Instrument",
-                "Musical Instrument"
-            ],
-            "Saving Throws": [
-                "Dex",
-                "Cha"
-            ],
-            "Skills": [
-                [
-                    "Any"
-                ],
-                [
-                    "Any"
-                ],
-                [
-                    "Any"
-                ]
-            ]
-        },
-        "subclasses": {
-            "College of Lore": {
-                "source": "PHB"
-            }
-        }
-    },
-    "Cleric": {
-        "source": "PHB",
-        "hp": "1d8",
-        "proficiencies": {
-            "Armor": [
-                "Light Armor",
-                "Medium Armor",
-                "Shields"
-            ],
-            "Weapons": [
-                "Simple Weapons"
-            ],
-            "Saving Throws": [
-                "Wis",
-                "Cha"
-            ],
-            "Skills": [
-                [
-                    "History",
-                    "Insight",
-                    "Medicine",
-                    "Persuasion",
-                    "Religion"
-                ],
-                [
-                    "History",
-                    "Insight",
-                    "Medicine",
-                    "Persuasion",
-                    "Religion"
-                ]
-            ]
-        },
-        "subclasses": {
-            "Life": {
-                "source": "PHB",
-                "proficiencies": {
-                    "Armor": [
-                        "Heavy Armor"
-                    ]
-                }
-            }
-        }
-    },
-    "Druid": {
-        "source": "PHB",
-        "hp": "1d8",
-        "proficiencies": {
-            "Armor": [
-                "Light Armor",
-                "Medium Armor",
-                "Shields"
-            ],
-            "Weapons": [
-                "Clubs",
-                "Daggers",
-                "Darts",
-                "Javelins",
-                "Maces",
-                "Quarterstaffs",
-                "Scimitars",
-                "Sickles",
-                "Slings",
-                "Spears"
-            ],
-            "Tools": [
-                "Herbalism Kit"
-            ],
-            "Saving Throws": [
-                "Int",
-                "Wis"
-            ],
-            "Skills": [
-                [
-                    "Arcana",
-                    "Animal Handling",
-                    "Insight",
-                    "Medicine",
-                    "Nature",
-                    "Perception",
-                    "Religion",
-                    "Survival"
-                ],
-                [
-                    "Arcana",
-                    "Animal Handling",
-                    "Insight",
-                    "Medicine",
-                    "Nature",
-                    "Perception",
-                    "Religion",
-                    "Survival"
-                ]
-            ]
-        },
-        "subclasses": {
-            "Circle of the Land": {
-                "source": "PHB"
-            }
-        }
-    },
-    "Fighter": {
-        "source": "PHB",
-        "hp": "1d10",
-        "proficiencies": {
-            "Armor": [
-                "All Armor",
-                "Shields"
-            ],
-            "Weapons": [
-                "Simple Weapons",
-                "Martial Weapons"
-            ],
-            "Saving Throws": [
-                "Str",
-                "Con"
-            ],
-            "Skills": [
-                [
-                    "Acrobatics",
-                    "Animal Handling",
-                    "Athletics",
-                    "History",
-                    "Insight",
-                    "Intimidation",
-                    "Perception",
-                    "Survival"
-                ],
-                [
-                    "Acrobatics",
-                    "Animal Handling",
-                    "Athletics",
-                    "History",
-                    "Insight",
-                    "Intimidation",
-                    "Perception",
-                    "Survival"
-                ]
-            ]
-        },
-        "subclasses": {
-            "Champion": {
-                "source": "PHB"
-            }
-        }
-    },
-    "Monk": {
-        "source": "PHB",
-        "hp": "1d8",
-        "proficiencies": {
-            "Weapons": [
-                "Simple Weapons",
-                "Shortswords"
-            ],
-            "Tools": [
-                "Artisan's toos/musical instrument"
-            ],
-            "Saving Throws": [
-                "Str",
-                "Dex"
-            ],
-            "Skills": [
-                [
-                    "Acrobatics",
-                    "Athletics",
-                    "History",
-                    "Insight",
-                    "Religion",
-                    "Stealth"
-                ],
-                [
-                    "Acrobatics",
-                    "Athletics",
-                    "History",
-                    "Insight",
-                    "Religion",
-                    "Stealth"
-                ]
-            ]
-        },
-        "subclasses": {
-            "Way of the Open Hand": {
-                "source": "PHB"
-            }
-        }
-    },
-    "Paladin": {
-        "source": "PHB",
-        "hp": "1d10",
-        "proficiencies": {
-            "Armor": [
-                "All Armor",
-                "Shields"
-            ],
-            "Weapons": [
-                "Simple Weapons",
-                "Martial Weapons"
-            ],
-            "Saving Throws": [
-                "Wis",
-                "Cha"
-            ],
-            "Skills": [
-                [
-                    "Athletics",
-                    "Insight",
-                    "Intimidation",
-                    "Medicine",
-                    "Persuasion",
-                    "Religion"
-                ],
-                [
-                    "Athletics",
-                    "Insight",
-                    "Intimidation",
-                    "Medicine",
-                    "Persuasion",
-                    "Religion"
-                ]
-            ]
-        },
-        "subclasses": {
-            "Oath of Devotion": {
-                "source": "PHB"
-            }
-        }
-    },
-    "Ranger": {
-        "source": "PHB",
-        "hp": "1d10",
-        "proficiencies": {
-            "Armor": [
-                "Light Armor",
-                "Medium Armor",
-                "Shields"
-            ],
-            "Weapons": [
-                "Simple Weapons",
-                "Martial Weapons"
-            ],
-            "Saving Throws": [
-                "Str",
-                "Dex"
-            ],
-            "Skills": [
-                [
-                    "Animal Handling",
-                    "Athletics",
-                    "Insight",
-                    "Investigation",
-                    "Nature",
-                    "Perception",
-                    "Stealth",
-                    "Survival"
-                ],
-                [
-                    "Animal Handling",
-                    "Athletics",
-                    "Insight",
-                    "Investigation",
-                    "Nature",
-                    "Perception",
-                    "Stealth",
-                    "Survival"
-                ],
-                [
-                    "Animal Handling",
-                    "Athletics",
-                    "Insight",
-                    "Investigation",
-                    "Nature",
-                    "Perception",
-                    "Stealth",
-                    "Survival"
-                ]
-            ]
-        },
-        "subclasses": {
-            "Hunter": {
-                "source": "PHB"
-            }
-        }
-    },
-    "Rogue": {
-        "source": "PHB",
-        "hp": "1d8",
-        "proficiencies": {
-            "Armor": [
-                "Light Armor"
-            ],
-            "Weapons": [
-                "Simple Weapons",
-                "Hand Crossbows",
-                "Longswords",
-                "Rapiers",
-                "Shortswords"
-            ],
-            "Tools": [
-                "Thieves' Tools"
-            ],
-            "Saving Throws": [
-                "Dex",
-                "Int"
-            ],
-            "Skills": [
-                [
-                    "Acrobatics",
-                    "Athletics",
-                    "Deception",
-                    "Insight",
-                    "Intimidation",
-                    "Investigation",
-                    "Perception",
-                    "Performance",
-                    "Persuasion",
-                    "Sleight of Hand",
-                    "Stealth"
-                ],
-                [
-                    "Acrobatics",
-                    "Athletics",
-                    "Deception",
-                    "Insight",
-                    "Intimidation",
-                    "Investigation",
-                    "Perception",
-                    "Performance",
-                    "Persuasion",
-                    "Sleight of Hand",
-                    "Stealth"
-                ],
-                [
-                    "Acrobatics",
-                    "Athletics",
-                    "Deception",
-                    "Insight",
-                    "Intimidation",
-                    "Investigation",
-                    "Perception",
-                    "Performance",
-                    "Persuasion",
-                    "Sleight of Hand",
-                    "Stealth"
-                ],
-                [
-                    "Acrobatics",
-                    "Athletics",
-                    "Deception",
-                    "Insight",
-                    "Intimidation",
-                    "Investigation",
-                    "Perception",
-                    "Performance",
-                    "Persuasion",
-                    "Sleight of Hand",
-                    "Stealth"
-                ]
-            ]
-        },
-        "subclasses": {
-            "Thief": {
-                "source": "PHB"
-            }
-        }
-    },
-    "Sorcerer": {
-        "source": "PHB",
-        "hp": "1d6",
-        "proficiencies": {
-            "Weapons": [
-                "Daggers",
-                "Darts",
-                "Slings",
-                "Quarterstaffs",
-                "Light Crossbows"
-            ],
-            "Saving Throws": [
-                "Con",
-                "Cha"
-            ],
-            "Skills": [
-                [
-                    "Arcana",
-                    "Deception",
-                    "Insight",
-                    "Intimidation",
-                    "Persuasion",
-                    "Religion"
-                ],
-                [
-                    "Arcana",
-                    "Deception",
-                    "Insight",
-                    "Intimidation",
-                    "Persuasion",
-                    "Religion"
-                ]
-            ]
-        },
-        "subclasses": {
-            "Draconic Bloodline": {
-                "source": "PHB"
-            }
-        }
-    },
-    "Warlock": {
-        "source": "PHB",
-        "hp": "1d8",
-        "proficiencies": {
-            "Armor": [
-                "Light Armor"
-            ],
-            "Weapons": [
-                "Simple Weapons"
-            ],
-            "Saving Throws": [
-                "Wis",
-                "Cha"
-            ],
-            "Skills": [
-                [
-                    "Arcana",
-                    "Deception",
-                    "History",
-                    "Intimidation",
-                    "Investigation",
-                    "Nature",
-                    "Religion"
-                ],
-                [
-                    "Arcana",
-                    "Deception",
-                    "History",
-                    "Intimidation",
-                    "Investigation",
-                    "Nature",
-                    "Religion"
-                ]
-            ]
-        },
-        "subclasses": {
-            "The Fiend": {
-                "source": "PHB"
-            }
-        }
-    },
-    "Wizard": {
-        "source": "PHB",
-        "hp": "1d6",
-        "proficiencies": {
-            "Weapons": [
-                "Daggers",
-                "Darts",
-                "Slings",
-                "Quarterstaffs",
-                "Light Crossbows"
-            ],
-            "Saving Throws": [
-                "Int",
-                "Wis"
-            ],
-            "Skills": [
-                [
-                    "Arcana",
-                    "History",
-                    "Insight",
-                    "Investigation",
-                    "Medicine",
-                    "Religion"
-                ],
-                [
-                    "Arcana",
-                    "History",
-                    "Insight",
-                    "Investigation",
-                    "Medicine",
-                    "Religion"
-                ]
-            ]
-        },
-        "subclasses": {
-            "School of Evocation": {
-                "source": "PHB"
-            }
-        }
+    "subclasses": {
+      "Beserker": {
+        "source": "PHB"
+      }
     }
+  },
+  "Bard": {
+    "source": "PHB",
+    "hp": "1d8",
+    "proficiencies": {
+      "Armor": ["Light Armor"],
+      "Weapons": ["Simple Weapons", "Hand Crossbows", "Longswords", "Rapiers", "Shortswords"],
+      "Tools": ["Musical Instrument", "Musical Instrument", "Musical Instrument"],
+      "Saving Throws": ["Dex", "Cha"],
+      "Skills": [["Any"], ["Any"], ["Any"]]
+    },
+    "subclasses": {
+      "College of Lore": {
+        "source": "PHB"
+      }
+    }
+  },
+  "Cleric": {
+    "source": "PHB",
+    "hp": "1d8",
+    "proficiencies": {
+      "Armor": ["Light Armor", "Medium Armor", "Shields"],
+      "Weapons": ["Simple Weapons"],
+      "Saving Throws": ["Wis", "Cha"],
+      "Skills": [
+        ["History", "Insight", "Medicine", "Persuasion", "Religion"],
+        ["History", "Insight", "Medicine", "Persuasion", "Religion"]
+      ]
+    },
+    "subclasses": {
+      "Life": {
+        "source": "PHB",
+        "proficiencies": {
+          "Armor": ["Heavy Armor"]
+        }
+      }
+    }
+  },
+  "Druid": {
+    "source": "PHB",
+    "hp": "1d8",
+    "proficiencies": {
+      "Armor": ["Light Armor", "Medium Armor", "Shields"],
+      "Weapons": ["Clubs", "Daggers", "Darts", "Javelins", "Maces", "Quarterstaffs", "Scimitars", "Sickles", "Slings", "Spears"],
+      "Tools": ["Herbalism Kit"],
+      "Saving Throws": ["Int", "Wis"],
+      "Skills": [
+        ["Arcana", "Animal Handling", "Insight", "Medicine", "Nature", "Perception", "Religion", "Survival"],
+        ["Arcana", "Animal Handling", "Insight", "Medicine", "Nature", "Perception", "Religion", "Survival"]
+      ]
+    },
+    "subclasses": {
+      "Circle of the Land": {
+        "source": "PHB"
+      }
+    }
+  },
+  "Fighter": {
+    "source": "PHB",
+    "hp": "1d10",
+    "proficiencies": {
+      "Armor": ["All Armor", "Shields"],
+      "Weapons": ["Simple Weapons", "Martial Weapons"],
+      "Saving Throws": ["Str", "Con"],
+      "Skills": [
+        ["Acrobatics", "Animal Handling", "Athletics", "History", "Insight", "Intimidation", "Perception", "Survival"],
+        ["Acrobatics", "Animal Handling", "Athletics", "History", "Insight", "Intimidation", "Perception", "Survival"]
+      ]
+    },
+    "subclasses": {
+      "Champion": {
+        "source": "PHB"
+      }
+    }
+  },
+  "Monk": {
+    "source": "PHB",
+    "hp": "1d8",
+    "proficiencies": {
+      "Weapons": ["Simple Weapons", "Shortswords"],
+      "Tools": ["Artisan's toos/musical instrument"],
+      "Saving Throws": ["Str", "Dex"],
+      "Skills": [
+        ["Acrobatics", "Athletics", "History", "Insight", "Religion", "Stealth"],
+        ["Acrobatics", "Athletics", "History", "Insight", "Religion", "Stealth"]
+      ]
+    },
+    "subclasses": {
+      "Way of the Open Hand": {
+        "source": "PHB"
+      }
+    }
+  },
+  "Paladin": {
+    "source": "PHB",
+    "hp": "1d10",
+    "proficiencies": {
+      "Armor": ["All Armor", "Shields"],
+      "Weapons": ["Simple Weapons", "Martial Weapons"],
+      "Saving Throws": ["Wis", "Cha"],
+      "Skills": [
+        ["Athletics", "Insight", "Intimidation", "Medicine", "Persuasion", "Religion"],
+        ["Athletics", "Insight", "Intimidation", "Medicine", "Persuasion", "Religion"]
+      ]
+    },
+    "subclasses": {
+      "Oath of Devotion": {
+        "source": "PHB"
+      }
+    }
+  },
+  "Ranger": {
+    "source": "PHB",
+    "hp": "1d10",
+    "proficiencies": {
+      "Armor": ["Light Armor", "Medium Armor", "Shields"],
+      "Weapons": ["Simple Weapons", "Martial Weapons"],
+      "Saving Throws": ["Str", "Dex"],
+      "Skills": [
+        ["Animal Handling", "Athletics", "Insight", "Investigation", "Nature", "Perception", "Stealth", "Survival"],
+        ["Animal Handling", "Athletics", "Insight", "Investigation", "Nature", "Perception", "Stealth", "Survival"],
+        ["Animal Handling", "Athletics", "Insight", "Investigation", "Nature", "Perception", "Stealth", "Survival"]
+      ]
+    },
+    "subclasses": {
+      "Hunter": {
+        "source": "PHB"
+      }
+    }
+  },
+  "Rogue": {
+    "source": "PHB",
+    "hp": "1d8",
+    "proficiencies": {
+      "Armor": ["Light Armor"],
+      "Weapons": ["Simple Weapons", "Hand Crossbows", "Longswords", "Rapiers", "Shortswords"],
+      "Tools": ["Thieves' Tools"],
+      "Saving Throws": ["Dex", "Int"],
+      "Skills": [
+        ["Acrobatics", "Athletics", "Deception", "Insight", "Intimidation", "Investigation", "Perception", "Performance", "Persuasion", "Sleight of Hand", "Stealth"],
+        ["Acrobatics", "Athletics", "Deception", "Insight", "Intimidation", "Investigation", "Perception", "Performance", "Persuasion", "Sleight of Hand", "Stealth"],
+        ["Acrobatics", "Athletics", "Deception", "Insight", "Intimidation", "Investigation", "Perception", "Performance", "Persuasion", "Sleight of Hand", "Stealth"],
+        ["Acrobatics", "Athletics", "Deception", "Insight", "Intimidation", "Investigation", "Perception", "Performance", "Persuasion", "Sleight of Hand", "Stealth"]
+      ]
+    },
+    "subclasses": {
+      "Thief": {
+        "source": "PHB"
+      }
+    }
+  },
+  "Sorcerer": {
+    "source": "PHB",
+    "hp": "1d6",
+    "proficiencies": {
+      "Weapons": ["Daggers", "Darts", "Slings", "Quarterstaffs", "Light Crossbows"],
+      "Saving Throws": ["Con", "Cha"],
+      "Skills": [
+        ["Arcana", "Deception", "Insight", "Intimidation", "Persuasion", "Religion"],
+        ["Arcana", "Deception", "Insight", "Intimidation", "Persuasion", "Religion"]
+      ]
+    },
+    "subclasses": {
+      "Draconic Bloodline": {
+        "source": "PHB"
+      }
+    }
+  },
+  "Warlock": {
+    "source": "PHB",
+    "hp": "1d8",
+    "proficiencies": {
+      "Armor": ["Light Armor"],
+      "Weapons": ["Simple Weapons"],
+      "Saving Throws": ["Wis", "Cha"],
+      "Skills": [
+        ["Arcana", "Deception", "History", "Intimidation", "Investigation", "Nature", "Religion"],
+        ["Arcana", "Deception", "History", "Intimidation", "Investigation", "Nature", "Religion"]
+      ]
+    },
+    "subclasses": {
+      "The Fiend": {
+        "source": "PHB"
+      }
+    }
+  },
+  "Wizard": {
+    "source": "PHB",
+    "hp": "1d6",
+    "proficiencies": {
+      "Weapons": ["Daggers", "Darts", "Slings", "Quarterstaffs", "Light Crossbows"],
+      "Saving Throws": ["Int", "Wis"],
+      "Skills": [
+        ["Arcana", "History", "Insight", "Investigation", "Medicine", "Religion"],
+        ["Arcana", "History", "Insight", "Investigation", "Medicine", "Religion"]
+      ]
+    },
+    "subclasses": {
+      "School of Evocation": {
+        "source": "PHB"
+      }
+    }
+  }
 }

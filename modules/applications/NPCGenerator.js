@@ -5,7 +5,7 @@ export default class NPCGenerator extends FormApplication {
   constructor(
     jsonOptions = {
       classesJSON: {},
-      languagesJSON: {},
+      languagesJSON: [],
       namesJSON: {},
       personalityTraitsJSON: {},
       plotHooksJSON: {},
