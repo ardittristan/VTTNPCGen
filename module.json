@@ -1,26 +1,27 @@
 {
-	"name": "npcgen",
-	"title": "Not Enough NPCs: A 5e NPC Generator",
-	"description": "Allows you to generate basic npc characters in foundry.",
-	"version": "0.1.6",
-	"author": "ardittristan#0001",
-	"esmodules": [ "npc-gen.js" ],
-	 "socket": true,
-    "url": "https://github.com/ardittristan/VTTNPCGen",
-    "manifest": "https://raw.githubusercontent.com/ardittristan/VTTNPCGen/master/module.json",
-    "download": "https://github.com/ardittristan/VTTNPCGen/releases/latest/download/nenpc.zip",
-	"minimumCoreVersion": "0.5.5",
-	"compatibleCoreVersion": "0.7.7",
-	"systems": ["dnd5e"],
-	"styles": [
+  "name": "npcgen",
+  "title": "Not Enough NPCs: A 5e NPC Generator",
+  "description": "Allows you to generate basic npc characters in foundry.",
+  "version": "0.1.6",
+  "author": "ardittristan#0001",
+  "esmodules": ["npc-gen.js"],
+  "socket": true,
+  "url": "https://github.com/ardittristan/VTTNPCGen",
+  "manifest": "https://raw.githubusercontent.com/ardittristan/VTTNPCGen/master/module.json",
+  "download": "https://github.com/ardittristan/VTTNPCGen/releases/latest/download/nenpc.zip",
+  "minimumCoreVersion": "0.5.5",
+  "compatibleCoreVersion": "0.7.7",
+  "systems": ["dnd5e"],
+  "styles": [
 		"css/npcgen.css",
-		"css/jsoneditor.css"
+		"css/jsoneditor.css",
+		"css/imagesettings.css"
 	],
-	"languages": [
-		{
-			"lang": "en",
-			"name": "English",
-			"path": "lang/en.json"
-		}
-	]
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ]
 }
