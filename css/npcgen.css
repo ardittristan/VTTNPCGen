@@ -1,294 +1,277 @@
 #actors .directory-footer .npc-generator-btn {
-    margin-top: 5px;
+  margin-top: 5px;
 }
 
 #actors .directory-footer .create-entity {
-    margin-top: 5px;
+  margin-top: 5px;
 }
 
 #actors .directory-footer .create-folder {
-    margin-top: 5px;
+  margin-top: 5px;
 }
 
 #actors .directory-footer {
-    display: block;
+  display: block;
 }
-
-
-
-
-
 
 #npcgenerator-menu.app.window-app.sheet {
-    max-height: 648px;
-    min-height: 648px;
+  max-height: 648px;
+  min-height: 648px;
 }
-
-
 
 .npc-generator-top {
-    display: flex;
-    flex-direction: row;
-    width: fit-content;
-    height: 20%;
-    margin-bottom: -2px;
-    border-bottom: thin solid black;
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  height: 20%;
+  margin-bottom: -2px;
+  border-bottom: thin solid black;
 }
 
-
-
 .npc-generator-header .npc-generator-box {
-    padding-right: 5px;
+  padding-right: 5px;
 }
 
 .npc-generator-box.header {
-    height: 100px;
-    padding-left: 5px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    float: none;
-    align-items: center;
-    text-align: center;
+  height: 100px;
+  padding-left: 5px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  float: none;
+  align-items: center;
+  text-align: center;
 }
 
 .npc-generator-header {
-    height: 150px;
-    width: max-content;
-    white-space: nowrap;
+  height: 150px;
+  width: max-content;
+  white-space: nowrap;
 }
 
 .npc-generator-header input[type="text"] {
-    text-align: center;
-    border-top-style: hidden;
-    border-right-style: hidden;
-    border-left-style: hidden;
-    border-bottom-style: hidden;
-    background-color: inherit;
-    font-weight: bold;
-    font-size: larger;
-    font-family: 'Vobes';
-    margin-left: -20px;
-    margin-right: -20px;
+  text-align: center;
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: hidden;
+  background-color: inherit;
+  font-weight: bold;
+  font-size: larger;
+  font-family: "Vobes";
+  margin-left: -20px;
+  margin-right: -20px;
 }
 
 .npc-generator-box.all {
-    border: thin solid black;
+  border: thin solid black;
 }
 
 .npc-generator-box.bottom {
-    border-bottom: thin solid black;
+  border-bottom: thin solid black;
 }
 
 .npc-generator-box.top {
-    border-top: thin solid black;
+  border-top: thin solid black;
 }
 
 .npc-generator-box.left {
-    border-left: thin solid black;
+  border-left: thin solid black;
 }
 
 .npc-generator-box.right {
-    border-right: thin solid black;
+  border-right: thin solid black;
 }
 
 .npc-generator-box-header {
-    border-bottom: thin solid black;
-    padding: 5px;
-    align-items: center;
-    justify-content: center;
-    display: flex;
+  border-bottom: thin solid black;
+  padding: 5px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
 }
 
 .npc-generator-box-header-rotated {
-    text-align: center;
-    margin-top: unset;
-    margin-bottom: unset;
-    margin-left: 5px;
-    margin-right: 5px;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    transform: rotate(-90deg);
-    width: 20px;
-    float: left;
-    pointer-events: none;
+  text-align: center;
+  margin-top: unset;
+  margin-bottom: unset;
+  margin-left: 5px;
+  margin-right: 5px;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  transform: rotate(-90deg);
+  width: 20px;
+  float: left;
+  pointer-events: none;
 }
 
 .npc-generator-flexrow {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    float: left;
-    height: 400px;
-    margin-bottom: 1px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  float: left;
+  height: 400px;
+  margin-bottom: 1px;
 }
 
 .npc-generator-list {
-    padding: 5px;
-    white-space: nowrap;
-    display: flex;
-    flex-direction: column;
+  padding: 5px;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
 }
 
 .npc-generator-list .nameForced {
-    margin: 0;
+  margin: 0;
 }
 
 .npc-generator-list .nameForcedDiv {
-    margin-left: auto;
+  margin-left: auto;
 }
 
 .npc-generator-list input[type="checkbox"] {
-    vertical-align: middle;
+  vertical-align: middle;
 }
 
 .npc-generator-bottom-button {
-    width: calc((100% - 4.5px * 3) / 3);
+  width: calc((100% - 4.5px * 3) / 3);
 }
 
 .npc-generator-box.spacer {
-    width: 50%;
+  width: 50%;
 }
 
 .npc-generator-top .npc-generator-list {
-    height: 150px;
-    margin-bottom: 0;
-    padding-bottom: 0;
-    overflow-y: scroll;
+  height: 150px;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  overflow-y: scroll;
 }
 
 .npc-generator-flexrow .npc-generator-list {
-    overflow-y: scroll;
+  overflow-y: scroll;
 }
 
-
-
-
-
-
-
 .npc-generator-big-box {
-    border: 2px solid black;
-    width: auto;
-    height: 100%;
-    overflow-y: scroll;
-    font-size: 110%;
+  border: 2px solid black;
+  width: auto;
+  height: 100%;
+  overflow-y: scroll;
+  font-size: 110%;
 }
 
 .npc-generator-big-box-inside {
-    padding: 5px;
-    display: flex;
-    flex-wrap: wrap;
+  padding: 5px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .npc-generator-big-box-inside input[type="text"] {
-    border-top-style: hidden;
-    border-right-style: hidden;
-    border-left-style: hidden;
-    border-bottom-style: hidden;
-    background-color: inherit;
-    font-family: 'Roboto Mono', Roboto, monospace;
-    margin-right: -16px;
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: hidden;
+  background-color: inherit;
+  font-family: "Roboto Mono", Roboto, monospace;
+  margin-right: -16px;
 }
 
 .npc-generator-big-box-inside input[type="text"]:hover,
 .npc-generator-big-box-inside input[type="text"]:focus {
-    border: hidden;
-    box-shadow: none;
+  border: hidden;
+  box-shadow: none;
 }
 
 .npc-generator-big-box-inside textarea {
-    border-top-style: hidden;
-    border-right-style: hidden;
-    border-left-style: hidden;
-    border-bottom-style: hidden;
-    background-color: inherit;
-    font-family: 'Roboto Mono', Roboto, monospace;
-    overflow-y: hidden;
-    resize: none;
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: hidden;
+  background-color: inherit;
+  font-family: "Roboto Mono", Roboto, monospace;
+  overflow-y: hidden;
+  resize: none;
 }
 
 .npc-generator-big-box-inside textarea:focus {
-    outline: none;
-    box-shadow: none;
+  outline: none;
+  box-shadow: none;
 }
 
-.npc-generator-big-box-inside>div.npc-generator-box {
-    width: fit-content;
-    height: fit-content;
-    margin-right: 5px;
-    margin-bottom: 5px;
+.npc-generator-big-box-inside > div.npc-generator-box {
+  width: fit-content;
+  height: fit-content;
+  margin-right: 5px;
+  margin-bottom: 5px;
 }
 
 .npc-generator-big-box-inside table {
-    margin: unset;
-    border-collapse: unset;
-    padding: 2px;
-    width: 100%;
+  margin: unset;
+  border-collapse: unset;
+  padding: 2px;
+  width: 100%;
 }
 
-.npc-generator-big-box-inside table>tbody>tr>td:first-child {
-    font-family: 'Voces';
-    padding-right: 2px;
+.npc-generator-big-box-inside table > tbody > tr > td:first-child {
+  font-family: "Voces";
+  padding-right: 2px;
 }
 
-.npc-generator-big-box-inside table>tbody>tr:first-child {
-    text-align: center;
-    font-family: 'Voces';
+.npc-generator-big-box-inside table > tbody > tr:first-child {
+  text-align: center;
+  font-family: "Voces";
 }
 
-.npc-generator-big-box-inside table.npc-skills>tbody>tr>td:first-child,
-.npc-generator-big-box-inside table.npc-proficiencies>tbody>tr>td:first-child,
-.npc-generator-big-box-inside table.npc-traits>tbody>tr>td:first-child,
-.npc-generator-big-box-inside table.npc-hook>tbody>tr>td:first-child {
-    font-family: unset;
-    text-align: center;
+.npc-generator-big-box-inside table.npc-skills > tbody > tr > td:first-child,
+.npc-generator-big-box-inside table.npc-proficiencies > tbody > tr > td:first-child,
+.npc-generator-big-box-inside table.npc-traits > tbody > tr > td:first-child,
+.npc-generator-big-box-inside table.npc-hook > tbody > tr > td:first-child {
+  font-family: unset;
+  text-align: center;
 }
-
-
 
 .npc-generator-box input[type="number"] {
-    position: relative;
-    border-top-style: hidden;
-    border-right-style: hidden;
-    border-left-style: hidden;
-    border-bottom-style: hidden;
-    background-color: inherit;
-    vertical-align: middle;
-    padding-left: 1.5em;
+  position: relative;
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: hidden;
+  background-color: inherit;
+  vertical-align: middle;
+  padding-left: 1.5em;
 }
 
 .npc-generator-box input[type="number"]::-webkit-inner-spin-button,
 .npc-generator-box input[type="number"]::-webkit-outer-spin-button {
-    opacity: 1;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 1em;
-    -webkit-appearance: inner-spin-button;
+  opacity: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 1em;
+  -webkit-appearance: inner-spin-button;
 }
 
 .npc-generator-box input[type="number"] {
-    height: 75%;
-    align-self: center;
+  height: 75%;
+  align-self: center;
 }
 
 .npc-generator-box.plothook {
-    overflow-x: auto;
+  overflow-x: auto;
 }
 
 .npc-generator-box.plothook table {
-    width: calc(100% - 1px);
+  width: calc(100% - 1px);
 }
 
 .plothookTable {
-    width: 100%;
+  width: 100%;
 }
 
 .npc-generator-box.plothook input {
-    width: fit-content;
+  width: fit-content;
 }
