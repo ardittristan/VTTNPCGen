@@ -53,5 +53,6 @@
     "npcGen.amount": "Amount",
     "npcGen.forceFirstName": "Force first names from this race to be used",
     "npcGen.forceLastName": "Force last names from this race to be used",
-    "npcGen.exampleDoubleClick": "Double click for an example"
+    "npcGen.exampleDoubleClick": "Double click for an example",
+    "npcGen.icon": "Icon"
 }

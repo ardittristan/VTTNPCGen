@@ -375,7 +375,7 @@
                                 <div class="npc-generator-box">
                                     <table class="npc-traits">
                                         <tr>
-                                            <td><b>{{localize "npcGen.traits"}}:</b></td>
+                                            <td><b>{{localize "npcGen.traits"}}</b></td>
                                         </tr>
                                         <tr>
                                             <td><textarea name="genTraits" form="npcgen-form">{{#each genTraits}}{{this}}
@@ -388,11 +388,26 @@
                                 <div class="npc-generator-box">
                                     <table class="npc-proficiencies">
                                         <tr>
-                                            <td><b>{{localize "npcGen.proficiencies"}}:</b></td>
+                                            <td><b>{{localize "npcGen.proficiencies"}}</b></td>
                                         </tr>
                                         <tr>
                                             <td><textarea name="genProficiencies" form="npcgen-form">{{#each genProficiencies}}{{this}}
 {{/each}}</textarea></td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <!-- icon -->
+                                <div class="npc-generator-box">
+                                    <table class="npc-icon">
+                                        <tr>
+                                            <td><b>{{localize "npcGen.icon"}}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <img src="{{genIcon}}" alt="icon" />
+                                                <input type="hidden" value="{{genIcon}}" name="genIcon" />
+                                            </td>
                                         </tr>
                                     </table>
                                 </div>

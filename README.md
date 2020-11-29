@@ -15,6 +15,10 @@ To install, import this [Manifest](https://raw.githubusercontent.com/ardittrista
 
 A new button should've been added to the bottom of the Actors tab named Generate NPC. This button opens a window where you can select what you want to include in the generation. If you're satisfied with your generation, click Accept to save the NPC to a NPC sheet.
 
+### Custom Images
+
+On the generator application there is an image settings button. Clicking this button will pop up the image setting list, any folder and it's you put in here will be used with it's subdirectories for searching icons. Make sure you don't have too many subdirectories in the folder or it might take a while to generate a npc. To select a folder with the filepicker, just select any file in the folder and it'll automatically remove the filename from the textbox once closed.
+
 ### Custom Data
 
 It is possible to import custom data into the generator. The data get's loaded from JSON. In the settings there is an option to open a JSON editor where you can add your own entries. For some formatting examples you can look at [__Examples__](https://github.com/ardittristan/VTTNPCGen/blob/master/examples.md), or double click on a tab in the editor to see the default data.

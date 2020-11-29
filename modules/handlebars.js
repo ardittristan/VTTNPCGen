@@ -45,4 +45,18 @@ export function registerHelpers() {
       return 1;
     }
   });
+
+  /**
+   * @description concat function from just-handlebars-helpers
+   *
+   * @license https://github.com/leapfrogtechnology/just-handlebars-helpers/blob/master/LICENSE
+   */
+  Handlebars.registerHelper("concat", function (...params) {
+    // Ignore the object appended by handlebars.
+    if (typeof params[params.length - 1] === "object") {
+      params.pop();
+    }
+
+    return params.join("");
+  });
 }

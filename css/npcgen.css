@@ -275,3 +275,8 @@
 .npc-generator-box.plothook input {
   width: fit-content;
 }
+
+.npc-generator-box .npc-icon img {
+  max-width: 200px;
+  max-height: 150px;
+}

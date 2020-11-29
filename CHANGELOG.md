@@ -1,5 +1,10 @@
 # Patch Notes
 
+## Version 0.2.0
+
+* Add token icon capability to generator.
+* Fix new class item being created for every new npc.
+
 ## Version 0.1.6
 
 * Fix `use subclass` checkbox not being remembered.

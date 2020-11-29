@@ -1,5 +1,6 @@
 import { pick, sample, has, difference, filter } from "../../lib/underscore.min.js";
 import merge from "../../lib/lodash-merge.min.js";
+import ImageLocationSettings from "./imageLocationSettings.js";
 
 export default class NPCGenerator extends FormApplication {
   constructor(
@@ -159,6 +160,9 @@ export default class NPCGenerator extends FormApplication {
     // name
     this.genFirstName = "First Name";
     this.genLastName = "Last Name";
+
+    // icon
+    this.genIcon = "icons/svg/mystery-man.svg";
   }
 
   static get defaultOptions() {
@@ -246,6 +250,9 @@ export default class NPCGenerator extends FormApplication {
     // name
     data.genFirstName = this.genFirstName;
     data.genLastName = this.genLastName;
+
+    // icon
+    data.genIcon = this.genIcon;
 
     /* -------------< disabled boxes >--------------- */
 
@@ -409,7 +416,7 @@ export default class NPCGenerator extends FormApplication {
    * generates info on npc
    * @param  {Object} d
    */
-  generateNPC(d) {
+  async generateNPC(d) {
     this.resetValues();
 
     const [genders, traits, professions, relationshipStatus, orientations, races, classes] = this.setupInput(d);
@@ -740,6 +747,8 @@ export default class NPCGenerator extends FormApplication {
     }
     this.genLastName = sample(lastNames);
 
+    this.genIcon = await this.getIcon(this.genRace, this.genGender);
+
     this.render();
   }
 
@@ -807,19 +816,24 @@ export default class NPCGenerator extends FormApplication {
       });
 
     // set class
-    let classItem = await CONFIG.Item.entityClass.create({
-      name: d.genClass,
-      type: "class",
-      data: {
-        source: this.classesJSON[d.genClass].source,
-        levels: d.level,
-        subclass: d.genSubclass,
-        skills: {
-          number: classSkills.length,
-          value: classSkills,
+    let classItem = await CONFIG.Item.entityClass.create(
+      {
+        name: d.genClass,
+        type: "class",
+        data: {
+          source: this.classesJSON[d.genClass].source,
+          levels: d.level,
+          subclass: d.genSubclass,
+          skills: {
+            number: classSkills.length,
+            value: classSkills,
+          },
         },
       },
-    });
+      {
+        temporary: true,
+      }
+    );
 
     let actorOptions = {
       name: `${d.genFirstName} ${d.genLastName}`,
@@ -860,6 +874,7 @@ export default class NPCGenerator extends FormApplication {
         },
       },
       items: [classItem],
+      img: d.genIcon,
     };
 
     if (game.settings.get("npcgen", "compatMode")) {
@@ -967,6 +982,90 @@ export default class NPCGenerator extends FormApplication {
     this.level = "1";
     this.genFirstName = "NPC";
     this.genLastName = "Generator";
+    this.genIcon = "icons/svg/mystery-man.svg";
+  }
+
+  _getHeaderButtons() {
+    return [
+      ...[
+        {
+          label: "Image Settings",
+          class: "setting",
+          icon: "fas fa-cog",
+          onclick: (ev) => {
+            new ImageLocationSettings({
+              races: this.races,
+              genders: this.gender,
+            }).render(true);
+          },
+        },
+      ],
+      ...super._getHeaderButtons(),
+    ];
+  }
+
+  /**
+   * @param {String} race
+   * @param {String} gender
+   *
+   * @returns {Promise<String>}
+   */
+  async getIcon(race, gender) {
+    const defaultReturn = "icons/svg/mystery-man.svg";
+
+    let path = game.settings.get("npcgen", "imageLocations")?.[race + gender];
+    if (!path || path.length === 0) return defaultReturn;
+
+    /** @type {String[]} */
+    let iconList = [];
+
+    try {
+      let fileObject = await FilePicker.browse("public", path);
+
+      if (fileObject.target && fileObject.target !== ".") {
+        iconList = iconList.concat(await this._getIcons(fileObject, "public"));
+      }
+    } catch {}
+
+    try {
+      let fileObject = await FilePicker.browse("data", path);
+
+      if (fileObject.target && fileObject.target !== ".") {
+        iconList = iconList.concat(await this._getIcons(fileObject, "data"));
+      }
+    } catch {}
+
+    if (iconList.length === 0) return defaultReturn;
+
+    return sample(iconList);
+  }
+
+  /**
+   * @param {Object} fileObject
+   * @param {String} source
+   */
+  async _getIcons(fileObject, source) {
+    /** @type {String[]} */
+    let iconList = [];
+
+    /** @type {String[]} */
+    let files = fileObject?.files;
+    if (Array.isArray(files)) {
+      iconList = iconList.concat(files);
+    }
+
+    /** @type {String[]} */
+    let folderList = fileObject?.dirs;
+    if (Array.isArray(folderList)) {
+      await asyncForEach(folderList, async (folderPath) => {
+        let newFileObject = await FilePicker.browse(source, folderPath);
+        let folderContent = await this._getIcons(newFileObject, source);
+
+        iconList = iconList.concat(folderContent);
+      });
+    }
+
+    return iconList;
   }
 }
 
@@ -1007,4 +1106,14 @@ function rollDiceString(diceString) {
     total += Math.ceil(Math.random() * dice);
   }
   return total;
+}
+
+/**
+ * @param {Array} arr
+ * @param {Function} callback
+ */
+async function asyncForEach(arr, callback) {
+  for (let i = 0; i < arr.length; i++) {
+    await callback(arr[i], i, arr);
+  }
 }

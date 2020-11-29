@@ -28,6 +28,14 @@ export function registerSettings() {
     default: {},
   });
 
+  // settings for token images
+  game.settings.register("npcgen", "imageLocations", {
+    scope: "world",
+    config: false,
+    type: Object,
+    default: {},
+  });
+
   // register json editor
   game.settings.registerMenu("npcgen", "jsonEditor", {
     name: game.i18n.localize("npcGen.settingsTitle"),

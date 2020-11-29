@@ -1,0 +1,25 @@
+#npcGen-image-location-settings div.label label {
+  white-space: nowrap;
+  margin: auto 0.5em;
+  font-weight: bold;
+}
+
+#npcGen-image-location-settings .grid-container {
+  display: grid;
+  grid-template-columns: min-content auto;
+  background: rgba(0, 0, 0, 0.05)
+}
+
+#npcGen-image-location-settings .grid-container > div {
+  display: flex;
+  padding: 1px;
+}
+
+#npcGen-image-location-settings .grid-container > div:nth-of-type(4n),
+#npcGen-image-location-settings .grid-container > div:nth-of-type(4n - 1) {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+#npcGen-image-location-settings .button-container {
+  display: flex;
+}

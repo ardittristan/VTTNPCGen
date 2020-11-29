@@ -1,0 +1,27 @@
+<form>
+  <div class="grid-container">
+    {{#each races}}
+      {{#each ../genders}}
+        <div class="label">
+          <label for="{{concat ../this this}}">
+            {{concat this " " ../this}}
+          </label>
+        </div>
+        <div class="input npcGenInput">
+          {{filePicker target=(concat ../this this) type="imagevideo"}}
+          <input
+            type="text"
+            class="npcGenTextInput"
+            id="{{concat ../this this}}"
+            name="{{concat ../this this}}"
+            value="{{getProperty @root.settings (concat ../this this)}}"
+          />
+        </div>
+      {{/each}}
+    {{/each}}
+  </div>
+  <div class="button-container">
+    <button type="submit">Save</button>
+    <button id="cancelButton" type="button">Cancel</button>
+  </div>
+</form>
