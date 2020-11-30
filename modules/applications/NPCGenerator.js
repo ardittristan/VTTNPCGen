@@ -22,6 +22,9 @@ export default class NPCGenerator extends FormApplication {
 
     this.done = false;
 
+    this.generateNPC = this.generateNPC.bind(this);
+    this._apiSave = this._apiSave.bind(this);
+
     /* -------------< Combine with user JSON if enabled >--------------- */
 
     if (game.settings.get("npcgen", "onlyClassesJSON")) {
@@ -276,6 +279,7 @@ export default class NPCGenerator extends FormApplication {
    *  'key':entry.metadata.package+'.'+entry.metadata.name
    */
   async _updateObject(_e, d) {
+    console.info("%cINFO | Entries in npc generator:", "color: #fff; background-color: #444; padding: 2px 4px; border-radius: 2px;", removeGenFromObj(d));
     if (!this.done) {
       this.updateFormValues(d);
       this.generateNPC(d);
@@ -348,7 +352,7 @@ export default class NPCGenerator extends FormApplication {
     /** @type {String[]} */
     let gendersOut = [];
     genders.forEach((gender) => {
-      for (let i = 0; i < this.getProbValue(d, "Gender", gender); i++) {
+      for (let i = 0; i < (this.getProbValue(d, "Gender", gender) || 1); i++) {
         gendersOut.push(gender);
       }
     });
@@ -364,7 +368,7 @@ export default class NPCGenerator extends FormApplication {
     /** @type {String[]} */
     let professionsOut = [];
     professions.forEach((profession) => {
-      for (let i = 0; i < this.getProbValue(d, "Profession", profession); i++) {
+      for (let i = 0; i < (this.getProbValue(d, "Profession", profession) || 1); i++) {
         professionsOut.push(profession);
       }
     });
@@ -373,7 +377,7 @@ export default class NPCGenerator extends FormApplication {
     /** @type {String[]} */
     let relationshipStatusOut = [];
     relationshipStatus.forEach((relationshipStatus) => {
-      for (let i = 0; i < this.getProbValue(d, "RelationshipStatus", relationshipStatus); i++) {
+      for (let i = 0; i < (this.getProbValue(d, "RelationshipStatus", relationshipStatus) || 1); i++) {
         relationshipStatusOut.push(relationshipStatus);
       }
     });
@@ -382,7 +386,7 @@ export default class NPCGenerator extends FormApplication {
     /** @type {String[]} */
     let orientationsOut = [];
     orientations.forEach((orientation) => {
-      for (let i = 0; i < this.getProbValue(d, "Orientation", orientation); i++) {
+      for (let i = 0; i < (this.getProbValue(d, "Orientation", orientation) || 1); i++) {
         orientationsOut.push(orientation);
       }
     });
@@ -391,7 +395,7 @@ export default class NPCGenerator extends FormApplication {
     /** @type {String[]} */
     let racesOut = [];
     races.forEach((race) => {
-      for (let i = 0; i < this.getProbValue(d, "Race", race); i++) {
+      for (let i = 0; i < (this.getProbValue(d, "Race", race) || 1); i++) {
         racesOut.push(race);
       }
     });
@@ -400,7 +404,7 @@ export default class NPCGenerator extends FormApplication {
     /** @type {String[]} */
     let classesOut = [];
     classes.forEach((klass) => {
-      for (let i = 0; i < this.getProbValue(d, "Class", klass); i++) {
+      for (let i = 0; i < (this.getProbValue(d, "Class", klass) || 1); i++) {
         classesOut.push(klass);
       }
     });
@@ -488,8 +492,6 @@ export default class NPCGenerator extends FormApplication {
     // Sub Class
     this.generateSubclass(d);
 
-    console.log(this);
-
     // First Name
     this.generateFirstName();
 
@@ -504,8 +506,9 @@ export default class NPCGenerator extends FormApplication {
   /**
    * saves npc to actor
    * @param {Object} d
+   * @param {boolean} [isApi=false]
    */
-  async saveNPC(d) {
+  async saveNPC(d, isApi = false) {
     // set abilities
     let abilities = this.getAbilities(d);
 
@@ -534,7 +537,9 @@ export default class NPCGenerator extends FormApplication {
 
     let actor = await CONFIG.Actor.entityClass.create(actorOptions);
 
-    actor.sheet.render(true);
+    if (!isApi) {
+      actor.sheet.render(true);
+    }
   }
 
   /**
@@ -1215,6 +1220,15 @@ export default class NPCGenerator extends FormApplication {
       ...super._getHeaderButtons(),
     ];
   }
+
+  async _apiSave() {
+    let data = this;
+    Object.keys(data).forEach((key) => {
+      if (Array.isArray(data[key]) && key.startsWith("gen")) data[key] = data[key].join(", ");
+    });
+
+    await this.saveNPC(data, true);
+  }
 }
 
 /**
@@ -1264,4 +1278,16 @@ async function asyncForEach(arr, callback) {
   for (let i = 0; i < arr.length; i++) {
     await callback(arr[i], i, arr);
   }
+}
+
+/**
+ * @param {Object} obj
+ */
+function removeGenFromObj(obj) {
+  Object.keys(obj).forEach((key) => {
+    if (key.startsWith("gen")) {
+      delete obj[key];
+    }
+  });
+  return obj;
 }

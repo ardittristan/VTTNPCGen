@@ -2,6 +2,7 @@ import * as acemodule from "./lib/ace/ace.js";
 import { registerJSONEditorSettings, registerSettings } from "./modules/settings.js";
 import { registerHelpers } from "./modules/handlebars.js";
 import NPCGenerator from "./modules/applications/NPCGenerator.js";
+import generateNPC from "./modules/api.js"
 
 /* -------------< Ace multi module compat >------------ */
 
@@ -46,15 +47,15 @@ function setAceModules(stringArray) {
 
 /* -------------< End Ace multi module compat >------------ */
 
-let classesJSON = {};
-let personalityTraitsJSON = {};
-let plotHooksJSON = {};
-let professionsJSON = {};
-let racesJSON = {};
-let sexJSON = {};
-let listJSON = {};
-let languagesJSON = [];
-let namesJSON = {};
+export let classesJSON = {};
+export let personalityTraitsJSON = {};
+export let plotHooksJSON = {};
+export let professionsJSON = {};
+export let racesJSON = {};
+export let sexJSON = {};
+export let listJSON = {};
+export let languagesJSON = [];
+export let namesJSON = {};
 initJSON();
 
 async function initJSON() {
@@ -109,4 +110,7 @@ Hooks.once("init", () => {
 
   // register settings
   registerSettings();
+
+  // register api
+  window.npcGen.generateNPC = generateNPC
 });

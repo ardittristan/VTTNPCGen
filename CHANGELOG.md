@@ -1,5 +1,9 @@
 # Patch Notes
 
+## Version 0.2.1
+
+* Add api for generating npcs.
+
 ## Version 0.2.0
 
 * Add token icon capability to generator.

@@ -32,3 +32,21 @@ Check the [Changelog](https://github.com/ardittristan/VTTNPCGen/blob/master/CHAN
 ## Credits
 
 A lot of the generator data comes from [Cellule/dndGenerator](https://github.com/Cellule/dndGenerator)
+
+&nbsp;
+
+#### Api usage
+
+Though not recommended there is an api that can be used to generate npcs.
+
+<details>
+
+<summary>API info</summary>
+
+&nbsp;  
+`npcGen.generateNPC(amount, options);`
+
+* `amount` is amount of npcs to generate
+* `options` is an object with all the options for the generator, how this object looks can be found in the console when clicking generate in the npc generator. If no options are provided everything default is enabled.
+
+</details>

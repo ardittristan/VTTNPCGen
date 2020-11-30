@@ -54,5 +54,7 @@
     "npcGen.forceFirstName": "Force first names from this race to be used",
     "npcGen.forceLastName": "Force last names from this race to be used",
     "npcGen.exampleDoubleClick": "Double click for an example",
-    "npcGen.icon": "Icon"
+    "npcGen.icon": "Icon",
+    "npcGen.areYouSure": "Are you sure?",
+    "npcGen.amountToGen": "Are you sure you want to create %n npcs?"
 }
