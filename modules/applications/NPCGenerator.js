@@ -422,11 +422,199 @@ export default class NPCGenerator extends FormApplication {
     const [genders, traits, professions, relationshipStatus, orientations, races, classes] = this.setupInput(d);
 
     // Gender
+    this.generateGender(genders);
+
+    // Traits
+    this.generateTraits(d, traits);
+
+    // Profession
+    const professionArea = this.generateProfession(professions);
+
+    // Relationship Status
+    this.generateRelationship(relationshipStatus);
+
+    // Sexual Orientation
+    this.generateOrientation(orientations);
+
+    // Main Race
+    this.generateMainRace(races);
+
+    // Main Class
+    this.generateMainClass(classes);
+
+    // Plothook
+    this.generatePlothook(professionArea);
+
+    // Level
+
+    this.generateLevel(d);
+
+    // Class info
+    // hp
+    this.generateHp();
+
+    // proficiencies
+    this.generateProficiencies();
+
+    // saving throws
+    this.generateSavingThrows();
+
+    // skills
+    this.generateSkills();
+
+    // Race info
+    // age
+    this.generateAge();
+
+    // languages
+    this.generateLanguages();
+
+    // height
+    let heightMod = this.generateHeight();
+
+    // weight
+    this.generateWeight(heightMod);
+
+    // speed
+    this.generateSpeed();
+
+    // Ability Scores
+    // modifiers
+    this.generateAbilityModifiers();
+
+    // total
+    this.generateAbilityTotals();
+
+    // Sub Class
+    this.generateSubclass(d);
+
+    console.log(this);
+
+    // First Name
+    this.generateFirstName();
+
+    // Last Name
+    this.generateLastName();
+
+    await this.generateIcon(this.genRace, this.genGender);
+
+    this.render();
+  }
+
+  /**
+   * saves npc to actor
+   * @param {Object} d
+   */
+  async saveNPC(d) {
+    // set abilities
+    let abilities = this.getAbilities(d);
+
+    // set biography
+    let biography = this.getBiography(d);
+
+    // set skills
+    let [skills, classSkills] = this.getSkills(d);
+
+    // set class
+    let classItem = await this.getClassItem(d, classSkills);
+
+    let actorOptions = this.getActorOptions(d, abilities, biography, skills, classItem);
+
+    if (!game.settings.get("npcgen", "compatMode")) {
+      actorOptions.type = "npc";
+      actorOptions.data.details.type = d.genRace;
+      actorOptions.data.details.biography.value =
+        `<p>${game.i18n.localize("npcGen.proficiencies")}: ` +
+        d.genProficiencies.trim().slice(0, -1).replace(/\r?\n/g, ", ") +
+        "\n</p>" +
+        "<p>&nbsp;\n</p>" +
+        `<p>${game.i18n.localize("npcGen.profession")}: ${d.genProfession}</p>\n` +
+        biography;
+    }
+
+    let actor = await CONFIG.Actor.entityClass.create(actorOptions);
+
+    actor.sheet.render(true);
+  }
+
+  /**
+   * @param {String} race
+   * @param {String} gender
+   */
+  async generateIcon(race, gender) {
+    const defaultReturn = "icons/svg/mystery-man.svg";
+
+    let path = game.settings.get("npcgen", "imageLocations")?.[race + gender];
+    if (!path || path.length === 0) return defaultReturn;
+
+    /** @type {String[]} */
+    let iconList = [];
+
+    try {
+      let fileObject = await FilePicker.browse("public", path);
+
+      if (fileObject.target && fileObject.target !== ".") {
+        iconList = iconList.concat(await this._getIcons(fileObject, "public"));
+      }
+    } catch {}
+
+    try {
+      let fileObject = await FilePicker.browse("data", path);
+
+      if (fileObject.target && fileObject.target !== ".") {
+        iconList = iconList.concat(await this._getIcons(fileObject, "data"));
+      }
+    } catch {}
+
+    if (iconList.length === 0) return defaultReturn;
+
+    this.genIcon = sample(iconList);
+
+    return;
+  }
+
+  /**
+   * @param {Object} fileObject
+   * @param {String} source
+   */
+  async _getIcons(fileObject, source) {
+    /** @type {String[]} */
+    let iconList = [];
+
+    /** @type {String[]} */
+    let files = fileObject?.files;
+    if (Array.isArray(files)) {
+      iconList = iconList.concat(files);
+    }
+
+    /** @type {String[]} */
+    let folderList = fileObject?.dirs;
+    if (Array.isArray(folderList)) {
+      await asyncForEach(folderList, async (folderPath) => {
+        let newFileObject = await FilePicker.browse(source, folderPath);
+        let folderContent = await this._getIcons(newFileObject, source);
+
+        iconList = iconList.concat(folderContent);
+      });
+    }
+
+    return iconList;
+  }
+
+  /**
+   * @param {String[]} genders
+   */
+  generateGender(genders) {
     if (genders.length != 0) {
       this.genGender = sample(genders);
     }
+  }
 
-    // Traits
+  /**
+   * @param {Object} d
+   * @param {String[]} traits
+   */
+  generateTraits(d, traits) {
     if (traits.length != 0) {
       let traitList = [];
       traits.forEach((type) => {
@@ -437,78 +625,109 @@ export default class NPCGenerator extends FormApplication {
       });
       this.genTraits = traitList;
     }
+  }
 
-    // Profession
+  /**
+   * @param {String[]} professions
+   */
+  generateProfession(professions) {
     let professionArea = "";
     if (professions.length != 0) {
       professionArea = sample(professions);
       this.genProfession = sample(this.professionsJSON[professionArea]);
     }
+    return professionArea;
+  }
 
-    // Relationship Status
+  /**
+   * @param {String[]} relationshipStatus
+   */
+  generateRelationship(relationshipStatus) {
     if (relationshipStatus.length != 0) {
       this.genRelationship = sample(relationshipStatus);
     }
+  }
 
-    // Sexual Orientation
+  /**
+   * @param {String[]} orientations
+   */
+  generateOrientation(orientations) {
     if (orientations.length != 0) {
       this.genOrientation = sample(orientations);
     }
+  }
 
-    // Main Race
+  /**
+   * @param {String[]} races
+   */
+  generateMainRace(races) {
     if (races.length != 0) {
       this.genRace = sample(races);
     } else {
       this.genRace = sample(this.races);
     }
+  }
 
-    // Main Class
+  /**
+   * @param {String[]} classes
+   */
+  generateMainClass(classes) {
     if (classes.length != 0) {
       this.genClass = sample(classes);
     } else {
       this.genClass = sample(this.classes);
     }
+  }
 
-    // Plothook
+  /**
+   * @param {String} professionArea
+   */
+  generatePlothook(professionArea) {
     this.genPlotHook = sample(this.plotHooksJSON.All.concat(this.plotHooksJSON[professionArea]));
+  }
 
-    // Level
-
+  /**
+   * @param {Object} d
+   */
+  generateLevel(d) {
     this.level = Number(d.level);
+  }
 
-    // Class info
-    // hp
-    let hp = Number(this.classesJSON[this.genClass].hp.split("d")[1]);
+  generateHp(object = this.classesJSON[this.genClass]) {
+    let hp = Number(object.hp.split("d")[1]);
     for (let i = 0; i < this.level - 1; i++) {
-      hp += rollDiceString(this.classesJSON[this.genClass].hp);
+      hp += rollDiceString(object.hp);
     }
     this.genHp = String(hp);
+  }
 
-    // proficiencies
+  generateProficiencies(object = this.classesJSON[this.genClass]) {
     let proficiencies = [];
-    if (has(this.classesJSON[this.genClass].proficiencies, "Armor")) {
-      this.classesJSON[this.genClass].proficiencies.Armor.forEach((value) => {
+    if (has(object.proficiencies, "Armor")) {
+      object.proficiencies.Armor.forEach((value) => {
         proficiencies.push(value);
       });
     }
-    if (has(this.classesJSON[this.genClass].proficiencies, "Weapons")) {
-      this.classesJSON[this.genClass].proficiencies.Weapons.forEach((value) => {
+    if (has(object.proficiencies, "Weapons")) {
+      object.proficiencies.Weapons.forEach((value) => {
         proficiencies.push(value);
       });
     }
-    if (has(this.classesJSON[this.genClass].proficiencies, "Tools")) {
-      this.classesJSON[this.genClass].proficiencies.Tools.forEach((value) => {
+    if (has(object.proficiencies, "Tools")) {
+      object.proficiencies.Tools.forEach((value) => {
         proficiencies.push(value);
       });
     }
     this.genProficiencies = proficiencies;
+  }
 
-    // saving throws
-    this.genSaveThrows = this.classesJSON[this.genClass].proficiencies["Saving Throws"];
+  generateSavingThrows(object = this.classesJSON[this.genClass]) {
+    this.genSaveThrows = object.proficiencies["Saving Throws"];
+  }
 
-    // skills
+  generateSkills(object = this.classesJSON[this.genClass]) {
     let skills = [];
-    this.classesJSON[this.genClass].proficiencies.Skills.forEach((array) => {
+    object.proficiencies.Skills.forEach((array) => {
       let working = true;
       let samp = "";
       while (working) {
@@ -527,12 +746,13 @@ export default class NPCGenerator extends FormApplication {
       skills.push(samp);
     });
     this.genSkills = skills;
+  }
 
-    // Race info
-    // age
+  generateAge() {
     this.genAge = Math.floor(weightedRandom(this.racesJSON[this.genRace].age, 3));
+  }
 
-    // languages
+  generateLanguages() {
     let languages = [];
     this.racesJSON[this.genRace].languages.forEach((value) => {
       if (value === "Any") {
@@ -550,22 +770,29 @@ export default class NPCGenerator extends FormApplication {
       }
     });
     this.genLanguages = languages;
+  }
 
-    // height
+  generateHeight() {
     const baseHeight = Number(this.racesJSON[this.genRace].height.base);
     const heightMod = rollDiceString(this.racesJSON[this.genRace].height.mod);
     this.genHeight = inchesToFeet(baseHeight + heightMod);
+    return heightMod;
+  }
 
-    // weight
+  /**
+   * @param {Number} heightMod
+   */
+  generateWeight(heightMod) {
     const baseWeight = Number(this.racesJSON[this.genRace].weight.base);
     const weightMod = rollDiceString(this.racesJSON[this.genRace].weight.mod);
     this.genWeight = baseWeight + heightMod * weightMod;
+  }
 
-    // speed
+  generateSpeed() {
     this.genSpeed = this.racesJSON[this.genRace].speed;
+  }
 
-    // Ability Scores
-    // modifiers
+  generateAbilityModifiers() {
     if (this.racesJSON[this.genRace].abilityBonus) {
       this.genStrMod = this.racesJSON[this.genRace].abilityBonus.Con || 0;
       this.genDexMod = this.racesJSON[this.genRace].abilityBonus.Dex || 0;
@@ -607,16 +834,18 @@ export default class NPCGenerator extends FormApplication {
         });
       }
     }
+  }
 
-    // total
+  generateAbilityTotals() {
     this.genStr = String(rollDiceString("3d6") + this.genStrMod);
     this.genDex = String(rollDiceString("3d6") + this.genDexMod);
     this.genCon = String(rollDiceString("3d6") + this.genConMod);
     this.genInt = String(rollDiceString("3d6") + this.genIntMod);
     this.genWis = String(rollDiceString("3d6") + this.genWisMod);
     this.genCha = String(rollDiceString("3d6") + this.genChaMod);
+  }
 
-    // Sub Class
+  generateSubclass(d) {
     if (d.useSubclass) {
       if (has(this.classesJSON[this.genClass], "subclasses")) {
         this.genSubclass = sample(Object.keys(this.classesJSON[this.genClass].subclasses));
@@ -624,51 +853,28 @@ export default class NPCGenerator extends FormApplication {
 
         // hp
         if (has(subclassJSON, "hp")) {
-          this.genHp = String(rollDiceString(subclassJSON.hp));
+          this.generateHp(subclassJSON);
         }
 
         if (has(subclassJSON, "proficiencies")) {
           // proficiencies
-          if (has(subclassJSON.proficiencies, "Armor")) {
-            subclassJSON.proficiencies.Armor.forEach((value) => {
-              proficiencies.push(value);
-            });
-          }
-          if (has(subclassJSON.proficiencies, "Weapons")) {
-            subclassJSON.proficiencies.Weapons.forEach((value) => {
-              proficiencies.push(value);
-            });
-          }
-          if (has(subclassJSON.proficiencies, "Tools")) {
-            subclassJSON.proficiencies.Tools.forEach((value) => {
-              proficiencies.push(value);
-            });
-          }
-          this.genProficiencies = proficiencies;
+          this.generateProficiencies(subclassJSON);
 
           // saving throws
           if (has(subclassJSON.proficiencies, "Saving Throws")) {
-            this.genSaveThrows = this.genSaveThrows.concat(subclassJSON.proficiencies["Saving Throws"]);
+            this.generateSavingThrows(subclassJSON);
           }
 
           // skills
           if (has(subclassJSON.proficiencies, "Skills")) {
-            subclassJSON.proficiencies.Skills.forEach((array) => {
-              if (array[0] === "Any") {
-                skills.push(sample(this.skillList));
-              } else {
-                skills.push(sample(array));
-              }
-            });
-            this.genSkills = skills;
+            this.generateSkills(subclassJSON);
           }
         }
       }
     }
+  }
 
-    console.log(this);
-
-    // First Name
+  generateFirstName() {
     let firstNames = [];
     if (Object.keys(this.namesJSON.First).includes(this.genGender)) {
       /** @type {String[]} */
@@ -720,8 +926,9 @@ export default class NPCGenerator extends FormApplication {
       });
     }
     this.genFirstName = sample(firstNames);
+  }
 
-    // Last Name
+  generateLastName() {
     let lastNames = [];
     /** @type {String[]} */
     let nameForced = difference(
@@ -746,18 +953,44 @@ export default class NPCGenerator extends FormApplication {
       }
     }
     this.genLastName = sample(lastNames);
-
-    this.genIcon = await this.getIcon(this.genRace, this.genGender);
-
-    this.render();
   }
 
   /**
-   * saves npc to actor
    * @param {Object} d
    */
-  async saveNPC(d) {
-    // set abilities
+  getBiography(d) {
+    let biography = "";
+
+    // gender
+    biography = biography.concat(`<p>${game.i18n.localize("npcGen.gender")}: ${d.genGender}</p>\n`);
+    // relationship
+    biography = biography.concat(`<p>${game.i18n.localize("npcGen.relationship")}: ${d.genRelationship}</p>\n`);
+    // orientation
+    biography = biography.concat(`<p>${game.i18n.localize("npcGen.orientation")}: ${d.genOrientation}</p>\n`);
+    // age
+    biography = biography.concat(`<p>${game.i18n.localize("npcGen.age")}: ${d.genAge}</p>\n`);
+    // height
+    biography = biography.concat(`<p>${game.i18n.localize("npcGen.height")}: ${d.genHeight}</p>\n`);
+    // weight
+    biography = biography.concat(`<p>${game.i18n.localize("npcGen.weight")}: ${d.genWeight}</p>\n`);
+    // static line
+    biography = biography.concat(`<p>&nbsp;</p>\n<p><strong>${game.i18n.localize("npcGen.traits")}:</strong></p>\n`);
+    // traits
+    d.genTraits.split(/\r?\n/).forEach((trait) => {
+      biography = biography.concat(`<p>${trait}</p>\n`);
+    });
+    // static line
+    biography = biography.concat("<p>&nbsp;</p>");
+    // plot hook
+    biography = biography.concat(`<p><strong>${game.i18n.localize("npcGen.plotHook")}:</strong> ${d.genPlotHook}</p>`);
+
+    return biography;
+  }
+
+  /**
+   * @param {Object} d
+   */
+  getAbilities(d) {
     let abilities = {};
     this.listJSON.Abilities.forEach((/** @type {String} */ ability) => {
       abilities[ability.toLowerCase()] = { value: Number(d[`gen${ability}`]) };
@@ -774,34 +1007,13 @@ export default class NPCGenerator extends FormApplication {
         }
       });
 
-    // set biography
-    let biography = "";
-    {
-      // gender
-      biography = biography.concat(`<p>${game.i18n.localize("npcGen.gender")}: ${d.genGender}</p>\n`);
-      // relationship
-      biography = biography.concat(`<p>${game.i18n.localize("npcGen.relationship")}: ${d.genRelationship}</p>\n`);
-      // orientation
-      biography = biography.concat(`<p>${game.i18n.localize("npcGen.orientation")}: ${d.genOrientation}</p>\n`);
-      // age
-      biography = biography.concat(`<p>${game.i18n.localize("npcGen.age")}: ${d.genAge}</p>\n`);
-      // height
-      biography = biography.concat(`<p>${game.i18n.localize("npcGen.height")}: ${d.genHeight}</p>\n`);
-      // weight
-      biography = biography.concat(`<p>${game.i18n.localize("npcGen.weight")}: ${d.genWeight}</p>\n`);
-      // static line
-      biography = biography.concat(`<p>&nbsp;</p>\n<p><strong>${game.i18n.localize("npcGen.traits")}:</strong></p>\n`);
-      // traits
-      d.genTraits.split(/\r?\n/).forEach((trait) => {
-        biography = biography.concat(`<p>${trait}</p>\n`);
-      });
-      // static line
-      biography = biography.concat("<p>&nbsp;</p>");
-      // plot hook
-      biography = biography.concat(`<p><strong>${game.i18n.localize("npcGen.plotHook")}:</strong> ${d.genPlotHook}</p>`);
-    }
+    return abilities;
+  }
 
-    // set skills
+  /**
+   * @param {Object} d
+   */
+  getSkills(d) {
     let skills = {};
     let classSkills = [];
     d.genSkills
@@ -815,8 +1027,15 @@ export default class NPCGenerator extends FormApplication {
         }
       });
 
-    // set class
-    let classItem = await CONFIG.Item.entityClass.create(
+    return [skills, classSkills];
+  }
+
+  /**
+   * @param {Object} d
+   * @param {Array} classSkills
+   */
+  async getClassItem(d, classSkills) {
+    return await CONFIG.Item.entityClass.create(
       {
         name: d.genClass,
         type: "class",
@@ -834,8 +1053,17 @@ export default class NPCGenerator extends FormApplication {
         temporary: true,
       }
     );
+  }
 
-    let actorOptions = {
+  /**
+   * @param {Object} d
+   * @param {Object} abilities
+   * @param {String} biography
+   * @param {Object} skills
+   * @param {Entity<any>} classItem
+   */
+  getActorOptions(d, abilities, biography, skills, classItem) {
+    return {
       name: `${d.genFirstName} ${d.genLastName}`,
       permission: {
         default: 0,
@@ -875,25 +1103,8 @@ export default class NPCGenerator extends FormApplication {
       },
       items: [classItem],
       img: d.genIcon,
+      type: "character",
     };
-
-    if (game.settings.get("npcgen", "compatMode")) {
-      actorOptions.type = "character";
-    } else {
-      actorOptions.type = "npc";
-      actorOptions.data.details.type = d.genRace;
-      actorOptions.data.details.biography.value =
-        `<p>${game.i18n.localize("npcGen.proficiencies")}: ` +
-        d.genProficiencies.trim().slice(0, -1).replace(/\r?\n/g, ", ") +
-        "\n</p>" +
-        "<p>&nbsp;\n</p>" +
-        `<p>${game.i18n.localize("npcGen.profession")}: ${d.genProfession}</p>\n` +
-        biography;
-    }
-
-    let actor = await CONFIG.Actor.entityClass.create(actorOptions);
-
-    actor.sheet.render(true);
   }
 
   updateFormValues(d) {
@@ -935,6 +1146,7 @@ export default class NPCGenerator extends FormApplication {
 
     return renamedArray;
   }
+
   /**
    * @param  {Object} d
    * @param  {String} prefix
@@ -1002,70 +1214,6 @@ export default class NPCGenerator extends FormApplication {
       ],
       ...super._getHeaderButtons(),
     ];
-  }
-
-  /**
-   * @param {String} race
-   * @param {String} gender
-   *
-   * @returns {Promise<String>}
-   */
-  async getIcon(race, gender) {
-    const defaultReturn = "icons/svg/mystery-man.svg";
-
-    let path = game.settings.get("npcgen", "imageLocations")?.[race + gender];
-    if (!path || path.length === 0) return defaultReturn;
-
-    /** @type {String[]} */
-    let iconList = [];
-
-    try {
-      let fileObject = await FilePicker.browse("public", path);
-
-      if (fileObject.target && fileObject.target !== ".") {
-        iconList = iconList.concat(await this._getIcons(fileObject, "public"));
-      }
-    } catch {}
-
-    try {
-      let fileObject = await FilePicker.browse("data", path);
-
-      if (fileObject.target && fileObject.target !== ".") {
-        iconList = iconList.concat(await this._getIcons(fileObject, "data"));
-      }
-    } catch {}
-
-    if (iconList.length === 0) return defaultReturn;
-
-    return sample(iconList);
-  }
-
-  /**
-   * @param {Object} fileObject
-   * @param {String} source
-   */
-  async _getIcons(fileObject, source) {
-    /** @type {String[]} */
-    let iconList = [];
-
-    /** @type {String[]} */
-    let files = fileObject?.files;
-    if (Array.isArray(files)) {
-      iconList = iconList.concat(files);
-    }
-
-    /** @type {String[]} */
-    let folderList = fileObject?.dirs;
-    if (Array.isArray(folderList)) {
-      await asyncForEach(folderList, async (folderPath) => {
-        let newFileObject = await FilePicker.browse(source, folderPath);
-        let folderContent = await this._getIcons(newFileObject, source);
-
-        iconList = iconList.concat(folderContent);
-      });
-    }
-
-    return iconList;
   }
 }
 
