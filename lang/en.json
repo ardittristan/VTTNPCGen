@@ -56,5 +56,7 @@
     "npcGen.exampleDoubleClick": "Double click for an example",
     "npcGen.icon": "Icon",
     "npcGen.areYouSure": "Are you sure?",
-    "npcGen.amountToGen": "Are you sure you want to create %n npcs?"
+    "npcGen.amountToGen": "Are you sure you want to create %n npcs?",
+    "npcGen.uiError": "Generating large numbers of NPCs can damage your world, this function is limited to 64 NPCs at a time",
+    "npcGen.consoleError": "Generating large numbers of NPCs can damage your world 💣💥💀, by default this function is limited to 64 NPCs at a time"
 }

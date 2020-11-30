@@ -7,6 +7,11 @@ import defaultOptions from "../data/defaultApiOptions.js";
  * @param {defaultOptions} [options={}]
  */
 export default function generateNPC(amount = 1, options = {}) {
+  if (options.createFoolishNumber !== true && amount > 64) {
+    ui.notifications.warn(game.i18n.localize("npcGen.uiError"));
+    throw new Error(game.i18n.localize("npcGen.consoleError"));
+  }
+
   let confirmed = false;
   Dialog.confirm({
     title: game.i18n.localize("npcGen.areYouSure"),

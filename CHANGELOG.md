@@ -1,5 +1,9 @@
 # Patch Notes
 
+## Version 0.2.2
+
+* Hotfix.
+
 ## Version 0.2.1
 
 * Add api for generating npcs.
