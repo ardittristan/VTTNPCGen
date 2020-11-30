@@ -1,5 +1,10 @@
 # Patch Notes
 
+## Version 0.2.3
+
+* Hotfix for normal generator not working.
+* Severely improve the speed of creating multiple actors.
+
 ## Version 0.2.2
 
 * Hotfix.

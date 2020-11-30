@@ -3,6 +3,7 @@ import { registerJSONEditorSettings, registerSettings } from "./modules/settings
 import { registerHelpers } from "./modules/handlebars.js";
 import NPCGenerator from "./modules/applications/NPCGenerator.js";
 import generateNPC from "./modules/api.js"
+import defaultApiOptions from "./data/defaultApiOptions.js";
 
 /* -------------< Ace multi module compat >------------ */
 
@@ -112,5 +113,7 @@ Hooks.once("init", () => {
   registerSettings();
 
   // register api
-  window.npcGen.generateNPC = generateNPC
+  window.npcGen.generateNPC = generateNPC;
+  window.npcGen.defaultApiOptions = defaultApiOptions;
+  window.npcGen.NPCGenerator = NPCGenerator;
 });

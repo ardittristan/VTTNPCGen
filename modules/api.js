@@ -6,45 +6,51 @@ import defaultOptions from "../data/defaultApiOptions.js";
  * @param {number} [amount=1]
  * @param {defaultOptions} [options={}]
  */
-export default function generateNPC(amount = 1, options = {}) {
+export default async function generateNPC(amount = 1, options = {}) {
   if (options.createFoolishNumber !== true && amount > 64) {
     ui.notifications.warn(game.i18n.localize("npcGen.uiError"));
     throw new Error(game.i18n.localize("npcGen.consoleError"));
   }
 
   let confirmed = false;
-  Dialog.confirm({
+
+  await Dialog.confirm({
     title: game.i18n.localize("npcGen.areYouSure"),
     content: `<p>${game.i18n.localize("npcGen.amountToGen").replace("%n", amount)}</p>`,
     yes: () => {
       confirmed = true;
     },
     defaultYes: false,
-  }).then(() => {
-    if (!confirmed) return;
-
-    if (Object.keys(options).length === 0) {
-      options = defaultOptions;
-    }
-
-    for (let i = 1; i < amount + 1; i++) {
-      let generator = new NPCGenerator({
-        classesJSON: classesJSON,
-        languagesJSON: languagesJSON,
-        namesJSON: namesJSON,
-        personalityTraitsJSON: personalityTraitsJSON,
-        plotHooksJSON: plotHooksJSON,
-        professionsJSON: professionsJSON,
-        racesJSON: racesJSON,
-        sexJSON: sexJSON,
-        listJSON: listJSON,
-      });
-
-      generator.generateNPC(options).then(() => {
-        generator._apiSave().then(() => {
-          generator.close();
-        });
-      });
-    }
   });
+
+
+  if (!confirmed) return;
+
+  if (Object.keys(options).length === 0) {
+    options = defaultOptions;
+  }
+  let actors = [];
+
+  for (let i = 1; i < amount + 1; i++) {
+    let generator = new NPCGenerator({
+      classesJSON: classesJSON,
+      languagesJSON: languagesJSON,
+      namesJSON: namesJSON,
+      personalityTraitsJSON: personalityTraitsJSON,
+      plotHooksJSON: plotHooksJSON,
+      professionsJSON: professionsJSON,
+      racesJSON: racesJSON,
+      sexJSON: sexJSON,
+      listJSON: listJSON,
+    });
+
+    await generator.generateNPC(options);
+    const actorData = await generator._apiSave();
+    generator.close();
+    actors.push(actorData);
+  }
+
+  console.log(actors)
+
+  await CONFIG.Actor.entityClass.create(actors);
 }

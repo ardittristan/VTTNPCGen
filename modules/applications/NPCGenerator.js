@@ -535,10 +535,11 @@ export default class NPCGenerator extends FormApplication {
         biography;
     }
 
-    let actor = await CONFIG.Actor.entityClass.create(actorOptions);
-
     if (!isApi) {
+      let actor = await CONFIG.Actor.entityClass.create(actorOptions);
       actor.sheet.render(true);
+    } else {
+      return actorOptions
     }
   }
 
@@ -1227,7 +1228,7 @@ export default class NPCGenerator extends FormApplication {
       if (Array.isArray(data[key]) && key.startsWith("gen")) data[key] = data[key].join(", ");
     });
 
-    await this.saveNPC(data, true);
+    return await this.saveNPC(data, true);
   }
 }
 
@@ -1284,10 +1285,11 @@ async function asyncForEach(arr, callback) {
  * @param {Object} obj
  */
 function removeGenFromObj(obj) {
-  Object.keys(obj).forEach((key) => {
+  let newObj = duplicate(obj)
+  Object.keys(newObj).forEach((key) => {
     if (key.startsWith("gen")) {
-      delete obj[key];
+      delete newObj[key];
     }
   });
-  return obj;
+  return newObj;
 }
