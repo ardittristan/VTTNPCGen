@@ -391,7 +391,7 @@ export default class NPCGenerator extends FormApplication {
       }
     });
 
-    const races = this.getEnabledValues(d, "Race");
+    const races = this.getEnabledValues(d, "Race", "NameForced");
     /** @type {String[]} */
     let racesOut = [];
     races.forEach((race) => {
@@ -1135,9 +1135,14 @@ export default class NPCGenerator extends FormApplication {
     game.settings.set("npcgen", "weights", this.weights);
   }
 
-  getEnabledValues(d, name) {
+  /**
+   * @param {Object} d
+   * @param {String} name
+   * @param {string} [excludeEnd=""]
+   */
+  getEnabledValues(d, name, excludeEnd = "") {
     const filteredObject = pick(d, function (value, key) {
-      if (value && key.startsWith(name)) {
+      if (value && key.startsWith(name) && (!key.endsWith(excludeEnd) || excludeEnd.length === 0)) {
         return true;
       }
       return false;

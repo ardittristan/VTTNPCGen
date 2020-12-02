@@ -116,4 +116,15 @@ Hooks.once("init", () => {
   window.npcGen.generateNPC = generateNPC;
   window.npcGen.defaultApiOptions = defaultApiOptions;
   window.npcGen.NPCGenerator = NPCGenerator;
+  window.npcGen.data = {
+    classesJSON: classesJSON,
+    languagesJSON: languagesJSON,
+    namesJSON: namesJSON,
+    personalityTraitsJSON: personalityTraitsJSON,
+    plotHooksJSON: plotHooksJSON,
+    professionsJSON: professionsJSON,
+    racesJSON: racesJSON,
+    sexJSON: sexJSON,
+    listJSON: listJSON,
+  }
 });

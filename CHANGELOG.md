@@ -1,5 +1,9 @@
 # Patch Notes
 
+## Version 0.2.4
+
+* Fix names appearing in race list.
+
 ## Version 0.2.3
 
 * Hotfix for normal generator not working.
