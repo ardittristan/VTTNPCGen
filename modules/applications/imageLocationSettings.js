@@ -1,9 +1,3 @@
-/**
- * ! array of file locations?
- * ! how to differentiate
- * ! maybe add random id to it
- */
-
 export default class ImageLocationSettings extends FormApplication {
   /**
    * @param {{races: String[], genders: String[]}} options

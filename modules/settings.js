@@ -1,3 +1,4 @@
+import ExportSettings from "./applications/exportSettings.js";
 import GeneratorWindow from "./applications/jsonEditor.js";
 
 /**
@@ -45,6 +46,16 @@ export function registerSettings() {
     type: GeneratorWindow,
     restricted: true,
   });
+
+  // register settings export
+  game.settings.registerMenu("npcgen", "exportSettings", {
+    name: game.i18n.localize("npcGen.exportTitle"),
+    label: game.i18n.localize("npcGen.exportLabel"),
+    hint: game.i18n.localize("npcGen.exportHint"),
+    icon: "fas fa-exchange-alt",
+    type: ExportSettings,
+    restricted: true
+  })
 }
 
 /**

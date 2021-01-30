@@ -1,0 +1,7 @@
+#npcGen-export-settings .button-container {
+  display: flex;
+}
+
+#npcGen-export-settings textarea {
+  resize: none;
+}
