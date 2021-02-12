@@ -1,5 +1,9 @@
 # Patch Notes
 
+## Version 0.4.0
+
+* Add class-specific token generation.
+
 ## Version 0.3.0
 
 * Add settings import/export.

@@ -1,5 +1,18 @@
 <form>
   <div class="grid-container">
+    {{#if roleSpecific}}
+    <div class="th">
+
+    </div>
+    <div class="th">
+      All
+    </div>
+    <div class="th-container">
+      {{#each classes}}
+        <div class="th">{{this}}</div>
+      {{/each}}
+    </div>
+    {{/if}}
     {{#each races}}
       {{#each ../genders}}
         <div class="label">
@@ -16,6 +29,22 @@
             name="{{concat ../this this}}"
             value="{{getProperty @root.settings (concat ../this this)}}"
           />
+        </div>
+        <div class="classSpecific">
+          {{#if @root.roleSpecific}}
+            {{#each @root.classes}}
+              <div class="input npcGenInput">
+                {{filePicker target=(concat ../../this ../this this) type="imagevideo"}}
+                <input
+                  type="text"
+                  class="npcGenTextInput"
+                  id="{{concat ../../this ../this this}}"
+                  name="{{concat ../../this ../this this}}"
+                  value="{{getProperty @root.settings (concat ../../this ../this this)}}"
+                />
+              </div>
+            {{/each}}
+          {{/if}}
         </div>
       {{/each}}
     {{/each}}

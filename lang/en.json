@@ -61,5 +61,7 @@
     "npcGen.consoleError": "Generating large numbers of NPCs can damage your world 💣💥💀, by default this function is limited to 64 NPCs at a time",
     "npcGen.exportTitle": "Export/Import settings",
     "npcGen.exportLabel": "Open",
-    "npcGen.exportHint": "Copy or paste all NPC Generator settings"
+    "npcGen.exportHint": "Copy or paste all NPC Generator settings",
+    "npcGen.roleSpecificImages": "Role specific images",
+    "npcGen.roleSpecificImagesHint": "Allows to supply role specific image paths if enabled"
 }

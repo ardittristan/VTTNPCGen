@@ -6,17 +6,51 @@
 
 #npcGen-image-location-settings .grid-container {
   display: grid;
-  grid-template-columns: min-content auto;
-  background: rgba(0, 0, 0, 0.05)
+  grid-template-columns: min-content auto min-content;
+  background: rgba(0, 0, 0, 0.05);
+  overflow-x: auto;
 }
 
 #npcGen-image-location-settings .grid-container > div {
   display: flex;
-  padding: 1px;
+  padding: 1px 0;
 }
 
-#npcGen-image-location-settings .grid-container > div:nth-of-type(4n),
-#npcGen-image-location-settings .grid-container > div:nth-of-type(4n - 1) {
+#npcGen-image-location-settings .grid-container > .th-container {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+}
+
+#npcGen-image-location-settings .grid-container > .th-container .th {
+  border-left: solid thin black;
+  padding: 1px 5px;
+  margin: -1px 0;
+}
+
+#npcGen-image-location-settings .grid-container .th {
+  padding: 0 5px;
+  font-weight: bold;
+}
+
+#npcGen-image-location-settings .grid-container > div.npcGenInput {
+  padding-right: 5px;
+}
+
+#npcGen-image-location-settings .grid-container .classSpecific > div {
+  display: flex;
+  padding: 1px 5px;
+  margin: -1px 0;
+  border-left: solid thin black;
+}
+
+#npcGen-image-location-settings input[type="text"] {
+  min-width: 100px;
+}
+
+#npcGen-image-location-settings .grid-container > div:nth-of-type(6n),
+#npcGen-image-location-settings .grid-container > div:nth-of-type(6n - 1),
+#npcGen-image-location-settings .grid-container > div:nth-of-type(6n - 2) {
   background-color: rgba(255, 255, 255, 0.2);
 }
 

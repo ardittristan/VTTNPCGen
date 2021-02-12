@@ -498,7 +498,7 @@ export default class NPCGenerator extends FormApplication {
     // Last Name
     this.generateLastName();
 
-    await this.generateIcon(this.genRace, this.genGender);
+    await this.generateIcon(this.genRace, this.genGender, this.genClass);
 
     this.render();
   }
@@ -539,18 +539,20 @@ export default class NPCGenerator extends FormApplication {
       let actor = await CONFIG.Actor.entityClass.create(actorOptions);
       actor.sheet.render(true);
     } else {
-      return actorOptions
+      return actorOptions;
     }
   }
 
   /**
    * @param {String} race
    * @param {String} gender
+   * @param {String} Class
    */
-  async generateIcon(race, gender) {
+  async generateIcon(race, gender, Class) {
     const defaultReturn = "icons/svg/mystery-man.svg";
 
-    let path = game.settings.get("npcgen", "imageLocations")?.[race + gender];
+    let locations = game.settings.get("npcgen", "imageLocations");
+    let path = locations?.[game.settings.get("npcgen", "roleSpecificImages") && locations?.[race + gender + Class]?.length > 0 ? race + gender + Class : race + gender];
     if (!path || path.length === 0) return defaultReturn;
 
     /** @type {String[]} */
@@ -1219,6 +1221,7 @@ export default class NPCGenerator extends FormApplication {
             new ImageLocationSettings({
               races: this.races,
               genders: this.gender,
+              classes: this.classes,
             }).render(true);
           },
         },
@@ -1290,7 +1293,7 @@ async function asyncForEach(arr, callback) {
  * @param {Object} obj
  */
 function removeGenFromObj(obj) {
-  let newObj = duplicate(obj)
+  let newObj = duplicate(obj);
   Object.keys(newObj).forEach((key) => {
     if (key.startsWith("gen")) {
       delete newObj[key];

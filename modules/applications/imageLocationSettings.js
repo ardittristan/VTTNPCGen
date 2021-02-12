@@ -1,12 +1,13 @@
 export default class ImageLocationSettings extends FormApplication {
   /**
-   * @param {{races: String[], genders: String[]}} options
+   * @param {{races: String[], genders: String[], classes: String[]}} options
    */
   constructor(options) {
     super({}, {});
 
     this.races = options.races;
     this.genders = options.genders;
+    this.classes = options.classes;
   }
 
   static get defaultOptions() {
@@ -25,7 +26,9 @@ export default class ImageLocationSettings extends FormApplication {
 
     data.races = this.races;
     data.genders = this.genders;
+    data.classes = this.classes;
     data.settings = game.settings.get("npcgen", "imageLocations");
+    data.roleSpecific = game.settings.get("npcgen", "roleSpecificImages");
 
     return data;
   }

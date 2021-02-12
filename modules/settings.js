@@ -37,6 +37,17 @@ export function registerSettings() {
     default: {},
   });
 
+  // settings for class bound token images
+  game.settings.register("npcgen", "roleSpecificImages", {
+    name: game.i18n.localize("npcGen.roleSpecificImages"),
+    hint: game.i18n.localize("npcGen.roleSpecificImagesHint"),
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: false,
+    restricted: true
+  })
+
   // register json editor
   game.settings.registerMenu("npcgen", "jsonEditor", {
     name: game.i18n.localize("npcGen.settingsTitle"),
