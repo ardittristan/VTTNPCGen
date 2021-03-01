@@ -453,10 +453,6 @@ export default class NPCGenerator extends FormApplication {
 
     this.generateLevel(d);
 
-    // Class info
-    // hp
-    this.generateHp();
-
     // proficiencies
     this.generateProficiencies();
 
@@ -488,6 +484,10 @@ export default class NPCGenerator extends FormApplication {
 
     // total
     this.generateAbilityTotals();
+
+    // Class info
+    // hp
+    this.generateHp();
 
     // Sub Class
     this.generateSubclass(d);
@@ -706,6 +706,8 @@ export default class NPCGenerator extends FormApplication {
     for (let i = 0; i < this.level - 1; i++) {
       hp += rollDiceString(object.hp);
     }
+
+    hp += this.genConMod * this.level;
     this.genHp = String(hp);
   }
 
