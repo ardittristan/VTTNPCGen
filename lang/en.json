@@ -1,5 +1,6 @@
 {
     "npcGen.useSubclass": "Use subclass?",
+    "npcGen.useMinMaxStats": "Min/Max stats?",
     "npcGen.gender": "Gender",
     "npcGen.traits": "Traits",
     "npcGen.professions": "Professions",

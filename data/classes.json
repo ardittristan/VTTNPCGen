@@ -15,7 +15,8 @@
       "Beserker": {
         "source": "PHB"
       }
-    }
+    },
+    "attributeSortOrder": ["Str", "Con"]
   },
   "Bard": {
     "source": "PHB",
@@ -31,7 +32,8 @@
       "College of Lore": {
         "source": "PHB"
       }
-    }
+    },
+    "attributeSortOrder": ["Cha", "Dex"]
   },
   "Cleric": {
     "source": "PHB",
@@ -52,7 +54,8 @@
           "Armor": ["Heavy Armor"]
         }
       }
-    }
+    },
+    "attributeSortOrder": ["Wis", "Str", "Con"]
   },
   "Druid": {
     "source": "PHB",
@@ -71,7 +74,8 @@
       "Circle of the Land": {
         "source": "PHB"
       }
-    }
+    },
+    "attributeSortOrder": ["Wis", "Con"]
   },
   "Fighter": {
     "source": "PHB",
@@ -89,7 +93,8 @@
       "Champion": {
         "source": "PHB"
       }
-    }
+    },
+    "attributeSortOrder": ["Str", "Con", "Dex"]
   },
   "Monk": {
     "source": "PHB",
@@ -107,7 +112,8 @@
       "Way of the Open Hand": {
         "source": "PHB"
       }
-    }
+    },
+    "attributeSortOrder": ["Dex", "Wis"]
   },
   "Paladin": {
     "source": "PHB",
@@ -125,7 +131,8 @@
       "Oath of Devotion": {
         "source": "PHB"
       }
-    }
+    },
+    "attributeSortOrder": ["Str", "Cha"]
   },
   "Ranger": {
     "source": "PHB",
@@ -144,7 +151,8 @@
       "Hunter": {
         "source": "PHB"
       }
-    }
+    },
+    "attributeSortOrder": ["Dex", "Wis"]
   },
   "Rogue": {
     "source": "PHB",
@@ -165,7 +173,8 @@
       "Thief": {
         "source": "PHB"
       }
-    }
+    },
+    "attributeSortOrder": ["Dex", "Int", "Cha"]
   },
   "Sorcerer": {
     "source": "PHB",
@@ -182,7 +191,8 @@
       "Draconic Bloodline": {
         "source": "PHB"
       }
-    }
+    },
+    "attributeSortOrder": ["Cha", "Con"]
   },
   "Warlock": {
     "source": "PHB",
@@ -200,7 +210,8 @@
       "The Fiend": {
         "source": "PHB"
       }
-    }
+    },
+    "attributeSortOrder": ["Cha", "Con"]
   },
   "Wizard": {
     "source": "PHB",
@@ -217,6 +228,7 @@
       "School of Evocation": {
         "source": "PHB"
       }
-    }
+    },
+    "attributeSortOrder": ["Int", "Con"]
   }
 }

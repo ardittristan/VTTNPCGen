@@ -22,6 +22,11 @@
                         <label for="useSubclass">{{localize "npcGen.useSubclass"}}</label>
                     </div>
 
+                    <div class="npc-generator-box top" >
+                        <input name="useMinMaxStats" id="useMinMaxStats" type="checkbox" style="vertical-align: middle;" {{#if (ischeckboxonextended "useMinMaxStats")}}checked{{/if}}>
+                        <label for="useMinMaxStats">{{localize "npcGen.useMinMaxStats"}}</label>
+                    </div>
+
                     <div class="npc-generator-box top" style=" overflow-x: hidden;">
                         <label for="level" style="margin-top: 5px; margin-left: 5px; vertical-align: middle;">{{localize "npcGen.level"}}</label>
                         <input name="level" type="number" min="1" value="{{level}}">

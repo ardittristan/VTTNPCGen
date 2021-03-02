@@ -102,6 +102,8 @@ export default class NPCGenerator extends FormApplication {
 
     this.useSubclass = false;
 
+    this.useMinMaxStats = false;
+
     this.disabledBoxes = game.settings.get("npcgen", "disabledBoxes")[0];
 
     this.weights = game.settings.get("npcgen", "weights");
@@ -199,6 +201,7 @@ export default class NPCGenerator extends FormApplication {
     data.gender = this.gender;
     data.relationshipStatus = this.relationshipStatus;
     data.useSubclass = this.useSubclass;
+    data.useMinMaxStats = this.useMinMaxStats;
 
     /* -------------< Generator Data >--------------- */
 
@@ -483,7 +486,7 @@ export default class NPCGenerator extends FormApplication {
     this.generateAbilityModifiers();
 
     // total
-    this.generateAbilityTotals();
+    this.generateAbilityTotals(d);
 
     // Class info
     // hp
@@ -846,13 +849,65 @@ export default class NPCGenerator extends FormApplication {
     }
   }
 
-  generateAbilityTotals() {
-    this.genStr = String(rollDiceString("3d6") + this.genStrMod);
-    this.genDex = String(rollDiceString("3d6") + this.genDexMod);
-    this.genCon = String(rollDiceString("3d6") + this.genConMod);
-    this.genInt = String(rollDiceString("3d6") + this.genIntMod);
-    this.genWis = String(rollDiceString("3d6") + this.genWisMod);
-    this.genCha = String(rollDiceString("3d6") + this.genChaMod);
+  generateAbilityTotals(d) {
+    if (d.useMinMaxStats)
+    {
+      this.generateAbilityTotalsMinMax();
+    }
+    else
+    {
+      this.genStr = String(rollDiceString("3d6") + this.genStrMod);
+      this.genDex = String(rollDiceString("3d6") + this.genDexMod);
+      this.genCon = String(rollDiceString("3d6") + this.genConMod);
+      this.genInt = String(rollDiceString("3d6") + this.genIntMod);
+      this.genWis = String(rollDiceString("3d6") + this.genWisMod);
+      this.genCha = String(rollDiceString("3d6") + this.genChaMod);
+    }
+  }
+
+  generateAbilityTotalsMinMax() {
+    let scoreList = [];
+
+    for (let i = 0; i < 6; i++) {
+      scoreList.push(rollDiceString("3d6"));
+    }
+
+    scoreList.sort(ascending_sort);
+
+    let attributeSortOrder = [];
+    var object = this.classesJSON[this.genClass];
+    object.attributeSortOrder.forEach((value) => {
+      attributeSortOrder.push(value);
+    });
+
+    let fullAttributeList = {};
+    fullAttributeList["Str"] = 0;
+    fullAttributeList["Dex"] = 0;
+    fullAttributeList["Con"] = 0;
+    fullAttributeList["Int"] = 0;
+    fullAttributeList["Wis"] = 0;
+    fullAttributeList["Cha"] = 0;
+
+    attributeSortOrder.forEach((value) => {
+      fullAttributeList[value] = scoreList.pop();
+    });
+
+    scoreList.sort(random_sort);
+
+    for (var key in fullAttributeList)
+    {
+      if (fullAttributeList[key] === 0)
+      {
+        fullAttributeList[key] = scoreList.pop();
+      }
+    }
+
+    this.genStr = String(fullAttributeList["Str"] + this.genStrMod);
+    this.genDex = String(fullAttributeList["Dex"] + this.genDexMod);
+    this.genCon = String(fullAttributeList["Con"] + this.genConMod);
+    this.genInt = String(fullAttributeList["Int"] + this.genIntMod);
+    this.genWis = String(fullAttributeList["Wis"] + this.genWisMod);
+    this.genCha = String(fullAttributeList["Cha"] + this.genChaMod);
   }
 
   generateSubclass(d) {
@@ -1302,4 +1357,22 @@ function removeGenFromObj(obj) {
     }
   });
   return newObj;
+}
+
+/**
+ * Function to help perform a random sort of an array
+ * @param {*} a 
+ * @param {*} b 
+ */
+function random_sort(a, b) {
+  return Math.random() - 0.5;
+}
+
+/**
+ * Function to help perform a descending sort of an array
+ * @param {*} a 
+ * @param {*} b 
+ */
+function ascending_sort(a, b) {
+  return a - b;
 }
