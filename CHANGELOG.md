@@ -1,5 +1,9 @@
 # Patch Notes
 
+## Version 0.4.1
+
+* Adjust HP modification to take con modifier into account [#14](https://github.com/ardittristan/VTTNPCGen/pull/14)
+
 ## Version 0.4.0
 
 * Add class-specific token generation.
