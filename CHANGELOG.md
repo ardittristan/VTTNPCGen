@@ -1,5 +1,9 @@
 # Patch Notes
 
+## Version 0.4.2
+
+* Add min/max option for stats generation for a particular class [#15](https://github.com/ardittristan/VTTNPCGen/pull/15)
+
 ## Version 0.4.1
 
 * Adjust HP modification to take con modifier into account [#14](https://github.com/ardittristan/VTTNPCGen/pull/14)
