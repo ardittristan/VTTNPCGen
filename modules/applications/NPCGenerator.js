@@ -856,12 +856,12 @@ export default class NPCGenerator extends FormApplication {
     }
     else
     {
-      this.genStr = String(rollDiceString("3d6") + this.genStrMod);
-      this.genDex = String(rollDiceString("3d6") + this.genDexMod);
-      this.genCon = String(rollDiceString("3d6") + this.genConMod);
-      this.genInt = String(rollDiceString("3d6") + this.genIntMod);
-      this.genWis = String(rollDiceString("3d6") + this.genWisMod);
-      this.genCha = String(rollDiceString("3d6") + this.genChaMod);
+      this.genStr = String(rollDiceString("4d6kh3") + this.genStrMod);
+      this.genDex = String(rollDiceString("4d6kh3") + this.genDexMod);
+      this.genCon = String(rollDiceString("4d6kh3") + this.genConMod);
+      this.genInt = String(rollDiceString("4d6kh3") + this.genIntMod);
+      this.genWis = String(rollDiceString("4d6kh3") + this.genWisMod);
+      this.genCha = String(rollDiceString("4d6kh3") + this.genChaMod);
     }
   }
 
@@ -869,7 +869,7 @@ export default class NPCGenerator extends FormApplication {
     let scoreList = [];
 
     for (let i = 0; i < 6; i++) {
-      scoreList.push(rollDiceString("3d6"));
+      scoreList.push(rollDiceString("4d6kh3"));
     }
 
     scoreList.sort(ascending_sort);
@@ -1328,11 +1328,47 @@ function weightedRandom(max, numDice) {
  * @param  {String} diceString
  */
 function rollDiceString(diceString) {
+  let diceStringMatch = diceString.match(/(?<numberOfDice>[\d]+)d(?<diceType>[\d]+)(?<keep>k(?<highOrLow>[hl])(?<keepAmount>[\d]+))?/i);
+  let numberOfDice = diceStringMatch.groups.numberOfDice;
+  let diceType = diceStringMatch.groups.diceType;
+  let keep = diceStringMatch.groups.keep;
+  let highOrLow = diceStringMatch.groups.highOrLow;
+  let keepAmount = diceStringMatch.groups.keepAmount;
+
+  if (keep === undefined)
+  {
+    // if we don't have keep, we can use the same logic by setting the keep amount to be the same number as the total number of dice
+    // and it'll be the same result
+    keep = "k";
+    highOrLow = "h";
+    keepAmount = numberOfDice;
+  }
+
   let [count, dice] = diceString.split("d");
   let total = 0;
-  for (let i = 0; i < count; i++) {
-    total += Math.ceil(Math.random() * dice);
+  let diceResults = [];
+
+  for (let i = 0; i < numberOfDice; i++) {
+    diceResults.push(Math.ceil(Math.random() * diceType));
   }
+
+  if (highOrLow === "h")
+  {
+    diceResults.sort(descending_sort);
+  }
+  else
+  {
+    diceResults.sort(ascending_sort);
+  }
+
+  for (let i = 0; i < keepAmount; i++) {
+    total += diceResults[i];
+  }
+
+  console.info("%cINFO | NPC Dice String Request:", "color: #fff; background-color: #444; padding: 2px 4px; border-radius: 2px;", removeGenFromObj(diceString));
+  console.info("%cINFO | NPC generator rolls:", "color: #fff; background-color: #444; padding: 2px 4px; border-radius: 2px;", removeGenFromObj(diceResults));
+  console.info("%cINFO | NPC generator total:", "color: #fff; background-color: #444; padding: 2px 4px; border-radius: 2px;", removeGenFromObj(total));
+
   return total;
 }
 
@@ -1369,10 +1405,19 @@ function random_sort(a, b) {
 }
 
 /**
- * Function to help perform a descending sort of an array
+ * Function to help perform a ascending sort of an array
  * @param {*} a 
  * @param {*} b 
  */
 function ascending_sort(a, b) {
   return a - b;
+}
+
+/**
+ * Function to help perform a descending sort of an array
+ * @param {*} a 
+ * @param {*} b 
+ */
+function descending_sort(a, b) {
+  return b - a;
 }
