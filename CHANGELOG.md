@@ -1,5 +1,9 @@
 # Patch Notes
 
+## Version 0.4.3
+
+* Add support for rolls like 4d6kh3/4d6kl3 for keep highest/keep lowest rolls and change to use 4d6kh3 for character creation [#16](https://github.com/ardittristan/VTTNPCGen/pull/16)
+
 ## Version 0.4.2
 
 * Add min/max option for stats generation for a particular class [#15](https://github.com/ardittristan/VTTNPCGen/pull/15)
