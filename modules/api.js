@@ -6,7 +6,7 @@ import defaultOptions from "../data/defaultApiOptions.js";
  * @param {number} [amount=1]
  * @param {defaultOptions} [options={}]
  */
-export default async function generateNPC(amount = 1, options = {}) {
+export default async function generateNPC(amount = 1, options = defaultOptions, fillDefault = false) {
   if (options.createFoolishNumber !== true && amount > 64) {
     ui.notifications.warn(game.i18n.localize("npcGen.uiError"));
     throw new Error(game.i18n.localize("npcGen.consoleError"));
@@ -23,11 +23,12 @@ export default async function generateNPC(amount = 1, options = {}) {
     defaultYes: false,
   });
 
-
   if (!confirmed) return;
 
-  if (Object.keys(options).length === 0) {
-    options = defaultOptions;
+  if (fillDefault) {
+    Object.keys(defaultOptions).forEach((key) => {
+      if (key in options === false) options[key] = defaultOptions[key];
+    });
   }
   let actors = [];
 
@@ -50,7 +51,7 @@ export default async function generateNPC(amount = 1, options = {}) {
     actors.push(actorData);
   }
 
-  console.log(actors)
+  console.log(actors);
 
-  await CONFIG.Actor.entityClass.create(actors);
+  return await CONFIG.Actor.entityClass.create(actors);
 }

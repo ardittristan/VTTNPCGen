@@ -1,5 +1,9 @@
 # Patch Notes
 
+## Version 0.4.4
+
+* Api improvements
+
 ## Version 0.4.3
 
 * Add support for rolls like 4d6kh3/4d6kl3 for keep highest/keep lowest rolls and change to use 4d6kh3 for character creation [#16](https://github.com/ardittristan/VTTNPCGen/pull/16)

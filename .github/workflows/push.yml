@@ -1,0 +1,40 @@
+name: Push To Deploy
+on:
+  workflow_dispatch:
+
+# add this to action to run
+#
+# - name: Invoke push script
+#   uses: benc-uk/workflow-dispatch@v1
+#   with:
+#     workflow: Push To Deploy
+#     token: ${{ secrets.PERSONAL_TOKEN }}
+
+jobs:
+  push:
+    name: Push update
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Create node Environment
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14'
+      - name: Get Variables
+        shell: bash
+        id: get-variables
+        run: |
+          echo "::set-output name=changelog::$(node ./.github/workflows/get-changelog.js)"
+          echo "::set-output name=comp-core::$(node ./.github/workflows/get-comp-core.js)"
+          echo "::set-output name=id::$(node ./.github/workflows/get-id.js)"
+          echo "::set-output name=manifest::$(node ./.github/workflows/get-manifest.js)"
+          echo "::set-output name=min-core::$(node ./.github/workflows/get-min-core.js)"
+          echo "::set-output name=version::$(node ./.github/workflows/get-version.js)"
+      - name: Trigger Deploy Workflow
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: Deploy To Foundry
+          repo: ardittristan/FoundryUpdater
+          token: ${{ secrets.PERSONAL_TOKEN }}
+          inputs: format('{{"moduleId": "{1}", "moduleVersion": "{2}", "moduleManifest": "{3}", "moduleChangelog": "{4}", "moduleMinCore": "{5}", "moduleCompCore": "{6}"}}', ${{ steps.get-variables.outputs.id }}, ${{ steps.get-variables.outputs.version }}, ${{ steps.get-variables.outputs.manifest }}, ${{ steps.get-variables.outputs.changelog }}, ${{ steps.get-variables.outputs.min-core }}, ${{ steps.get-variables.outputs.comp-core }})

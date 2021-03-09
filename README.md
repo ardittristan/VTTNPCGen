@@ -44,9 +44,10 @@ Though not recommended there is an api that can be used to generate npcs.
 <summary>API info</summary>
 
 &nbsp;  
-`npcGen.generateNPC(amount, options);`
+`npcGen.generateNPC(amount = 1, options = npcGen.defaultApiOptions, fillDefault = false);`
 
 * `amount` is amount of npcs to generate
 * `options` is an object with all the options for the generator, how this object looks can be found in the console when clicking generate in the npc generator. If no options are provided everything default is enabled.
+* `fillDefault` makes missing options default to true if enabled (otherwise they default to false)
 
 </details>
