@@ -37,4 +37,4 @@ jobs:
           workflow: Deploy To Foundry
           repo: ardittristan/FoundryUpdater
           token: ${{ secrets.PERSONAL_TOKEN }}
-          inputs: format('{{"moduleId": "{1}", "moduleVersion": "{2}", "moduleManifest": "{3}", "moduleChangelog": "{4}", "moduleMinCore": "{5}", "moduleCompCore": "{6}"}}', ${{ steps.get-variables.outputs.id }}, ${{ steps.get-variables.outputs.version }}, ${{ steps.get-variables.outputs.manifest }}, ${{ steps.get-variables.outputs.changelog }}, ${{ steps.get-variables.outputs.min-core }}, ${{ steps.get-variables.outputs.comp-core }})
+          inputs: format('{{"moduleId":"{1}","moduleVersion":"{2}","moduleManifest":"{3}","moduleChangelog":"{4}","moduleMinCore":"{5}","moduleCompCore":"{6}"}}',${{ steps.get-variables.outputs.id }}, ${{ steps.get-variables.outputs.version }}, ${{ steps.get-variables.outputs.manifest }}, ${{ steps.get-variables.outputs.changelog }}, ${{ steps.get-variables.outputs.min-core }}, ${{ steps.get-variables.outputs.comp-core }})
