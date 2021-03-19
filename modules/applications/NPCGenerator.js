@@ -294,6 +294,18 @@ export default class NPCGenerator extends FormApplication {
   activateListeners(html) {
     super.activateListeners(html);
 
+    html.find(".npc-generator-header").on("click", (e) => {
+      var panel = e.currentTarget.nextElementSibling;
+      var indicator = e.currentTarget.querySelector(".indicator");
+      if (panel.style.display !== "none") {
+        panel.style.display = "none";
+        indicator.innerText = '+';
+      } else {
+        panel.style.display = "block";
+        indicator.innerText = '-';
+      }
+    })
+
     html.find(".npc-generator-bottom-button[name='cancel']").on("click", (e) => {
       e.preventDefault();
       this.close();
@@ -326,13 +338,6 @@ export default class NPCGenerator extends FormApplication {
         e.originalEvent.target.size = e.originalEvent.target.value.length * 1.15 + 1.5;
       });
       e.size = e.value.length * 1.15 + 1.5;
-    });
-
-    html.find('input[type="number"]').each((_, e) => {
-      jQuery(e).on("input", (e) => {
-        e.originalEvent.target.style.width = e.originalEvent.target.value.length + 1.2 + "em";
-      });
-      e.style.width = e.value.length + 1.2 + "em";
     });
 
     html

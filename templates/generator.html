@@ -1,23 +1,44 @@
 <form class="npc-generator-form" id="npcgen-form" autocomplete="off" onsubmit="event.preventDefault()">
 
-    <link href='https://fonts.googleapis.com/css?family=Voces' rel='stylesheet'>
-    <link href='https://fonts.googleapis.com/css?family=Roboto Mono' rel='stylesheet'>
+    <div class="npc-generator" style="display: flex; flex-direction: row;">
+        <div class="npc-generator-nav col-3">
 
-    <div style="width: 100%; height: calc(100% - 48px);">
+            <!-- Races -->
+            <div class="npc-generator-accordion">
+                <div class="npc-generator-header">
+                    <h3><div class="indicator">+</div>  {{localize "npcGen.races"}}</h3>
+                </div>
+                <div class="npc-generator-list" style="display: none;">
 
-        <div style="overflow: scroll; overflow-y: hidden;">
+                    {{#each races}}
+                    <div style="display: flex;">
+                        <input name="ProbRace{{this}}" id="Prob{{this}}" title="{{localize "npcGen.probability"}}" type="number" min="1" value="{{npcGenProbWeight this "Race"}}">
+                        <input name="Race{{this}}" id="{{this}}" type="checkbox" {{#if (ischeckboxon this)}}checked{{/if}}>
+                        <label style="align-self: center;" for="{{this}}">{{this}}</label>
+                        <div class="nameForcedDiv">
+                            &nbsp;
+                            <input name="Race{{this}}FirstNameForced" class="nameForced" title="{{localize "npcGen.forceFirstName"}}" id="{{this}}FirstNameForced" type="checkbox" {{#if (ischeckboxonextended (concat this "FirstNameForced"))}}checked{{/if}}>
+                            <input name="Race{{this}}LastNameForced" class="nameForced" title="{{localize "npcGen.forceLastName"}}" id="{{this}}LastNameForced" type="checkbox" {{#if (ischeckboxonextended (concat this "LastNameForced"))}}checked{{/if}}>
+                        </div>
+                    </div>
+                    {{/each}}
 
-            <div class="npc-generator-top">
+                </div>
+            </div>
 
-                <!-- title box -->
-                <div class="npc-generator-box left top right npc-generator-header">
-
-                    <div class="npc-generator-box header">
-                        <input name="genFirstName" type="text" value="{{genFirstName}}">
-                        <input name="genLastName" type="text" value="{{genLastName}}">
+            <!-- Classes -->
+            <div class="npc-generator-accordion">
+                <div class="npc-generator-header">
+                    <h3><div class="indicator">+</div>  {{localize "npcGen.classes"}}</h3>
+                </div>
+                <div class="npc-generator-list" style="display: none;">
+                    <div class="npc-generator-box top" style=" overflow-x: hidden;">
+                        <label for="level" style="margin-top: 5px; margin-left: 5px; vertical-align: middle;">{{localize "npcGen.level"}}</label>
+                        <input name="level" type="number" min="1" value="{{level}}">
+                        <i style="vertical-align: middle;">({{localize "npcGen.levelDesc"}})</i>
                     </div>
 
-                    <div class="npc-generator-box top" >
+                    <div class="npc-generator-box" >
                         <input name="useSubclass" id="useSubclass" type="checkbox" style="vertical-align: middle;" {{#if (ischeckboxonextended "useSubclass")}}checked{{/if}}>
                         <label for="useSubclass">{{localize "npcGen.useSubclass"}}</label>
                     </div>
@@ -27,429 +48,325 @@
                         <label for="useMinMaxStats">{{localize "npcGen.useMinMaxStats"}}</label>
                     </div>
 
-                    <div class="npc-generator-box top" style=" overflow-x: hidden;">
-                        <label for="level" style="margin-top: 5px; margin-left: 5px; vertical-align: middle;">{{localize "npcGen.level"}}</label>
-                        <input name="level" type="number" min="1" value="{{level}}">
-                        <i style="vertical-align: middle;">({{localize "npcGen.levelDesc"}})</i>
+                    {{#each classes}}
+
+                    <div>
+                        <input name="ProbClass{{this}}" id="Prob{{this}}" title="{{localize "npcGen.probability"}}" type="number" min="1" value="{{npcGenProbWeight this "Class"}}">
+                        <input name="Class{{this}}" id="{{this}}" type="checkbox" {{#if (ischeckboxon this)}}checked{{/if}}>
+                        <label for="{{this}}">{{this}}</label>
                     </div>
 
+                    {{/each}}
                 </div>
-
-                <!-- gender -->
-                <div class="npc-generator-box top">
-
-                    <div class="npc-generator-box-header-rotated">
-                        <h3 style="margin-top: 5px; margin-bottom: 5px;">{{localize "npcGen.gender"}}</h3>
-                    </div>
-
-                    <div class="npc-generator-box left" style="margin-left: 30px;">
-                        <div class="npc-generator-list">
-
-                            {{#each gender}}
-
-                            <div>
-                                <input name="ProbGender{{this}}" id="Prob{{this}}" title="{{localize "npcGen.probability"}}" type="number" min="1" value="{{npcGenProbWeight this "Gender"}}">
-                                <input name="Gender{{this}}" id="{{this}}" type="checkbox" {{#if (ischeckboxon this)}}checked{{/if}}>
-                                <label for="{{this}}">{{this}}</label>
-                            </div>
-
-                            {{/each}}
-
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- traits -->
-                <div class="npc-generator-box top">
-
-                    <div class="npc-generator-box-header-rotated">
-                        <h3 style="margin-top: 5px; margin-bottom: 5px;">{{localize "npcGen.traits"}}</h3>
-                    </div>
-
-                    <div class="npc-generator-box left" style="margin-left: 30px;">
-                        <div class="npc-generator-list">
-
-                            {{#each personalityTraits}}
-
-                            <div>
-                                <input name="ProbTrait{{this}}" id="Prob{{this}}" title="{{localize "npcGen.amount"}}" type="number" min="1" value="{{npcGenProbWeight this "Trait"}}">
-                                <input name="Trait{{this}}" id="{{this}}" type="checkbox" {{#if (ischeckboxon this)}}checked{{/if}}>
-                                <label for="{{this}}">{{this}}</label>
-                            </div>
-
-                            {{/each}}
-
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- profession -->
-                <div class="npc-generator-box top">
-
-                    <div class="npc-generator-box-header-rotated">
-                        <h3 style="margin-top: 5px; margin-bottom: 5px;">{{localize "npcGen.professions"}}</h3>
-                    </div>
-
-                    <div class="npc-generator-box left" style="margin-left: 30px;">
-                        <div class="npc-generator-list">
-
-                            {{#each professions}}
-
-                            <div>
-                                <input name="ProbProfession{{this}}" id="Prob{{this}}" title="{{localize "npcGen.probability"}}" type="number" min="1" value="{{npcGenProbWeight this "Profession"}}">
-                                <input name="Profession{{this}}" id="{{this}}" type="checkbox" {{#if (ischeckboxon this)}}checked{{/if}}>
-                                <label for="{{this}}">{{this}}</label>
-                            </div>
-
-                            {{/each}}
-
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- relationship -->
-                <div class="npc-generator-box top">
-
-                    <div class="npc-generator-box-header-rotated">
-                        <h3 style="margin-top: 5px; margin-bottom: 5px;">{{localize "npcGen.relationship"}}</h3>
-                    </div>
-
-                    <div class="npc-generator-box left" style="margin-left: 30px;">
-                        <div class="npc-generator-list">
-
-                            {{#each relationshipStatus}}
-
-                            <div>
-                                <input name="ProbRelationshipStatus{{this}}" id="Prob{{this}}" title="{{localize "npcGen.probability"}}" type="number" min="1" value="{{npcGenProbWeight this "RelationshipStatus"}}">
-                                <input name="RelationshipStatus{{this}}" id="{{this}}" type="checkbox" {{#if (ischeckboxon this)}}checked{{/if}}>
-                                <label for="{{this}}">{{this}}</label>
-                            </div>
-
-                            {{/each}}
-
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- orientation -->
-                <div class="npc-generator-box top right">
-
-                    <div class="npc-generator-box-header-rotated">
-                        <h3 style="margin-top: 5px; margin-bottom: 5px;">{{localize "npcGen.orientation"}}</h3>
-                    </div>
-
-                    <div class="npc-generator-box left" style="margin-left: 30px;">
-                        <div class="npc-generator-list">
-
-                            {{#each orientation}}
-
-                            <div>
-                                <input name="ProbOrientation{{this}}" id="Prob{{this}}" title="{{localize "npcGen.probability"}}" type="number" min="1" value="{{npcGenProbWeight this "Orientation"}}">
-                                <input name="Orientation{{this}}" id="{{this}}" type="checkbox" {{#if (ischeckboxon this)}}checked{{/if}}>
-                                <label for="{{this}}">{{this}}</label>
-                            </div>
-
-                            {{/each}}
-
-                        </div>
-                    </div>
-
-                </div>
-
             </div>
 
-            <div style="overflow-x: hidden;">
-
-                <!-- Vertical Collumns -->
-                <div class="npc-generator-flexrow" style="padding-top: 1px; padding-bottom: 1px;">
-
-
-                    <!-- races -->
-                    <div class="npc-generator-box left bottom">
-
-                        <div class="npc-generator-box-header">
-                            <h3 style="margin-top: 0px; margin-bottom: 0px;">{{localize "npcGen.races"}}</h3>
-                        </div>
-
-                        <div class="npc-generator-list">
-
-                            {{#each races}}
-
-                            <div style="display: flex;">
-                                <input name="ProbRace{{this}}" id="Prob{{this}}" title="{{localize "npcGen.probability"}}" type="number" min="1" value="{{npcGenProbWeight this "Race"}}">
-                                <input name="Race{{this}}" id="{{this}}" type="checkbox" {{#if (ischeckboxon this)}}checked{{/if}}>
-                                <label style="align-self: center;" for="{{this}}">{{this}}</label>
-                                <div class="nameForcedDiv">
-                                    &nbsp;
-                                    <input name="Race{{this}}FirstNameForced" class="nameForced" title="{{localize "npcGen.forceFirstName"}}" id="{{this}}FirstNameForced" type="checkbox" {{#if (ischeckboxonextended (concat this "FirstNameForced"))}}checked{{/if}}>
-                                    <input name="Race{{this}}LastNameForced" class="nameForced" title="{{localize "npcGen.forceLastName"}}" id="{{this}}LastNameForced" type="checkbox" {{#if (ischeckboxonextended (concat this "LastNameForced"))}}checked{{/if}}>
-                                </div>
-                            </div>
-
-                            {{/each}}
-
-                        </div>
-
-                    </div>
-
-                    <!-- classes -->
-                    <div class="npc-generator-box left bottom">
-
-                        <div class="npc-generator-box-header">
-                            <h3 style="margin-top: 0px; margin-bottom: 0px;">{{localize "npcGen.classes"}}</h3>
-                        </div>
-
-                        <div class="npc-generator-list">
-
-                            {{#each classes}}
-
-                            <div>
-                                <input name="ProbClass{{this}}" id="Prob{{this}}" title="{{localize "npcGen.probability"}}" type="number" min="1" value="{{npcGenProbWeight this "Class"}}">
-                                <input name="Class{{this}}" id="{{this}}" type="checkbox" {{#if (ischeckboxon this)}}checked{{/if}}>
-                                <label for="{{this}}">{{this}}</label>
-                            </div>
-
-                            {{/each}}
-
-                        </div>
-
-                    </div>
-
-
-
-
-                    <!-- output box -->
-                    <div class="npc-generator-box all" style="width: 100%; height: 100%; overflow: hidden;">
-                        <div class="npc-generator-big-box">
-                            <div class="npc-generator-big-box-inside">
-
-                                <!-- ability score -->
-                                <div class="npc-generator-box">
-
-                                    <table>
-                                        <tr>
-                                            <td colspan="3" style="text-align: center;">
-                                                <b>{{localize "npcGen.abilityScore"}}</b>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{localize "npcGen.strength"}}:</td>
-                                            <td><input type="text" name="genStr" value="{{genStr}}"></td>
-                                            <td>[<input type="text" name="genStrMod" value="{{genStrMod}}">]</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{localize "npcGen.dexterity"}}:</td>
-                                            <td><input type="text" name="genDex" value="{{genDex}}"></td>
-                                            <td>[<input type="text" name="genDexMod" value="{{genDexMod}}">]</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{localize "npcGen.constitution"}}:</td>
-                                            <td><input type="text" name="genCon" value="{{genCon}}"></td>
-                                            <td>[<input type="text" name="genConMod" value="{{genConMod}}">]</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{localize "npcGen.intelligence"}}:</td>
-                                            <td><input type="text" name="genInt" value="{{genInt}}"></td>
-                                            <td>[<input type="text" name="genIntMod" value="{{genIntMod}}">]</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{localize "npcGen.wisdom"}}:</td>
-                                            <td><input type="text" name="genWis" value="{{genWis}}"></td>
-                                            <td>[<input type="text" name="genWisMod" value="{{genWisMod}}">]</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{localize "npcGen.charisma"}}:</td>
-                                            <td><input type="text" name="genCha" value="{{genCha}}"></td>
-                                            <td>[<input type="text" name="genChaMod" value="{{genChaMod}}">]</td>
-                                        </tr>
-                                    </table>
-
-                                </div>
-
-                                <div class="npc-generator-box">
-
-                                    <!-- relationships -->
-                                    <div class="npc-generator-box" style="margin-bottom: 5px;">
-
-                                        <table>
-                                            <tr>
-                                                <td colspan="2">
-                                                    <b>{{localize "npcGen.relationships"}}</b>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>{{localize "npcGen.gender"}}:</td>
-                                                <td><input type="text" name="genGender" value="{{genGender}}"></td>
-                                            </tr>
-                                            <tr>
-                                                <td style="vertical-align:top">{{localize "npcGen.relationship"}}:</td>
-                                                <td><input type="text" name="genRelationship" value="{{genRelationship}}"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>{{localize "npcGen.orientation"}}:</td>
-                                                <td><input type="text" name="genOrientation" value="{{genOrientation}}"></td>
-                                            </tr>
-                                        </table>
-
-                                    </div>
-
-                                    <!-- profession -->
-                                    <div class="npc-generator-box">
-
-                                        <table style="text-align: center;">
-                                            <tr>
-                                                <td>
-                                                    <b>{{localize "npcGen.profession"}}</b>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><input type="text" name="genProfession" value="{{genProfession}}"></td>
-                                            </tr>
-                                        </table>
-
-                                    </div>
-                                </div>
-
-                                <!-- racial -->
-                                <div class="npc-generator-box">
-                                    <table>
-                                        <tr>
-                                            <td colspan="2">
-                                                <b>{{localize "npcGen.racial"}}</b>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{localize "npcGen.race"}}:</td>
-                                            <td><input type="text" name="genRace" value="{{genRace}}"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{localize "npcGen.age"}}:</td>
-                                            <td><input type="text" name="genAge" value="{{genAge}}"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{localize "npcGen.language"}}:</td>
-                                            <td><input type="text" name="genLanguages" value="{{#each genLanguages}}{{this}}, {{/each}}"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{localize "npcGen.height"}}:</td>
-                                            <td><input type="text" name="genHeight" value="{{genHeight}}"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{localize "npcGen.weight"}}:</td>
-                                            <td style="font-family: 'Roboto Mono', Roboto, monospace; font-size: 90%; white-space: nowrap;"><input type="text" style="max-width: fit-content;" name="genWeight" value="{{genWeight}}">{{localize "DND5E.AbbreviationLbs"}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{localize "npcGen.speed"}}:</td>
-                                            <td><input type="text" name="genSpeed" value="{{genSpeed}}"></td>
-                                        </tr>
-                                    </table>
-                                </div>
-
-                                <!-- class -->
-                                <div class="npc-generator-box">
-                                    <table>
-                                        <tr>
-                                            <td colspan="2">
-                                                <b>{{localize "npcGen.class"}}</b>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{localize "npcGen.class"}}:</td>
-                                            <td><input type="text" name="genClass" value="{{genClass}}"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{localize "npcGen.subclass"}}:</td>
-                                            <td><input type="text" name="genSubclass" value="{{genSubclass}}"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{localize "npcGen.hp"}}:</td>
-                                            <td><input type="text" name="genHp" value="{{genHp}}"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{localize "npcGen.savingThrow"}}:</td>
-                                            <td><input type="text" name="genSaveThrows" value="{{#each genSaveThrows}}{{this}}, {{/each}}"></td>
-                                        </tr>
-                                    </table>
-                                </div>
-
-                                <!-- traits -->
-                                <div class="npc-generator-box">
-                                    <table class="npc-traits">
-                                        <tr>
-                                            <td><b>{{localize "npcGen.traits"}}</b></td>
-                                        </tr>
-                                        <tr>
-                                            <td><textarea name="genTraits" form="npcgen-form">{{#each genTraits}}{{this}}
-{{/each}}</textarea></td>
-                                        </tr>
-                                    </table>
-                                </div>
-
-                                <!-- proficiencies -->
-                                <div class="npc-generator-box">
-                                    <table class="npc-proficiencies">
-                                        <tr>
-                                            <td><b>{{localize "npcGen.proficiencies"}}</b></td>
-                                        </tr>
-                                        <tr>
-                                            <td><textarea name="genProficiencies" form="npcgen-form">{{#each genProficiencies}}{{this}}
-{{/each}}</textarea></td>
-                                        </tr>
-                                    </table>
-                                </div>
-
-                                <!-- icon -->
-                                <div class="npc-generator-box">
-                                    <table class="npc-icon">
-                                        <tr>
-                                            <td><b>{{localize "npcGen.icon"}}</b></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <img src="{{genIcon}}" alt="icon" />
-                                                <input type="hidden" value="{{genIcon}}" name="genIcon" />
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-
-                                <!-- skills -->
-                                <div class="npc-generator-box" style="float: left; padding-bottom: 5px;">
-                                    <table class="npc-skills">
-                                        <tr>
-                                            <td><b>{{localize "npcGen.skills"}}:</b></td>
-                                            <td><input type="text" name="genSkills" value="{{#each genSkills}}{{this}}, {{/each}}"></td>
-                                        </tr>
-                                    </table>
-                                </div>
-
-                                <!-- plothook -->
-                                <div class="npc-generator-box plothook" style="margin-bottom: 0px;">
-                                    <table>
-                                        <tr>
-                                            <td><b>{{localize "npcGen.plotHook"}}:</b></td>
-                                            <td class="plothookTable"><input type="text" name="genPlotHook" value="{{genPlotHook}}"></td>
-                                        </tr>
-                                    </table>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
+            <div class="npc-generator-accordion">
+                <div class="npc-generator-header">
+                    <h3><div class="indicator">+</div>  {{localize "npcGen.gender"}}</h3>
                 </div>
+                <div class="npc-generator-list" style="display: none;">
+                    {{#each gender}}
 
+                    <div>
+                        <input name="ProbGender{{this}}" id="Prob{{this}}" title="{{localize "npcGen.probability"}}" type="number" min="1" value="{{npcGenProbWeight this "Gender"}}">
+                        <input name="Gender{{this}}" id="{{this}}" type="checkbox" {{#if (ischeckboxon this)}}checked{{/if}}>
+                        <label for="{{this}}">{{this}}</label>
+                    </div>
+
+                    {{/each}}
+                </div>
+            </div>
+
+            <div class="npc-generator-accordion">
+                <div class="npc-generator-header">
+                    <h3><div class="indicator">+</div>  {{localize "npcGen.traits"}}</h3>
+                </div>
+                <div class="npc-generator-list" style="display: none;">
+                    {{#each personalityTraits}}
+
+                    <div>
+                        <input name="ProbTrait{{this}}" id="Prob{{this}}" title="{{localize "npcGen.amount"}}" type="number" min="1" value="{{npcGenProbWeight this "Trait"}}">
+                        <input name="Trait{{this}}" id="{{this}}" type="checkbox" {{#if (ischeckboxon this)}}checked{{/if}}>
+                        <label for="{{this}}">{{this}}</label>
+                    </div>
+
+                    {{/each}}
+                </div>
+            </div>
+
+            <div class="npc-generator-accordion">
+                <div class="npc-generator-header">
+                    <h3><div class="indicator">+</div>  {{localize "npcGen.profession"}}</h3>
+                </div>
+                <div class="npc-generator-list" style="display: none;">
+                    {{#each professions}}
+
+                    <div>
+                        <input name="ProbProfession{{this}}" id="Prob{{this}}" title="{{localize "npcGen.probability"}}" type="number" min="1" value="{{npcGenProbWeight this "Profession"}}">
+                        <input name="Profession{{this}}" id="{{this}}" type="checkbox" {{#if (ischeckboxon this)}}checked{{/if}}>
+                        <label for="{{this}}">{{this}}</label>
+                    </div>
+
+                    {{/each}}
+                </div>
+            </div>
+
+            <div class="npc-generator-accordion">
+                <div class="npc-generator-header">
+                    <h3><div class="indicator">+</div>  {{localize "npcGen.relationship"}}</h3>
+                </div>
+                <div class="npc-generator-list" style="display: none;">
+                    {{#each relationshipStatus}}
+
+                    <div>
+                        <input name="ProbRelationshipStatus{{this}}" id="Prob{{this}}" title="{{localize "npcGen.probability"}}" type="number" min="1" value="{{npcGenProbWeight this "RelationshipStatus"}}">
+                        <input name="RelationshipStatus{{this}}" id="{{this}}" type="checkbox" {{#if (ischeckboxon this)}}checked{{/if}}>
+                        <label for="{{this}}">{{this}}</label>
+                    </div>
+
+                    {{/each}}
+                </div>
+            </div>
+
+            <div class="npc-generator-accordion">
+                <div class="npc-generator-header">
+                    <h3><div class="indicator">+</div>  {{localize "npcGen.orientation"}}</h3>
+                </div>
+                <div class="npc-generator-list" style="display: none;">
+                    {{#each orientation}}
+
+                    <div>
+                        <input name="ProbOrientation{{this}}" id="Prob{{this}}" title="{{localize "npcGen.probability"}}" type="number" min="1" value="{{npcGenProbWeight this "Orientation"}}">
+                        <input name="Orientation{{this}}" id="{{this}}" type="checkbox" {{#if (ischeckboxon this)}}checked{{/if}}>
+                        <label for="{{this}}">{{this}}</label>
+                    </div>
+
+                    {{/each}}
+                </div>
             </div>
 
         </div>
+        <div class="npc-generator-character col-9">
 
+                <!-- class -->
+                <div class="npc-generator-character-item col-6">
+                    <div class="npc-generator-character-name">
+                        <input name="genFirstName" type="text" value="{{genFirstName}}">
+                        <input name="genLastName" type="text" value="{{genLastName}}">
+                    </div>
+                    <table>
+                        <tr>
+                            <td colspan="2">
+                                <b>{{localize "npcGen.class"}}</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{{localize "npcGen.class"}}:</td>
+                            <td><input type="text" name="genClass" value="{{genClass}}"></td>
+                        </tr>
+                        <tr>
+                            <td>{{localize "npcGen.subclass"}}:</td>
+                            <td><input type="text" name="genSubclass" value="{{genSubclass}}"></td>
+                        </tr>
+                        <tr>
+                            <td>{{localize "npcGen.hp"}}:</td>
+                            <td><input type="text" name="genHp" value="{{genHp}}"></td>
+                        </tr>
+                        <tr>
+                            <td>{{localize "npcGen.savingThrow"}}:</td>
+                            <td><input type="text" name="genSaveThrows" value="{{#each genSaveThrows}}{{this}}, {{/each}}"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- ability score -->
+                <div class="npc-generator-character-item col-3 abilities">
+
+                    <table>
+                        <tr>
+                            <td colspan="3" style="text-align: center;">
+                                <b>{{localize "npcGen.abilityScore"}}</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{{localize "npcGen.strength"}}:</td>
+                            <td><input type="text" name="genStr" value="{{genStr}}"></td>
+                            <td>[<input type="text" name="genStrMod" value="{{genStrMod}}">]</td>
+                        </tr>
+                        <tr>
+                            <td>{{localize "npcGen.dexterity"}}:</td>
+                            <td><input type="text" name="genDex" value="{{genDex}}"></td>
+                            <td>[<input type="text" name="genDexMod" value="{{genDexMod}}">]</td>
+                        </tr>
+                        <tr>
+                            <td>{{localize "npcGen.constitution"}}:</td>
+                            <td><input type="text" name="genCon" value="{{genCon}}"></td>
+                            <td>[<input type="text" name="genConMod" value="{{genConMod}}">]</td>
+                        </tr>
+                        <tr>
+                            <td>{{localize "npcGen.intelligence"}}:</td>
+                            <td><input type="text" name="genInt" value="{{genInt}}"></td>
+                            <td>[<input type="text" name="genIntMod" value="{{genIntMod}}">]</td>
+                        </tr>
+                        <tr>
+                            <td>{{localize "npcGen.wisdom"}}:</td>
+                            <td><input type="text" name="genWis" value="{{genWis}}"></td>
+                            <td>[<input type="text" name="genWisMod" value="{{genWisMod}}">]</td>
+                        </tr>
+                        <tr>
+                            <td>{{localize "npcGen.charisma"}}:</td>
+                            <td><input type="text" name="genCha" value="{{genCha}}"></td>
+                            <td>[<input type="text" name="genChaMod" value="{{genChaMod}}">]</td>
+                        </tr>
+                    </table>
+
+                </div>
+
+                <!-- icon -->
+                <div class="npc-generator-character-item col-3">
+                    <table class="npc-icon">
+                        <tr>
+                            <td><b>{{localize "npcGen.icon"}}</b></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center">
+                                <img src="{{genIcon}}" alt="icon" />
+                                <input type="hidden" value="{{genIcon}}" name="genIcon" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- racial -->
+                <div class="npc-generator-character-item col-6">
+                    <table>
+                        <tr>
+                            <td colspan="2">
+                                <b>{{localize "npcGen.racial"}}</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{{localize "npcGen.race"}}:</td>
+                            <td><input type="text" name="genRace" value="{{genRace}}"></td>
+                        </tr>
+                        <tr>
+                            <td>{{localize "npcGen.age"}}:</td>
+                            <td><input type="text" name="genAge" value="{{genAge}}"></td>
+                        </tr>
+                        <tr>
+                            <td>{{localize "npcGen.language"}}:</td>
+                            <td><input type="text" name="genLanguages" value="{{#each genLanguages}}{{this}}, {{/each}}"></td>
+                        </tr>
+                        <tr>
+                            <td>{{localize "npcGen.height"}}:</td>
+                            <td><input type="text" name="genHeight" value="{{genHeight}}"></td>
+                        </tr>
+                        <tr>
+                            <td>{{localize "npcGen.weight"}}:</td>
+                            <td><input type="text" style="max-width: fit-content;" name="genWeight" value="{{genWeight}}">{{localize "DND5E.AbbreviationLbs"}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{localize "npcGen.speed"}}:</td>
+                            <td><input type="text" name="genSpeed" value="{{genSpeed}}"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- relationships -->
+                <div class="npc-generator-character-item col-6">
+                    <div class="npc-generator-box" style="margin-bottom: 5px;">
+                        <table>
+                            <tr>
+                                <td colspan="2">
+                                    <b>{{localize "npcGen.relationships"}}</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>{{localize "npcGen.gender"}}:</td>
+                                <td><input type="text" name="genGender" value="{{genGender}}"></td>
+                            </tr>
+                            <tr>
+                                <td style="vertical-align:top">{{localize "npcGen.relationship"}}:</td>
+                                <td><input type="text" name="genRelationship" value="{{genRelationship}}"></td>
+                            </tr>
+                            <tr>
+                                <td>{{localize "npcGen.orientation"}}:</td>
+                                <td><input type="text" name="genOrientation" value="{{genOrientation}}"></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- profession -->
+                    <div class="npc-generator-box">
+
+                        <table style="text-align: center;">
+                            <tr>
+                                <td>
+                                    <b>{{localize "npcGen.profession"}}</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" name="genProfession" value="{{genProfession}}"></td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </div>
+
+                <!-- traits -->
+                <div class="npc-generator-character-item col-6">
+                    <table class="npc-traits">
+                        <tr>
+                            <td><b>{{localize "npcGen.traits"}}</b></td>
+                        </tr>
+                        <tr>
+                            <td><textarea name="genTraits" form="npcgen-form" rows="5">{{#each genTraits}}{{this}}
+{{/each}}</textarea></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- proficiencies -->
+                <div class="npc-generator-character-item col-6">
+                    <table class="npc-proficiencies">
+                        <tr>
+                            <td><b>{{localize "npcGen.proficiencies"}}</b></td>
+                        </tr>
+                        <tr>
+                            <td><textarea name="genProficiencies" form="npcgen-form" rows="5">{{#each genProficiencies}}{{this}}
+{{/each}}</textarea></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- skills -->
+                <div class="npc-generator-character-item col-12" style="padding-bottom: 5px;">
+                    <table class="npc-skills">
+                        <tr>
+                            <th><b>{{localize "npcGen.skills"}}:</b></th>
+                        </tr>
+                        <tr>
+                            <td><input type="text" name="genSkills" value="{{#each genSkills}}{{this}}, {{/each}}"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- plothook -->
+                <div class="npc-generator-character-item col-12 plothook" style="margin-bottom: 0px;">
+                    <table>
+                        <tr>
+                            <th><b>{{localize "npcGen.plotHook"}}:</b></th>
+                        </tr>
+                        <tr>
+                            <td class="plothookTable"><textarea type="text" name="genPlotHook" form="npcgen-form">{{genPlotHook}}</textarea></td>
+                        </tr>
+                    </table>
+                </div>
+
+        </div>
     </div>
 
-    <div class="npc-generator-box" style="height: 20px; max-height: 20px; padding-top: 20px; width: 100%;">
+    <div style="height: 20px; max-height: 20px; width: 100%;">
         <button class="npc-generator-bottom-button" name="cancel">{{localize "npcGen.cancel"}}</button>
         <button class="npc-generator-bottom-button" name="generate">{{localize "npcGen.generate"}}</button>
         <button class="npc-generator-bottom-button" name="accept">{{localize "npcGen.accept"}}</button>
