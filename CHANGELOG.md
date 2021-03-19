@@ -1,5 +1,10 @@
 # Patch Notes
 
+## Version 0.5.0
+
+* Greatly improve generator ui, a lot of thanks to @marcstraube [#19](https://github.com/ardittristan/VTTNPCGen/pull/19)
+* Add german translation [#18](https://github.com/ardittristan/VTTNPCGen/pull/18)
+
 ## Version 0.4.4
 
 * Api improvements

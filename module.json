@@ -2,8 +2,8 @@
   "name": "npcgen",
   "title": "Not Enough NPCs: A 5e NPC Generator",
   "description": "Allows you to generate basic npc characters in foundry.",
-  "version": "0.4.4",
-  "author": "ardittristan#0001",
+  "version": "0.5.0",
+  "author": "ardittristan#0001, ui: marcstraube",
   "esmodules": [
     "npc-gen.js"
   ],
