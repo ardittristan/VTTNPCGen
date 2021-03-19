@@ -1,251 +1,69 @@
-#actors .directory-footer .npc-generator-btn {
-  margin-top: 5px;
-}
-
-#actors .directory-footer .create-entity {
-  margin-top: 5px;
-}
-
-#actors .directory-footer .create-folder {
-  margin-top: 5px;
-}
-
-#actors .directory-footer {
-  display: block;
-}
-
 #npcgenerator-menu.app.window-app.sheet {
-  max-height: 648px;
-  min-height: 648px;
+  min-height: 600px;
+  min-width: 615px;
 }
 
-.npc-generator-top {
-  display: flex;
-  flex-direction: row;
-  width: fit-content;
-  height: 20%;
-  margin-bottom: -2px;
-  border-bottom: thin solid black;
+.npc-generator-form {
+  height: 100%;
 }
 
-.npc-generator-header .npc-generator-box {
-  padding-right: 5px;
+.npc-generator {
+  height: calc(100% - 30px);
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
-.npc-generator-box.header {
-  height: 70px;
-  padding-left: 5px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  float: none;
-  align-items: center;
-  text-align: center;
+.npc-generator-accordion {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  margin-bottom: 5px;
 }
 
 .npc-generator-header {
-  height: 150px;
-  width: max-content;
-  white-space: nowrap;
+  background: rgba(0, 0, 0, 0.15);
+  margin-bottom: 3px;
 }
 
-.npc-generator-header input[type="text"] {
-  text-align: center;
-  border-top-style: hidden;
-  border-right-style: hidden;
-  border-left-style: hidden;
-  border-bottom-style: hidden;
-  background-color: inherit;
-  font-weight: bold;
-  font-size: larger;
-  font-family: "Vobes";
-  margin-left: -20px;
-  margin-right: -20px;
-}
-
-.npc-generator-box.all {
-  border: thin solid black;
-}
-
-.npc-generator-box.bottom {
-  border-bottom: thin solid black;
-}
-
-.npc-generator-box.top {
-  border-top: thin solid black;
-}
-
-.npc-generator-box.left {
-  border-left: thin solid black;
-}
-
-.npc-generator-box.right {
-  border-right: thin solid black;
-}
-
-.npc-generator-box-header {
-  border-bottom: thin solid black;
+.npc-generator-header h3 {
+  margin: 0;
   padding: 5px;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-}
-
-.npc-generator-box-header-rotated {
-  text-align: center;
-  margin-top: unset;
-  margin-bottom: unset;
-  margin-left: 5px;
-  margin-right: 5px;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  transform: rotate(-90deg);
-  width: 20px;
-  float: left;
-  pointer-events: none;
-}
-
-.npc-generator-flexrow {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  float: left;
-  height: 400px;
-  margin-bottom: 1px;
 }
 
 .npc-generator-list {
-  padding: 5px;
-  white-space: nowrap;
-  display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  padding: 2px;
 }
 
-.npc-generator-list .nameForced {
-  margin: 0;
+.npc-generator-list > div {
+  margin-bottom: 3px;
 }
 
-.npc-generator-list .nameForcedDiv {
-  margin-left: auto;
+.npc-generator-list label {
+  overflow: hidden;
+  word-wrap: break-word;
 }
 
 .npc-generator-list input[type="checkbox"] {
   vertical-align: middle;
+  align-self: center;
 }
 
-.npc-generator-bottom-button {
-  width: calc((100% - 4.5px * 3) / 3);
+.npc-generator .nameForcedDiv {
+  margin-left: auto;
+  min-width: 5em;
 }
 
-.npc-generator-box.spacer {
-  width: 50%;
-}
-
-.npc-generator-top .npc-generator-list {
-  height: 150px;
-  margin-bottom: 0;
-  padding-bottom: 0;
-  overflow-y: scroll;
-}
-
-.npc-generator-flexrow .npc-generator-list {
-  overflow-y: scroll;
-}
-
-.npc-generator-big-box {
-  border: 2px solid black;
-  width: auto;
-  height: 100%;
-  overflow-y: scroll;
-  font-size: 110%;
-}
-
-.npc-generator-big-box-inside {
-  padding: 5px;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.npc-generator-big-box-inside input[type="text"] {
-  border-top-style: hidden;
-  border-right-style: hidden;
-  border-left-style: hidden;
-  border-bottom-style: hidden;
-  background-color: inherit;
-  font-family: "Roboto Mono", Roboto, monospace;
-  margin-right: -16px;
-}
-
-.npc-generator-big-box-inside input[type="text"]:hover,
-.npc-generator-big-box-inside input[type="text"]:focus {
-  border: hidden;
-  box-shadow: none;
-}
-
-.npc-generator-big-box-inside textarea {
-  border-top-style: hidden;
-  border-right-style: hidden;
-  border-left-style: hidden;
-  border-bottom-style: hidden;
-  background-color: inherit;
-  font-family: "Roboto Mono", Roboto, monospace;
-  overflow-y: hidden;
-  resize: none;
-}
-
-.npc-generator-big-box-inside textarea:focus {
-  outline: none;
-  box-shadow: none;
-}
-
-.npc-generator-big-box-inside > div.npc-generator-box {
-  width: fit-content;
-  height: fit-content;
-  margin-right: 5px;
-  margin-bottom: 5px;
-}
-
-.npc-generator-big-box-inside table {
-  margin: unset;
-  border-collapse: unset;
-  padding: 2px;
-  width: 100%;
-}
-
-.npc-generator-big-box-inside table > tbody > tr > td:first-child {
-  font-family: "Voces";
-  padding-right: 2px;
-}
-
-.npc-generator-big-box-inside table > tbody > tr:first-child {
-  text-align: center;
-  font-family: "Voces";
-}
-
-.npc-generator-big-box-inside table.npc-skills > tbody > tr > td:first-child,
-.npc-generator-big-box-inside table.npc-proficiencies > tbody > tr > td:first-child,
-.npc-generator-big-box-inside table.npc-traits > tbody > tr > td:first-child,
-.npc-generator-big-box-inside table.npc-hook > tbody > tr > td:first-child {
-  font-family: unset;
-  text-align: center;
-}
-
-.npc-generator-box input[type="number"] {
+.npc-generator input[type="number"] {
+  align-self: center;
   position: relative;
-  border-top-style: hidden;
-  border-right-style: hidden;
-  border-left-style: hidden;
-  border-bottom-style: hidden;
-  background-color: inherit;
   vertical-align: middle;
   padding-left: 1.5em;
+  width: 3em;
+  min-width: 3em;
 }
 
-.npc-generator-box input[type="number"]::-webkit-inner-spin-button,
-.npc-generator-box input[type="number"]::-webkit-outer-spin-button {
+.npc-generator input[type="number"]::-webkit-inner-spin-button,
+.npc-generator input[type="number"]::-webkit-outer-spin-button {
   opacity: 1;
   position: absolute;
   top: 0;
@@ -255,28 +73,75 @@
   -webkit-appearance: inner-spin-button;
 }
 
-.npc-generator-box input[type="number"] {
-  height: 75%;
-  align-self: center;
+.npc-generator-nav {
+  min-width: 200px;
+  padding-right: 5px;
 }
 
-.npc-generator-box.plothook {
-  overflow-x: auto;
+.npc-generator-character {
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 400px;
 }
 
-.npc-generator-box.plothook table {
-  width: calc(100% - 1px);
+.npc-generator-character input,
+.npc-generator-character textarea {
+  border: 0;
 }
 
-.plothookTable {
-  width: 100%;
+.npc-generator-character-item {
+  flex: 1 0 auto;
+  padding-right: 5px;
 }
 
-.npc-generator-box.plothook input {
-  width: fit-content;
+.npc-generator-character-item.col-3 {
+  min-width: 200px;
 }
 
-.npc-generator-box .npc-icon img {
-  max-width: 200px;
-  max-height: 150px;
+.npc-generator-character-item.col-6 {
+  min-width: 400px;
+}
+
+.npc-generator-character-item table {
+  margin-top: 0;
+  margin-botom: 1em;
+}
+
+.npc-generator-character-item.abilities input {
+  width: 2em;
+  text-align: center;
+}
+
+.npc-generator-character .npc-icon img {
+  max-height: 250px;
+}
+
+.npc-generator-character textarea {
+  resize: vertical;
+}
+
+.npc-generator-character-name {
+  font-size: 1.5em;
+  text-align: center;
+  padding-bottom: 0.6em;
+}
+
+.npc-generator-bottom-button {
+  width: calc((100% - 4.5px * 3) / 3);
+}
+
+.npc-generator > div {
+  float: left;
+}
+
+.npc-generator::after {
+  clear: left;
+}
+
+.npc-generator .indicator {
+  float: left;
+  width: 1.5em;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  margin-right: 7px;
 }
