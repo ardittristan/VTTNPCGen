@@ -53,5 +53,5 @@ export default async function generateNPC(amount = 1, options = defaultOptions, 
 
   console.log(actors);
 
-  return await CONFIG.Actor.entityClass.create(actors);
+  return await CONFIG.Actor.documentClass.create(actors);
 }

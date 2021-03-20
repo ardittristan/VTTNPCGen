@@ -23,7 +23,7 @@ export function registerHelpers() {
       }
     }
 
-    if (difference(game.settings.get("npcgen", "registeredRaces")[0], window.npcGen.globalRacesList).length !== 0) {
+    if (difference(game.settings.get("npcgen", "registeredRaces"), window.npcGen.globalRacesList).length !== 0) {
       setTimeout(() => game.settings.set("npcgen", "registeredRaces", window.npcGen.globalRacesList), 1000);
       return false;
     }

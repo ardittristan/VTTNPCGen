@@ -104,7 +104,7 @@ export default class NPCGenerator extends FormApplication {
 
     this.useMinMaxStats = false;
 
-    this.disabledBoxes = game.settings.get("npcgen", "disabledBoxes")[0];
+    this.disabledBoxes = game.settings.get("npcgen", "disabledBoxes");
 
     this.weights = game.settings.get("npcgen", "weights");
 
@@ -526,10 +526,7 @@ export default class NPCGenerator extends FormApplication {
     // set skills
     let [skills, classSkills] = this.getSkills(d);
 
-    // set class
-    let classItem = await this.getClassItem(d, classSkills);
-
-    let actorOptions = this.getActorOptions(d, abilities, biography, skills, classItem);
+    let actorOptions = this.getActorOptions(d, abilities, biography, skills);
 
     if (!game.settings.get("npcgen", "compatMode")) {
       actorOptions.type = "npc";
@@ -544,7 +541,9 @@ export default class NPCGenerator extends FormApplication {
     }
 
     if (!isApi) {
-      let actor = await CONFIG.Actor.entityClass.create(actorOptions);
+      let actor = await CONFIG.Actor.documentClass.create(actorOptions);
+      // set class
+      this.getClassItem(d, classSkills, game.actors.getName(actor.name));
       actor.sheet.render(true);
     } else {
       return actorOptions;
@@ -855,12 +854,9 @@ export default class NPCGenerator extends FormApplication {
   }
 
   generateAbilityTotals(d) {
-    if (d.useMinMaxStats)
-    {
+    if (d.useMinMaxStats) {
       this.generateAbilityTotalsMinMax();
-    }
-    else
-    {
+    } else {
       this.genStr = String(rollDiceString("4d6kh3") + this.genStrMod);
       this.genDex = String(rollDiceString("4d6kh3") + this.genDexMod);
       this.genCon = String(rollDiceString("4d6kh3") + this.genConMod);
@@ -899,10 +895,8 @@ export default class NPCGenerator extends FormApplication {
 
     scoreList.sort(random_sort);
 
-    for (var key in fullAttributeList)
-    {
-      if (fullAttributeList[key] === 0)
-      {
+    for (var key in fullAttributeList) {
+      if (fullAttributeList[key] === 0) {
         fullAttributeList[key] = scoreList.pop();
       }
     }
@@ -949,7 +943,7 @@ export default class NPCGenerator extends FormApplication {
     if (Object.keys(this.namesJSON.First).includes(this.genGender)) {
       /** @type {String[]} */
       let nameForced = difference(
-        game.settings.get("npcgen", "registeredRaces")[0].map((string) => `Race${string}FirstNameForced`),
+        game.settings.get("npcgen", "registeredRaces").map((string) => `Race${string}FirstNameForced`),
         filter(this.disabledBoxes, (string) => {
           return string.includes("FirstNameForced");
         })
@@ -973,7 +967,7 @@ export default class NPCGenerator extends FormApplication {
       Object.keys(this.namesJSON.First).forEach((gender) => {
         /** @type {String[]} */
         let nameForced = difference(
-          game.settings.get("npcgen", "registeredRaces")[0].map((string) => `Race${string}FirstNameForced`),
+          game.settings.get("npcgen", "registeredRaces").map((string) => `Race${string}FirstNameForced`),
           filter(this.disabledBoxes, (string) => {
             return string.includes("FirstNameForced");
           })
@@ -1002,7 +996,7 @@ export default class NPCGenerator extends FormApplication {
     let lastNames = [];
     /** @type {String[]} */
     let nameForced = difference(
-      game.settings.get("npcgen", "registeredRaces")[0].map((string) => `Race${string}LastNameForced`),
+      game.settings.get("npcgen", "registeredRaces").map((string) => `Race${string}LastNameForced`),
       filter(this.disabledBoxes, (string) => {
         return string.includes("LastNameForced");
       })
@@ -1103,9 +1097,10 @@ export default class NPCGenerator extends FormApplication {
   /**
    * @param {Object} d
    * @param {Array} classSkills
+   * @param {Actor} actor
    */
-  async getClassItem(d, classSkills) {
-    return await CONFIG.Item.entityClass.create(
+  async getClassItem(d, classSkills, actor) {
+    let config = [
       {
         name: d.genClass,
         type: "class",
@@ -1119,10 +1114,10 @@ export default class NPCGenerator extends FormApplication {
           },
         },
       },
-      {
-        temporary: true,
-      }
-    );
+    ];
+    return await CONFIG.Item.documentClass.create(foundry.utils.deepClone(config), {
+      parent: actor,
+    });
   }
 
   /**
@@ -1132,7 +1127,7 @@ export default class NPCGenerator extends FormApplication {
    * @param {Object} skills
    * @param {Entity<any>} classItem
    */
-  getActorOptions(d, abilities, biography, skills, classItem) {
+  getActorOptions(d, abilities, biography, skills) {
     return {
       name: `${d.genFirstName} ${d.genLastName}`,
       permission: {
@@ -1171,7 +1166,6 @@ export default class NPCGenerator extends FormApplication {
           },
         },
       },
-      items: [classItem],
       img: d.genIcon,
       type: "character",
     };
@@ -1340,8 +1334,7 @@ function rollDiceString(diceString) {
   let highOrLow = diceStringMatch.groups.highOrLow;
   let keepAmount = diceStringMatch.groups.keepAmount;
 
-  if (keep === undefined)
-  {
+  if (keep === undefined) {
     // if we don't have keep, we can use the same logic by setting the keep amount to be the same number as the total number of dice
     // and it'll be the same result
     keep = "k";
@@ -1357,12 +1350,9 @@ function rollDiceString(diceString) {
     diceResults.push(Math.ceil(Math.random() * diceType));
   }
 
-  if (highOrLow === "h")
-  {
+  if (highOrLow === "h") {
     diceResults.sort(descending_sort);
-  }
-  else
-  {
+  } else {
     diceResults.sort(ascending_sort);
   }
 
@@ -1402,8 +1392,8 @@ function removeGenFromObj(obj) {
 
 /**
  * Function to help perform a random sort of an array
- * @param {*} a 
- * @param {*} b 
+ * @param {*} a
+ * @param {*} b
  */
 function random_sort(a, b) {
   return Math.random() - 0.5;
@@ -1411,8 +1401,8 @@ function random_sort(a, b) {
 
 /**
  * Function to help perform a ascending sort of an array
- * @param {*} a 
- * @param {*} b 
+ * @param {*} a
+ * @param {*} b
  */
 function ascending_sort(a, b) {
   return a - b;
@@ -1420,8 +1410,8 @@ function ascending_sort(a, b) {
 
 /**
  * Function to help perform a descending sort of an array
- * @param {*} a 
- * @param {*} b 
+ * @param {*} a
+ * @param {*} b
  */
 function descending_sort(a, b) {
   return b - a;
