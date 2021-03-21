@@ -115,6 +115,7 @@ _Subraces should be added like normal races with a extra `mainRace` property for
         "College of Lore": {
             "source": "PHB"
         }
-    }
+    },
+    "attributeSortOrder": ["Cha", "Dex"]
 },
 ```
