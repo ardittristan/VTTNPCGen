@@ -299,12 +299,12 @@ export default class NPCGenerator extends FormApplication {
       var indicator = e.currentTarget.querySelector(".indicator");
       if (panel.style.display !== "none") {
         panel.style.display = "none";
-        indicator.innerText = '+';
+        indicator.innerText = "+";
       } else {
         panel.style.display = "block";
-        indicator.innerText = '-';
+        indicator.innerText = "-";
       }
-    })
+    });
 
     html.find(".npc-generator-bottom-button[name='cancel']").on("click", (e) => {
       e.preventDefault();
@@ -526,7 +526,12 @@ export default class NPCGenerator extends FormApplication {
     // set skills
     let [skills, classSkills] = this.getSkills(d);
 
-    let actorOptions = this.getActorOptions(d, abilities, biography, skills);
+    // set class
+    let classItem = this.getClassItem(d, classSkills);
+
+    console.log(classItem);
+
+    let actorOptions = this.getActorOptions(d, abilities, biography, skills, classItem);
 
     if (!game.settings.get("npcgen", "compatMode")) {
       actorOptions.type = "npc";
@@ -541,9 +546,7 @@ export default class NPCGenerator extends FormApplication {
     }
 
     if (!isApi) {
-      let actor = await CONFIG.Actor.documentClass.create(actorOptions);
-      // set class
-      this.getClassItem(d, classSkills, game.actors.getName(actor.name));
+      let actor = await CONFIG.Actor.documentClass.create(foundry.utils.deepClone(actorOptions));
       actor.sheet.render(true);
     } else {
       return actorOptions;
@@ -1097,27 +1100,24 @@ export default class NPCGenerator extends FormApplication {
   /**
    * @param {Object} d
    * @param {Array} classSkills
-   * @param {Actor} actor
    */
-  async getClassItem(d, classSkills, actor) {
-    let config = [
-      {
-        name: d.genClass,
-        type: "class",
-        data: {
-          source: this.classesJSON[d.genClass].source,
-          levels: d.level,
-          subclass: d.genSubclass,
-          skills: {
-            number: classSkills.length,
-            value: classSkills,
-          },
+  getClassItem(d, classSkills) {
+    let config = {
+      name: d.genClass,
+      type: "class",
+      data: {
+        source: this.classesJSON[d.genClass].source,
+        levels: d.level,
+        subclass: d.genSubclass,
+        skills: {
+          number: classSkills.length,
+          value: classSkills,
         },
       },
-    ];
-    return await CONFIG.Item.documentClass.create(foundry.utils.deepClone(config), {
-      parent: actor,
-    });
+    };
+    let item = new CONFIG.Item.documentClass(foundry.utils.deepClone(config));
+    console.log(item);
+    return item;
   }
 
   /**
@@ -1127,7 +1127,7 @@ export default class NPCGenerator extends FormApplication {
    * @param {Object} skills
    * @param {Entity<any>} classItem
    */
-  getActorOptions(d, abilities, biography, skills) {
+  getActorOptions(d, abilities, biography, skills, classItem) {
     return {
       name: `${d.genFirstName} ${d.genLastName}`,
       permission: {
@@ -1168,6 +1168,7 @@ export default class NPCGenerator extends FormApplication {
       },
       img: d.genIcon,
       type: "character",
+      items: [duplicate(classItem.data)],
     };
   }
 
