@@ -1,5 +1,9 @@
 # Patch Notes
 
+## Version 1.0.0
+
+* 0.8 compatibility
+
 ## Version 0.5.0
 
 * Greatly improve generator ui, a lot of thanks to @marcstraube [#19](https://github.com/ardittristan/VTTNPCGen/pull/19)
