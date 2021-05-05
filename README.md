@@ -5,6 +5,8 @@
 
 This module adds a customizable NPC Generator to Foundry.
 
+_Because of a mistake normal install for versions pre 1.0.0 are broken, please use [this manifest](https://raw.githubusercontent.com/ardittristan/VTTNPCGen/0.5.0_fix/module.json) if you want to download version 0.5.0 for foundry 0.7_
+
 ## Installation
 
 To install, import this [Manifest](https://raw.githubusercontent.com/ardittristan/VTTNPCGen/master/module.json) into your module browser.
