@@ -9,8 +9,8 @@
   ],
   "socket": true,
   "url": "https://github.com/ardittristan/VTTNPCGen",
-  "manifest": "https://raw.githubusercontent.com/ardittristan/VTTNPCGen/master/module.json",
-  "download": "https://github.com/ardittristan/VTTNPCGen/releases/latest/download/nenpc.zip",
+  "manifest": "https://raw.githubusercontent.com/ardittristan/VTTNPCGen/0.5.0_fix/module.json",
+  "download": "https://github.com/ardittristan/VTTNPCGen/releases/download/0.5.0/nenpcStatic.zip",
   "minimumCoreVersion": "0.5.5",
   "compatibleCoreVersion": "0.7.9",
   "systems": [
