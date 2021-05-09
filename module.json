@@ -2,26 +2,17 @@
   "name": "npcgen",
   "title": "Not Enough NPCs: A 5e NPC Generator",
   "description": "Allows you to generate basic npc characters in foundry.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "ardittristan#0001, ui: marcstraube",
-  "esmodules": [
-    "npc-gen.js"
-  ],
+  "esmodules": ["npc-gen.js"],
   "socket": true,
   "url": "https://github.com/ardittristan/VTTNPCGen",
   "manifest": "https://raw.githubusercontent.com/ardittristan/VTTNPCGen/master/module.json",
   "download": "https://github.com/ardittristan/VTTNPCGen/releases/latest/download/nenpc.zip",
   "minimumCoreVersion": "0.8.0",
-  "compatibleCoreVersion": "0.8.2",
-  "systems": [
-    "dnd5e"
-  ],
-  "styles": [
-    "css/npcgen.css",
-    "css/jsoneditor.css",
-    "css/imagesettings.css",
-    "css/exportsettings.css"
-  ],
+  "compatibleCoreVersion": "0.8.3",
+  "systems": ["dnd5e"],
+  "styles": ["css/npcgen.css", "css/jsoneditor.css", "css/imagesettings.css", "css/exportsettings.css"],
   "languages": [
     {
       "lang": "en",

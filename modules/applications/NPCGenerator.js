@@ -957,7 +957,7 @@ export default class NPCGenerator extends FormApplication {
         });
       } else {
         if (this.namesJSON.First[this.genGender].All) {
-          firstNames = firstNames.concat(this.namesJSON.First[this.genGender].all);
+          firstNames = firstNames.concat(this.namesJSON.First[this.genGender].All);
         }
         if (this.namesJSON.First[this.genGender][this.genRace]) {
           firstNames = firstNames.concat(this.namesJSON.First[this.genGender][this.genRace]);
