@@ -1,5 +1,9 @@
 # Patch Notes
 
+## Version 1.0.3
+
+- Put traits in html list
+
 ## Version 1.0.2
 
 - Switch to acelib

@@ -235,12 +235,11 @@ export default class GeneratorWindow extends FormApplication {
 
   createEditor(name) {
     this.editorArray[name] = ace.edit(name);
-    this.editorArray[name].setOptions({
-      mode: "ace/mode/json",
-      theme: "ace/theme/twilight",
-      showPrintMargin: false,
-      enableLiveAutocompletion: true,
-    });
+    this.editorArray[name].setOptions(
+      mergeObject(ace.userSettings, {
+        mode: "ace/mode/json",
+      })
+    );
     this.editorArray[name].setValue(game.settings.get("npcgen", name), -1);
     this.editorArray[name].commands.addCommand({
       name: "Save",

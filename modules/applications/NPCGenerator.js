@@ -1043,9 +1043,11 @@ export default class NPCGenerator extends FormApplication {
     // static line
     biography = biography.concat(`<p>&nbsp;</p>\n<p><strong>${game.i18n.localize("npcGen.traits")}:</strong></p>\n`);
     // traits
+    biography = biography.concat("<ul>\n");
     d.genTraits.split(/\r?\n/).forEach((trait) => {
-      biography = biography.concat(`<p>${trait}</p>\n`);
+      biography = biography.concat(`<li>${trait.replace("•", "")}</li>\n`);
     });
+    biography = biography.concat("</ul>\n");
     // static line
     biography = biography.concat("<p>&nbsp;</p>");
     // plot hook
