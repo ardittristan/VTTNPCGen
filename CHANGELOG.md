@@ -1,5 +1,9 @@
 # Patch Notes
 
+## Version 1.1.0
+
+- Add option for wildcarding images
+
 ## Version 1.0.3
 
 - Put traits in html list

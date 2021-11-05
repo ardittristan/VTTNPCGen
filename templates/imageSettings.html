@@ -5,7 +5,7 @@
 
     </div>
     <div class="th">
-      All
+    {{localize npcGen.default}}
     </div>
     <div class="th-container">
       {{#each classes}}
@@ -28,6 +28,15 @@
             id="{{concat ../this this}}"
             name="{{concat ../this this}}"
             value="{{getProperty @root.settings (concat ../this this)}}"
+            placeholder="&nbsp;"
+          />
+          <input
+            type="text"
+            class="npcGenRegexInput"
+            id="{{concat ../this this 'Regex'}}"
+            name="{{concat ../this this 'Regex'}}"
+            value="{{getProperty @root.settings (concat ../this this 'Regex')}}"
+            placeholder="/.*/"
           />
         </div>
         <div class="classSpecific">
@@ -41,6 +50,15 @@
                   id="{{concat ../../this ../this this}}"
                   name="{{concat ../../this ../this this}}"
                   value="{{getProperty @root.settings (concat ../../this ../this this)}}"
+                  placeholder="&nbsp;"
+                />
+                <input
+                  type="text"
+                  class="npcGenRegexInput"
+                  id="{{concat ../../this ../this this 'Regex'}}"
+                  name="{{concat ../../this ../this this 'Regex'}}"
+                  value="{{getProperty @root.settings (concat ../../this ../this this 'Regex')}}"
+                  placeholder="/.*/"
                 />
               </div>
             {{/each}}
@@ -50,7 +68,7 @@
     {{/each}}
   </div>
   <div class="button-container">
-    <button type="submit">Save</button>
-    <button id="cancelButton" type="button">Cancel</button>
+    <button type="submit">{{localize "npcGen.save"}}</button>
+    <button id="cancelButton" type="button">{{localize "npcGen.cancel"}}</button>
   </div>
 </form>

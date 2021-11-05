@@ -46,6 +46,24 @@
 
 #npcGen-image-location-settings input[type="text"] {
   min-width: 100px;
+  height: 28px;
+}
+
+#npcGen-image-location-settings input.npcGenRegexInput {
+  margin-left: 4px;
+}
+
+#npcGen-image-location-settings button.file-picker {
+  order: 0;
+  margin-left: 0;
+}
+
+#npcGen-image-location-settings input.npcGenRegexInput::placeholder {
+  opacity: 0;
+}
+
+#npcGen-image-location-settings input.npcGenTextInput:not(:placeholder-shown) ~ input.npcGenRegexInput::placeholder {
+  opacity: 1;
 }
 
 #npcGen-image-location-settings .grid-container > div:nth-of-type(6n),

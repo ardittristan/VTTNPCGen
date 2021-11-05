@@ -565,6 +565,13 @@ export default class NPCGenerator extends FormApplication {
     let path = locations?.[game.settings.get("npcgen", "roleSpecificImages") && locations?.[race + gender + Class]?.length > 0 ? race + gender + Class : race + gender];
     if (!path || path.length === 0) return defaultReturn;
 
+    let regex =
+      locations?.[
+        game.settings.get("npcgen", "roleSpecificImages") && locations?.[race + gender + Class + "Regex"]?.length > 0
+          ? race + gender + Class + "Regex"
+          : race + gender + "Regex"
+      ];
+
     /** @type {String[]} */
     let iconList = [];
 
@@ -572,7 +579,7 @@ export default class NPCGenerator extends FormApplication {
       let fileObject = await FilePicker.browse("public", path);
 
       if (fileObject.target && fileObject.target !== ".") {
-        iconList = iconList.concat(await this._getIcons(fileObject, "public"));
+        iconList = iconList.concat(await this._getIcons(fileObject, "public", regex));
       }
     } catch {}
 
@@ -580,7 +587,7 @@ export default class NPCGenerator extends FormApplication {
       let fileObject = await FilePicker.browse("data", path);
 
       if (fileObject.target && fileObject.target !== ".") {
-        iconList = iconList.concat(await this._getIcons(fileObject, "data"));
+        iconList = iconList.concat(await this._getIcons(fileObject, "data", regex));
       }
     } catch {}
 
@@ -594,15 +601,20 @@ export default class NPCGenerator extends FormApplication {
   /**
    * @param {Object} fileObject
    * @param {String} source
+   * @param {String?} regex
    */
-  async _getIcons(fileObject, source) {
+  async _getIcons(fileObject, source, regex) {
     /** @type {String[]} */
     let iconList = [];
 
     /** @type {String[]} */
     let files = fileObject?.files;
     if (Array.isArray(files)) {
-      iconList = iconList.concat(files);
+      if (regex?.length) {
+        iconList = iconList.concat(files.filter((file) => new RegExp(regex).test(file)));
+      } else {
+        iconList = iconList.concat(files);
+      }
     }
 
     /** @type {String[]} */
@@ -612,7 +624,11 @@ export default class NPCGenerator extends FormApplication {
         let newFileObject = await FilePicker.browse(source, folderPath);
         let folderContent = await this._getIcons(newFileObject, source);
 
-        iconList = iconList.concat(folderContent);
+        if (regex?.length) {
+          iconList = iconList.concat(folderContent.filter((file) => new RegExp(regex).test(file)));
+        } else {
+          iconList = iconList.concat(folderContent);
+        }
       });
     }
 

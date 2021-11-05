@@ -64,5 +64,6 @@
     "npcGen.exportLabel": "Öffnen",
     "npcGen.exportHint": "Kopiere oder füge alle NPC Generator Einstellungen ein",
     "npcGen.roleSpecificImages": "Rollenspezifische Bilder",
-    "npcGen.roleSpecificImagesHint": "Erlaubt dir rollenspezifische Bildpfade einzustellen, falls aktiviert."
+    "npcGen.roleSpecificImagesHint": "Erlaubt dir rollenspezifische Bildpfade einzustellen, falls aktiviert.",
+    "npcGen.default": "Voreinstellung"
 }
