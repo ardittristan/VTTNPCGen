@@ -1185,7 +1185,7 @@ export default class NPCGenerator extends FormApplication {
         },
       },
       img: d.genIcon,
-      type: "character",
+      type: "npc",
       items: [duplicate(classItem.data)],
     };
   }
