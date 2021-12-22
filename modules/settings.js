@@ -194,7 +194,7 @@ export function registerJSONEditorSettings() {
     scope: "world",
     config: true,
     type: Boolean,
-    default: true,
+    default: false,
     name: game.i18n.localize("npcGen.saveCharacter"),
     hint: game.i18n.localize("npcGen.saveCharacterHint"),
     restricted: true,
